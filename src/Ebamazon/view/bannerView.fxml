@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.BannerController">
+   <children>
+      <HBox fx:id="searchItemsHBox" alignment="CENTER" prefHeight="110.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TextField fx:id="searchField" alignment="CENTER" prefHeight="25.0" prefWidth="185.0" promptText="Find your item today!" />
+            <Button fx:id="searchButton" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="71.0" text="Search" />
+         </children>
+      </HBox>
+      <VBox fx:id="loginContainerVBox" alignment="CENTER" prefHeight="100.0" prefWidth="164.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <TextField fx:id="usernameField" alignment="BOTTOM_RIGHT" prefHeight="25.0" prefWidth="147.0" promptText="Username">
+               <opaqueInsets>
+                  <Insets right="10.0" />
+               </opaqueInsets>
+            </TextField>
+            <TextField fx:id="passwordField" alignment="BOTTOM_RIGHT" prefHeight="25.0" prefWidth="127.0" promptText="Password" />
+            <HBox fx:id="loginButtonsHBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" text="Login" />
+                  <Button fx:id="applyButton" mnemonicParsing="false" onAction="#loadApplicationView" text="Apply" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <ImageView fx:id="logoImageView" fitHeight="82.0" fitWidth="270.0" onMouseClicked="#loadHome" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <image>
+            <Image url="@../../resources/logov1.png" />
+         </image>
+      </ImageView>
+      <VBox fx:id="loggedInVBox" alignment="CENTER" prefHeight="110.0" prefWidth="100.0" visible="false" AnchorPane.rightAnchor="10.0">
+         <children>
+            <Label fx:id="usernameLabel" alignment="BOTTOM_LEFT" text="Hello Username!" />
+            <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logout" text="Logout" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </VBox>
+   </children>
+</AnchorPane>
