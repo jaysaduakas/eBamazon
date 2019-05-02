@@ -15,9 +15,8 @@ public class DBConnection {
      */
     public static Connection getConnection() {
         try {
-            Connection con=DriverManager.getConnection(
+            return  DriverManager.getConnection(
                     URL,USER, PASS);
-             return con;
         } catch (Exception e) {
             throw new RuntimeException("Error connecting to the database", e);
         }

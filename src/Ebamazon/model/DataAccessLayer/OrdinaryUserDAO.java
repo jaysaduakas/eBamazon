@@ -71,6 +71,26 @@ public class OrdinaryUserDAO {
         }
     }
 
+    public static boolean setUserPassword(OrdinaryUser ou, String pw){
+        try {
+            //retrieve connection from DBConnection static method
+            Connection con = DBConnection.getConnection();
+            //prepare query
+            String query = "UPDATE OrdinaryUser SET " +
+                    "password=\"" + pw + "\" WHERE username=\""
+                    + ou.getUsername() + "\"";
+            //intialize statement and result set
+            Statement statement = con.createStatement();
+            statement.executeUpdate(query);
+            con.close();
+            return true;
+        }
+        catch (Exception e) {
+            System.out.println("An error occurred updating the user password");
+            return false;
+        }
+    }
+
     public static boolean  submitNewUser(OrdinaryUser ou){
         //retrieve connection from DBConnection static method
         Connection con = DBConnection.getConnection();

@@ -3,7 +3,9 @@ import Ebamazon.controller.NavBarController;
 import Ebamazon.model.CurrentSession;
 import Ebamazon.model.User;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -27,6 +29,7 @@ public class Main extends Application {
         CurrentSession currentSession = new CurrentSession();
         bp = new BorderPane();
 
+
         showMainView(currentSession);
         //DisplayManager dm = new DisplayManager(user);
         //primaryStage = dm.getMainStage();
@@ -49,6 +52,13 @@ public class Main extends Application {
         NavBarController nbc = navBarLoader.getController();
         nbc.setParent(bp);
         nbc.setCurrentSession(currentSession);
+
+        //intialize homeview controller and view
+        FXMLLoader homeViewLoader = new FXMLLoader();
+        homeViewLoader.setLocation(Main.class.getResource("Ebamazon/view/homeView.fxml"));
+        Node homeview = homeViewLoader.load();
+        bp.setCenter(homeview);
+        bp.setAlignment(bp.getCenter(), Pos.TOP_CENTER);
 
         //set navbar for banner
         bc.setNavBarController(nbc);

@@ -21,6 +21,7 @@ public class OrdinaryUser extends User{
         return OrdinaryUserDAO.setUser(this);
     }
 
+
     public boolean insertUserInfo(){
         //if user with object's username does not exist in the OU table, insert it with the values specified by
         //this object.
@@ -30,6 +31,10 @@ public class OrdinaryUser extends User{
             return true;
         }
         return false;
+    }
+
+    public boolean changeUserPW(String pw){
+        return OrdinaryUserDAO.setUserPassword(this, pw);
     }
 
     public String getUsername() {

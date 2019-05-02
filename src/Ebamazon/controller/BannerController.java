@@ -11,6 +11,8 @@ import Ebamazon.model.UserStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -87,7 +89,7 @@ import javafx.scene.layout.VBox;
         }
 
         @FXML
-        void login(ActionEvent event) {
+        void login(ActionEvent event) throws IOException {
             currentSession.setCurUser(currentSession.getCurUser().login(usernameField.getText(), passwordField.getText()));
             if (currentSession.getUserStatus() != UserStatus.GU) {
                 loggedInVBox.setVisible(true);
@@ -100,6 +102,13 @@ import javafx.scene.layout.VBox;
             navBarController.configureButtons(currentSession);
             usernameField.setText("");
             passwordField.setText("");
+
+            //intialize homeview controller and view
+            FXMLLoader homeViewLoader = new FXMLLoader();
+            homeViewLoader.setLocation(getClass().getResource("../view/homeView.fxml"));
+            Node homeview = homeViewLoader.load();
+            parent.setCenter(homeview);
+            parent.setAlignment(parent.getCenter(), Pos.TOP_CENTER);
         }
 
         @FXML

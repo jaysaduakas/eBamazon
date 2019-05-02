@@ -57,12 +57,15 @@ public class userSettingsController {
             if (!creditcardField.getText().equals("")) {
                 ou.setCc(creditcardField.getText());
             }
-            if (!passwordField.getText().equals("")) {
-                System.out.println("PW Update not implemented");
-            }
             if (ou.updateUserInfo()) {
                 System.out.println("User info updated in database");
                 currentSession.setCurUser(ou);
+            }
+
+            if (!passwordField.getText().equals("")) {
+                if (ou.changeUserPW(passwordField.getText())){
+                    System.out.println("Password updated in database");
+                }
             }
         }
     }
