@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="mainVBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.HomeViewController">
+
+<AnchorPane maxHeight="690.0" maxWidth="656.0" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.HomeViewController">
    <children>
-      <Label alignment="TOP_CENTER" prefHeight="91.0" prefWidth="453.0" text="CHECK OUT THESE AUCTIONS!">
-         <font>
-            <Font size="31.0" />
-         </font>
-      </Label>
+      <VBox fx:id="mainVBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="TOP_CENTER" prefHeight="91.0" prefWidth="453.0" text="CHECK OUT THESE AUCTIONS!">
+               <font>
+                  <Font size="31.0" />
+               </font>
+            </Label>
+            <ScrollPane fx:id="auctionScrollPane" maxHeight="599.0" maxWidth="656.0" prefHeight="599.0" prefWidth="600.0">
+               <content>
+                  <VBox fx:id="scrollableVBox" alignment="TOP_CENTER" prefWidth="585.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
    </children>
-</VBox>
+</AnchorPane>

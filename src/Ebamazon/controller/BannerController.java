@@ -107,16 +107,27 @@ import javafx.scene.layout.VBox;
             FXMLLoader homeViewLoader = new FXMLLoader();
             homeViewLoader.setLocation(getClass().getResource("../view/homeView.fxml"));
             Node homeview = homeViewLoader.load();
+            HomeViewController hvc = homeViewLoader.getController();
+            hvc.setCurrentSession(currentSession);
             parent.setCenter(homeview);
             parent.setAlignment(parent.getCenter(), Pos.TOP_CENTER);
         }
 
         @FXML
-        void logout(ActionEvent event){
+        void logout(ActionEvent event) throws IOException {
             currentSession.setCurUser(new User());
             navBarController.configureButtons(currentSession);
             loggedInVBox.setVisible(false);
             loginContainerVBox.setVisible(true);
+
+            //intialize homeview controller and view
+            FXMLLoader homeViewLoader = new FXMLLoader();
+            homeViewLoader.setLocation(getClass().getResource("../view/homeView.fxml"));
+            Node homeview = homeViewLoader.load();
+            HomeViewController hvc = homeViewLoader.getController();
+            hvc.setCurrentSession(currentSession);
+            parent.setCenter(homeview);
+            parent.setAlignment(parent.getCenter(), Pos.TOP_CENTER);
         }
 
         @FXML
