@@ -51,7 +51,7 @@ public enum State {
     WASHINGTON("Washington", "WA"),
     WEST_VIRGINIA("West Virginia", "WV"),
     WISCONSIN("Wisconsin", "WI"),
-    WYOMING("Wyoming", "WY"),
+    WYOMING("Wyoming", "WY");
 
     private String name;
     private String abbreviation;

@@ -11,6 +11,7 @@ public class BlackListedItem {
 
     // Getters and setters
 
+
     public Auction getAuction() {
         return auction;
     }
