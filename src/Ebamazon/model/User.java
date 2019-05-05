@@ -14,12 +14,12 @@ public class User {
     private String username = null;
     private UserStatus userStatus = UserStatus.GU;
 
+    //user login functions
     public User login(String username, String pw){
         if (verifyOrdinaryLogin(username,pw))
             return OrdinaryUserDAO.getOrdinaryUser(username);
         return this;
     }
-
     private boolean verifyOrdinaryLogin(String username, String pw){
         boolean truthFlag = false;
         try {
@@ -48,6 +48,11 @@ public class User {
         MessageDAO.deleteMessage(m.getSender(), getUsername(), m);
     }
 
+
+
+
+    //getters and setters
+
     public String getName() {
         return name;
     }
@@ -71,8 +76,4 @@ public class User {
     public void setUserStatus(UserStatus userStatus) {
         this.userStatus = userStatus;
     }
-
-
-
-
 }

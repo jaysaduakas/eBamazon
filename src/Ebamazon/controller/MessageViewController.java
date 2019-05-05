@@ -22,12 +22,18 @@ import javafx.scene.layout.VBox;
 
 public class MessageViewController {
 
+    //holds info about the current logged in session
     private CurrentSession currentSession;
+    //keeps track of the controllers for the individual message views
     private ArrayList<MessageComponentViewController> messageComponentViewControllers;
+    //keeps track of the individual view components themselves
     private ArrayList<Node> componentViews;
+    //keeps a reference to the currently selected messagecomponetviewcontroller
     private MessageComponentViewController currentMCVC;
+    //an index to the current message view utilized by the delete function
     private int curMessageViewIndex;
 
+    //FXML Injection
     @FXML
     private ResourceBundle resources;
 
@@ -73,6 +79,7 @@ public class MessageViewController {
     @FXML
     private Button sendButton;
 
+    //called when the new message button is clicked.  Displays the send message pane and zeros the fields out
     @FXML
     void newMessage(ActionEvent event) {
         readMessagePane.setVisible(false);
@@ -81,7 +88,7 @@ public class MessageViewController {
         sendMessageRecipientTextField.setText("");
         sendMessageSubjectTextField.setText("");
     }
-
+    //called by the send button when writing message. creates a new message, sets it using fields, pushes it to db
     @FXML
     void send(ActionEvent event) {
         Message m = new Message();
@@ -90,15 +97,21 @@ public class MessageViewController {
         m.setSender(currentSession.getCurUser().getUsername());
         m.setMessageContent(sendMessageContentTextArea.getText());
         currentSession.getCurUser().sendMessage(m);
+        newMessage(null);
     }
 
+    //called by the delete button.  deletes the selected message view, and deletes the message from the db
     @FXML
     void delete(ActionEvent event) {
+        //delete selected message from db
         currentSession.getCurUser().deleteMessage(currentMCVC.getMessage());
+        //remove the controller from the list
         messageComponentViewControllers.remove(currentMCVC);
+        //remove the message view from the VBox
         messageVBox.getChildren().remove(curMessageViewIndex);
+        //hide the message pane
         readMessagePane.setVisible(false);
-        //reindex all messages
+        //reindex all messages, to maintain accurate representation of every controller in the list
         int index = 0;
         for (MessageComponentViewController mcvc : messageComponentViewControllers){
             mcvc.setMessageIndex(index);
@@ -127,18 +140,26 @@ public class MessageViewController {
         validateSendLoop();
     }
 
+    //sets the current session variable, and attaches the messages of associated user
     public void setCurrentSession(CurrentSession currentSession) throws IOException {
+        //set curSes
         this.currentSession = currentSession;
+        //get all current users messages
         ArrayList<Message> messages = currentSession.getCurUser().getMessages();
+
+        //for each message...
         int index = 0;
         for (Message m : messages){
+            //load the messages view
             FXMLLoader messageLoader = new FXMLLoader();
             messageLoader.setLocation(getClass().getResource("../view/messageComponentView.fxml"));
             Node message = messageLoader.load();
+            //set the message view controller
             MessageComponentViewController mcvc = messageLoader.getController();
             mcvc.setMvc(this);
             mcvc.setMessage(m);
             mcvc.setMessageIndex(index);
+            //keep references to controllers and views, and attach views to the scrollpane
             messageComponentViewControllers.add(mcvc);
             messageVBox.getChildren().add(message);
             componentViews.add(message);
@@ -146,18 +167,25 @@ public class MessageViewController {
         }
     }
 
+    //when a message is clicked the following function is called
     public void messageClicked(MessageComponentViewController mcvc){
+        //set the currently clicked mcvc
         currentMCVC = mcvc;
         curMessageViewIndex = mcvc.getMessageIndex();
+        //unhighlight every message (the calling function rehighlights the clicked message)
         cycleClicked();
+        //get the current message
         Message m = mcvc.getMessage();
+        //adjust visible panels
         sendMessagePane.setVisible(false);
         readMessagePane.setVisible(true);
+        //set read labels to current message
         readMessageSenderLabel.setText(m.getSender());
         readMessageSubjectLabel.setText(m.getSubject());
         readMessageContentLabel.setText(m.getMessageContent());
     }
 
+    //presets the new message fields with info taken from the message passed as a parammeter
     public void setReply(Message m){
         readMessagePane.setVisible(false);
         sendMessagePane.setVisible(true);
@@ -166,12 +194,13 @@ public class MessageViewController {
         sendMessageContentTextArea.setText("\n\n------------------------------------------------------------------------------------\n\n" + m.getMessageContent());
     }
 
+    //unhighlight all attached messages
     private void cycleClicked(){
         for (MessageComponentViewController m : messageComponentViewControllers){
             m.unhighlight();
         }
     }
-
+    //a loop that enables the send button when all fields have been filled
     private void validateSendLoop(){
         AnimationTimer at = new AnimationTimer() {
             @Override

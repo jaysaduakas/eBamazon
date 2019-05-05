@@ -17,11 +17,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 public class MessageComponentViewController {
-
+    //this views message object
     private Message message;
+    //this views parent controller
     private MessageViewController mvc;
+    //this views index with reference to the other messages held by the parent
     private int messageIndex;
 
+    //fxml injection
     @FXML
     private HBox messageBox;
 
@@ -43,12 +46,13 @@ public class MessageComponentViewController {
     @FXML
     private Button replyButton;
 
+    //if a message is clicked...
     @FXML
     void clickDetected(MouseEvent event) {
         mvc.messageClicked(this);
         highLight();
     }
-
+    //if reply is clicked
     @FXML
     void reply(ActionEvent event) {
         mvc.setReply(message);
@@ -63,6 +67,7 @@ public class MessageComponentViewController {
         unhighlight();
     }
 
+    //populates display fields with the info from message
     public void setMessage(Message m){
         this.message = m;
         senderLabel.setText(m.getSender());
@@ -80,10 +85,11 @@ public class MessageComponentViewController {
     }
     public int getMessageIndex(){return messageIndex;}
 
+    //change highlighted message color
     private void highLight(){
         messageBox.setBackground(new Background(new BackgroundFill(Color.rgb(109, 165, 255), CornerRadii.EMPTY, Insets.EMPTY)));
     }
-
+    //change message to unhighlighted color
     public void unhighlight(){
         messageBox.setBackground(new Background(new BackgroundFill(Color.rgb(209,209,209), CornerRadii.EMPTY, Insets.EMPTY)));
     }
