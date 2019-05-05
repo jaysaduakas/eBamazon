@@ -24,6 +24,7 @@ public class MessageDAO {
                 Message message = new Message();
                 message.setSender(rs.getString("sender"));
                 message.setReceiver(rs.getString("receiver"));
+                message.setSubject(rs.getString("subject"));
                 message.setMessageContent(rs.getString("messageContent"));
                 message.setDateTimeSent(rs.getTimestamp("dateTimeSent"));
                 return message;
@@ -46,6 +47,7 @@ public class MessageDAO {
             String query = "INSERT INTO Message VALUES (\"" +
                     message.getSender() + "\", \"" +
                     message.getReceiver() + "\", \"" +
+                    message.getSubject() + "\", \"" +
                     message.getMessageContent() + "\", \"" +
                     sent + "\")";
             Statement statement = con.createStatement();
@@ -59,7 +61,7 @@ public class MessageDAO {
         return null;
     }
 
-
+    //todo Sort messages retrieved by date order
     public static ArrayList<Message> getAllMessages(String user){
         ArrayList<Message> messages = new ArrayList<>();
         try{
@@ -73,6 +75,7 @@ public class MessageDAO {
                 Message message = new Message();
                 message.setSender(rs.getString("sender"));
                 message.setReceiver(rs.getString("receiver"));
+                message.setSubject(rs.getString("subject"));
                 message.setMessageContent(rs.getString("messageContent"));
                 message.setDateTimeSent(rs.getTimestamp("dateTimeSent"));
                 messages.add(message);
@@ -84,12 +87,29 @@ public class MessageDAO {
         return messages;
     }
 
+    public static void deleteMessage(String sender, String recipient, Message message){
+        try{
+            Connection con = DBConnection.getConnection();
+
+            String query = "DELETE FROM Message WHERE " +
+                    "receiver=\"" + recipient + "\" AND " +
+                    "sender =\"" + sender + "\" AND " +
+                    "dateTimeSent=\"" + message.getDateTimeSent() + "\"";
+            Statement statement = con.createStatement();
+            statement.executeUpdate(query);
+        }
+        catch (SQLException e){
+            System.out.println("An error occurred deleting the message.");
+        }
+    }
+
 
     public static void main(String[] args) {
         Message message = new Message();
         message.setSender("Jake");
         message.setReceiver("Not Jake");
         message.setMessageContent("Hey man, how are you?  This is a message I'm sending you.  Pretty cool, huh?");
+        message.setSubject("This is a message");
         Timestamp sent = sendMessage(message);
         message = getMessage("Not Jake","Jake", sent);
         System.out.println(message.toString());

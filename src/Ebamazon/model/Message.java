@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public class Message {
     private String sender;
     private String receiver;
+    private String subject;
     private String messageContent;
     private Timestamp dateTimeSent;
 
@@ -40,11 +41,20 @@ public class Message {
         this.dateTimeSent = dateTimeSent;
     }
 
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
                 "sender='" + sender + '\'' +
                 ", receiver='" + receiver + '\'' +
+                ", subject='" + subject + '\'' +
                 ", messageContent='" + messageContent + '\'' +
                 ", dateTimeSent=" + dateTimeSent +
                 '}';

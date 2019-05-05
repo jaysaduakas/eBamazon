@@ -51,8 +51,16 @@ public class NavBarController {
     }
 
     @FXML
-    void loadFriendsAndMessagingView(ActionEvent event) {
-
+    void loadFriendsAndMessagingView(ActionEvent event) throws IOException {
+        //intialize settingsViewLoader
+        FXMLLoader messageLoader = new FXMLLoader();
+        messageLoader.setLocation(getClass().getResource("../view/messageView.fxml"));
+        AnchorPane messageView = messageLoader.load();
+        //set private members for controller
+        MessageViewController mvc = messageLoader.getController();
+        mvc.setCurrentSession(currentSession);
+        //set center display to view
+        parent.setCenter(messageView);
     }
 
     @FXML

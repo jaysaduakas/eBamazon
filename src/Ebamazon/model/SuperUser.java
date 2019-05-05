@@ -1,16 +1,10 @@
 package Ebamazon.model;
 
 public class SuperUser extends User {
-    private String username;
 
-    public String getUsername() {
-        return username;
+    public SuperUser(){
+        setUserStatus(UserStatus.SU);
     }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
 
     // TODO: Create class methods
 
@@ -18,7 +12,7 @@ public class SuperUser extends User {
     @Override
     public String toString() {
         return "SuperUser{" +
-                "username='" + username + '\'' +
+                "username='" + getUsername() + '\'' +
                 ", name='" + getName() + '\'' +
                 '}';
     }

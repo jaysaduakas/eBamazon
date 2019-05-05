@@ -6,7 +6,6 @@ import Ebamazon.model.DataAccessLayer.PendingApplicationDAO;
 import java.sql.Timestamp;
 
 public class OrdinaryUser extends User{
-    private String username;
     private String address;
     private String stateID;
     private String cc;
@@ -16,6 +15,9 @@ public class OrdinaryUser extends User{
     private boolean VIPStatus;
     private Timestamp dateTimeRegistered;
 
+    public OrdinaryUser(){
+        setUserStatus(UserStatus.OU);
+    }
 
     public boolean updateUserInfo(){
         return OrdinaryUserDAO.setUser(this);
@@ -25,9 +27,9 @@ public class OrdinaryUser extends User{
     public boolean insertUserInfo(){
         //if user with object's username does not exist in the OU table, insert it with the values specified by
         //this object.
-        if (OrdinaryUserDAO.getOrdinaryUser(username) == null) {
+        if (OrdinaryUserDAO.getOrdinaryUser(getUsername()) == null) {
             OrdinaryUserDAO.submitNewUser(this);
-            PendingApplicationDAO.insertNewUser(username);
+            PendingApplicationDAO.insertNewUser(getUsername());
             return true;
         }
         return false;
@@ -35,14 +37,6 @@ public class OrdinaryUser extends User{
 
     public boolean changeUserPW(String pw){
         return OrdinaryUserDAO.setUserPassword(this, pw);
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getAddress() {
@@ -112,7 +106,7 @@ public class OrdinaryUser extends User{
     @Override
     public String toString() {
         return "OrdinaryUser{" +
-                "username='" + username + '\'' +
+                "username='" + getUsername() + '\'' +
                 ", name='" + getName() + '\'' +
                 ", address='" + address + '\'' +
                 ", stateID='" + stateID + '\'' +
