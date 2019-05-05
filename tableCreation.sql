@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS SuperUser(
 CREATE TABLE IF NOT EXISTS Message(
 	sender varchar(20),
 	receiver varchar(20),
+	subject varchar(50),
 	messageContent varchar(2048),
 	dateTimeSent datetime,
 	PRIMARY KEY (sender, receiver, dateTimeSent)
