@@ -1,5 +1,6 @@
 package Ebamazon.model;
 
+import Ebamazon.model.DataAccessLayer.ComplaintDAO;
 import Ebamazon.model.DataAccessLayer.DBConnection;
 import Ebamazon.model.DataAccessLayer.MessageDAO;
 import Ebamazon.model.DataAccessLayer.OrdinaryUserDAO;
@@ -48,8 +49,16 @@ public class User {
         MessageDAO.deleteMessage(m.getSender(), getUsername(), m);
     }
 
+    //user complaining functions
+    public void lodgeComplaint(Complaint c){
+        ComplaintDAO.submitComplaint(c);
+    }
 
 
+    //utility functions
+    public boolean verifyUserExists(String username){
+        return OrdinaryUserDAO.checkExists(username);
+    }
 
     //getters and setters
 

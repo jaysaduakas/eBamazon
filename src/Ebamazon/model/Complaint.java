@@ -4,29 +4,14 @@ import java.sql.Timestamp;
 
 public class Complaint {
     // Instance variables
-    private OrdinaryUser sender;
-    private OrdinaryUser complainee;
+    private String sender;
+    private String complainee;
     private String complaint;
     private Timestamp dateTimeSent;
     private boolean alreadyJustified;
-    private SuperUser superUser;
+    private String superUser;
 
     // Getters and setters
-    public OrdinaryUser getSender() {
-        return sender;
-    }
-
-    public void setSender(OrdinaryUser sender) {
-        this.sender = sender;
-    }
-
-    public OrdinaryUser getComplainee() {
-        return complainee;
-    }
-
-    public void setComplainee(OrdinaryUser complainee) {
-        this.complainee = complainee;
-    }
 
     public String getComplaint() {
         return complaint;
@@ -52,27 +37,41 @@ public class Complaint {
         this.alreadyJustified = alreadyJustified;
     }
 
-    public SuperUser getSuperUser() {
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getComplainee() {
+        return complainee;
+    }
+
+    public void setComplainee(String complainee) {
+        this.complainee = complainee;
+    }
+
+    public String getSuperUser() {
         return superUser;
     }
 
-    public void setSuperUser(SuperUser superUser) {
+    public void setSuperUser(String superUser) {
         this.superUser = superUser;
     }
-
-
-    // TODO: Instance methods
+// TODO: Instance methods
 
 
     @Override
     public String toString() {
         return "Complaint{" +
-                "sender='" + sender.getUsername() + '\'' +
-                ", complainee='" + complainee.getUsername() + '\'' +
+                "sender='" + sender + '\'' +
+                ", complainee='" + complainee + '\'' +
                 ", complaint='" + complaint + '\'' +
-                ", dateTimeSent='" + dateTimeSent + '\'' +
-                ", alreadyJustified='" + alreadyJustified + '\'' +
-                ", superUser='" + superUser.getUsername() + '\'' +
+                ", dateTimeSent=" + dateTimeSent +
+                ", alreadyJustified=" + alreadyJustified +
+                ", superUser='" + superUser + '\'' +
                 '}';
     }
 }

@@ -69,8 +69,15 @@ public class NavBarController {
     }
 
     @FXML
-    void loadLodgeComplaintView(ActionEvent event) {
+    void loadLodgeComplaintView(ActionEvent event) throws IOException {
+        FXMLLoader complaintViewLoader = new FXMLLoader();
+        complaintViewLoader.setLocation(getClass().getResource("../view/lodgeComplaintView.fxml"));
+        AnchorPane complaintView = complaintViewLoader.load();
 
+        LodgeComplaintViewController lcvc = complaintViewLoader.getController();
+        lcvc.setCurrentSession(currentSession);
+
+        parent.setCenter(complaintView);
     }
 
     @FXML

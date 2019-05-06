@@ -44,6 +44,28 @@ public class OrdinaryUserDAO {
         return null;
     }
 
+    public static boolean checkExists(String username){
+        try {
+            //retrieve connection from DBConnection static method
+            Connection con = DBConnection.getConnection();
+            //prepare query
+            String query = "SELECT * FROM OrdinaryUser WHERE username=\"" + username + "\"";
+
+            //intialize statement and result set
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+
+            //if the result set is not empty...
+            if (rs.next()) {
+                return true;
+            }
+        }
+        catch(SQLException e){
+            System.out.println("Error retrieving ordinary user");
+        }
+        return false;
+    }
+
     public static boolean setUser(OrdinaryUser ou) {
         try {
             //retrieve connection from DBConnection static method

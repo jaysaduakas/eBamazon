@@ -41,7 +41,6 @@ public class MessageDAO {
         try{
             Calendar calendar = Calendar.getInstance();
             Timestamp sent = new Timestamp(1000* (calendar.getTime().getTime()/1000));
-            System.out.println(sent);
 
             Connection con = DBConnection.getConnection();
             String query = "INSERT INTO Message VALUES (\"" +
