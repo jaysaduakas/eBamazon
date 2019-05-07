@@ -2,8 +2,10 @@ package Ebamazon.model;
 
 import Ebamazon.model.DataAccessLayer.OrdinaryUserDAO;
 import Ebamazon.model.DataAccessLayer.PendingApplicationDAO;
+import Ebamazon.model.DataAccessLayer.UserKeywordDAO;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class OrdinaryUser extends User{
     private String address;
@@ -19,11 +21,13 @@ public class OrdinaryUser extends User{
         setUserStatus(UserStatus.OU);
     }
 
+    //edit user info functions
     public boolean updateUserInfo(){
         return OrdinaryUserDAO.setUser(this);
     }
-
-
+    public boolean changeUserPW(String pw){
+        return OrdinaryUserDAO.setUserPassword(this, pw);
+    }
     public boolean insertUserInfo(){
         //if user with object's username does not exist in the OU table, insert it with the values specified by
         //this object.
@@ -35,10 +39,18 @@ public class OrdinaryUser extends User{
         return false;
     }
 
-    public boolean changeUserPW(String pw){
-        return OrdinaryUserDAO.setUserPassword(this, pw);
+    //user keyword functions
+    public void submitKeyword(UserKeyword kw){
+        UserKeywordDAO.submitKeyword(kw);
     }
+    public ArrayList<UserKeyword> getKeywords(){
+        return UserKeywordDAO.getKeywords(getUsername());
+    }
+    public boolean deleteKeyword(UserKeyword uk){ return UserKeywordDAO.deleteKeyword(uk);}
 
+
+
+    //getters and setters
     public String getAddress() {
         return address;
     }

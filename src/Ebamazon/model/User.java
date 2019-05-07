@@ -1,9 +1,6 @@
 package Ebamazon.model;
 
-import Ebamazon.model.DataAccessLayer.ComplaintDAO;
-import Ebamazon.model.DataAccessLayer.DBConnection;
-import Ebamazon.model.DataAccessLayer.MessageDAO;
-import Ebamazon.model.DataAccessLayer.OrdinaryUserDAO;
+import Ebamazon.model.DataAccessLayer.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -53,6 +50,8 @@ public class User {
     public void lodgeComplaint(Complaint c){
         ComplaintDAO.submitComplaint(c);
     }
+
+
 
 
     //utility functions
