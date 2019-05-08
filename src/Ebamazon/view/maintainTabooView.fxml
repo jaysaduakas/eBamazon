@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.maintainTabooViewController">
+   <children>
+      <Label alignment="CENTER" layoutX="202.0" layoutY="14.0" prefHeight="47.0" prefWidth="252.0" text="Maintain Taboo Words List" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <VBox layoutY="100.0" prefHeight="444.0" prefWidth="520.0" AnchorPane.leftAnchor="20.0">
+         <children>
+            <Label focusTraversable="false" text="Add New Taboo Words (separate by space)">
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </Label>
+            <TextArea fx:id="tabooTextArea" minHeight="75.0" prefHeight="75.0" promptText="Enter taboo words here." />
+            <Label focusTraversable="false" text="Current Taboo Words">
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </Label>
+            <ScrollPane prefHeight="300.0">
+               <content>
+                  <VBox fx:id="tabooComponentVBox" prefHeight="300.0" prefWidth="504.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+      <Button fx:id="submitButton" layoutX="572.4" layoutY="180.0" mnemonicParsing="false" onAction="#submitUserSettings" text="Submit" AnchorPane.rightAnchor="30.0" />
+   </children>
+</AnchorPane>
