@@ -9,11 +9,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import Ebamazon.model.Auction;
-import Ebamazon.model.AuctionImage;
-import Ebamazon.model.CurrentSession;
-import Ebamazon.model.OrdinaryUser;
+import Ebamazon.model.*;
 import javafx.animation.AnimationTimer;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -87,6 +86,16 @@ public class CreateAuctionViewController {
         imageList = new ArrayList<>();
         imageFiles = new ArrayList<>();
         toggleGroup = new ToggleGroup();
+
+        priceTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,10}([\\.]\\d{0,2})?")) {
+                    priceTextField.setText(oldValue);
+                }
+            }
+        });
+
         updateloop();
     }
 
@@ -95,7 +104,7 @@ public class CreateAuctionViewController {
     void submitAuction(ActionEvent event) {
         Auction auction = new Auction();
         auction.setDescription(auctionDescriptionTextArea.getText());
-        auction.setKeywords(parseKeywordInput());
+        auction.setKeywords(assembleAuctionKeywords());
         auction.setTitle(auctionTitleTextField.getText());
         auction.setAuctionImages(assembleAuctionImages());
         auction.setFixedOrBid((fixedPriceRadioButton.isSelected()));
@@ -103,19 +112,7 @@ public class CreateAuctionViewController {
         OrdinaryUser ou = (OrdinaryUser) currentSession.getCurUser();
         auction.setOrdinaryUser(ou);
         ou.submitAuction(auction);
-    }
-
-    private ArrayList<AuctionImage> assembleAuctionImages(){
-        ArrayList<AuctionImage> returnList =  new ArrayList<>();
-        for (int i = 0; i < imageControllers.size(); i++){
-            AuctionImage ai = new AuctionImage();
-            ai.setImage(imageFiles.get(i));
-            ai.setDefaultPhoto(imageControllers.get(i).getRadioButton().isSelected());
-            ai.setImageNumber(i);
-            returnList.add(ai);
-            System.out.println(ai.toString());
-        }
-        return returnList;
+        clearAll();
     }
 
     @FXML
@@ -175,6 +172,43 @@ public class CreateAuctionViewController {
     private ArrayList<String> parseKeywordInput(){
         String [] auctionKeywords = auctionKeywordsTextField.getText().split(" ");
         return new ArrayList<String>(Arrays.asList(auctionKeywords));
+    }
+
+    private ArrayList<AuctionKeyword> assembleAuctionKeywords(){
+        ArrayList<AuctionKeyword> keywords = new ArrayList<>();
+        for (String s : parseKeywordInput()){
+            AuctionKeyword ak = new AuctionKeyword();
+            ak.setKeyword(s);
+            keywords.add(ak);
+        }
+        return keywords;
+    }
+
+    private ArrayList<AuctionImage> assembleAuctionImages(){
+        ArrayList<AuctionImage> returnList =  new ArrayList<>();
+        for (int i = 0; i < imageControllers.size(); i++){
+            AuctionImage ai = new AuctionImage();
+            ai.setImage(imageFiles.get(i));
+            ai.setDefaultPhoto(imageControllers.get(i).getRadioButton().isSelected());
+            ai.setImageNumber(i);
+            returnList.add(ai);
+            System.out.println(ai.toString());
+        }
+        return returnList;
+    }
+
+    private void clearAll(){
+        imageControllers.clear();
+        imageFiles.clear();
+        imageList.clear();
+        auctionKeywordsTextField.clear();
+        auctionTitleTextField.clear();
+        auctionDescriptionTextArea.clear();
+        imageComponentVBox.getChildren().clear();
+        toggleGroup = new ToggleGroup();
+        priceTextField.clear();
+        bidRadioButton.setSelected(false);
+        fixedPriceRadioButton.setSelected(false);
     }
 
     public void setCurrentSession(CurrentSession currentSession) {

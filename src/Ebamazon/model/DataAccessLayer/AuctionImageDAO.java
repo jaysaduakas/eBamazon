@@ -36,7 +36,7 @@ public class AuctionImageDAO {
         Connection con = DBConnection.getConnection();
         ArrayList<AuctionImage> auctionImages = new ArrayList<>();
         try{
-            String query = "SELECT * FROM auctionImage WHERE auctionID=" + auctionID + " AND imageNumber=1 ";
+            String query = "SELECT * FROM auctionImage WHERE auctionID=" + auctionID;
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery(query);
 

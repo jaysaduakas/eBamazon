@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="690.0" maxWidth="656.0" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.MyAuctionsViewController">
+<AnchorPane maxHeight="690.0" maxWidth="656.0" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.MyAuctionsViewController">
    <children>
       <VBox fx:id="mainVBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -17,7 +17,7 @@
             </Label>
             <ScrollPane fx:id="auctionScrollPane" maxHeight="599.0" maxWidth="656.0" prefHeight="599.0" prefWidth="600.0">
                <content>
-                  <VBox fx:id="scrollableVBox" alignment="TOP_CENTER" prefWidth="585.0" />
+                  <VBox fx:id="scrollableVBox" alignment="TOP_CENTER" prefWidth="585.0" spacing="10.0" style="-fx-background-color: darkgrey;" />
                </content>
             </ScrollPane>
          </children>

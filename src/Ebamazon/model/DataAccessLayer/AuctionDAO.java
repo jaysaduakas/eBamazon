@@ -2,12 +2,11 @@ package Ebamazon.model.DataAccessLayer;
 
 import Ebamazon.model.Auction;
 import Ebamazon.model.AuctionImage;
+import Ebamazon.model.AuctionKeyword;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class AuctionDAO {
 
@@ -34,9 +33,53 @@ public class AuctionDAO {
                 a.setAuction(id);
                 AuctionImageDAO.insertAuctionImage(a,con);
             }
+            for (AuctionKeyword a : auction.getKeywords()){
+                a.setAuction(id);
+                AuctionKeywordDAO.insertAuctionKeyword(a, con);
+            }
         }catch (SQLException e){
             System.out.println("SQL Exception inserting auction");
         }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Connection couldnt be closed for auction insert DAO");
+        }
+    }
+
+    public static ArrayList<Auction> getAuctionsByUsername(String username) throws SQLException {
+        ArrayList<Auction> returnList = new ArrayList<>();
+        Connection con = DBConnection.getConnection();
+        try{
+            String query = "SELECT * FROM auction WHERE creator=?";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            System.out.println("rs been returned");
+            while (rs.next()){
+                Auction auction = new Auction();
+                auction.setAuctionID(rs.getInt("auctionID"));
+                auction.setTitle(rs.getString("title"));
+                auction.setOrdinaryUser(OrdinaryUserDAO.getOrdinaryUser(rs.getString("creator")));
+                auction.setDateTimeCreated(rs.getTimestamp("dateTimeCreated"));
+                auction.setDateTimeConfirmed(rs.getTimestamp("dateTimeConfirmed"));
+                auction.setApprovalStatus(bitToBool(rs.getInt("approvalStatus")));
+                auction.setLiveStatus(bitToBool(rs.getInt("liveStatus")));
+                auction.setPrice(rs.getBigDecimal("price"));
+                auction.setFixedOrBid(bitToBool(rs.getInt("fixedAuction")));
+                auction.setDescription(rs.getString("description"));
+                auction.setAuctionImages(AuctionImageDAO.getAuctionImages(auction.getAuctionID()));
+                auction.setKeywords(AuctionKeywordDAO.getAuctionKeywords(auction.getAuctionID()));
+                returnList.add(auction);
+            }
+        }catch(SQLException e){
+            System.out.println("SQL Error retrieving auctions by username");
+        }
+        finally {
+            con.close();
+        }
+        return returnList;
     }
 
 

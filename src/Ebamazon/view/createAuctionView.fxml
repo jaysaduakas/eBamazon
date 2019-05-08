@@ -33,7 +33,7 @@
                </VBox.margin>
             </Label>
             <TextArea fx:id="auctionDescriptionTextArea" prefHeight="133.0" prefWidth="520.0" />
-            <Label text="Keywords (Separate with Space)">
+            <Label prefHeight="47.0" prefWidth="228.0" text="Keywords                                                (Separate with Space, Repetitions Ignored)" wrapText="true">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>

@@ -2,6 +2,7 @@ package Ebamazon.model;
 
 import Ebamazon.model.DataAccessLayer.*;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -50,6 +51,7 @@ public class OrdinaryUser extends User{
     public void submitAuction(Auction auction){
         AuctionDAO.insertAuction(auction);
     }
+    public ArrayList<Auction> getMyAuctions() throws SQLException { return AuctionDAO.getAuctionsByUsername(this.getUsername());}
 
 
 

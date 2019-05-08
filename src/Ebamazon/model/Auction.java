@@ -18,7 +18,7 @@ public class Auction {
     private Timestamp dateTimeConfirmed;
     private BigDecimal price;
     private boolean fixedOrBid;
-    private ArrayList<String> keywords;
+    private ArrayList<AuctionKeyword> keywords;
     private ArrayList<AuctionImage> auctionImages;
     private String description;
     private boolean liveStatus;
@@ -88,11 +88,11 @@ public class Auction {
         this.fixedOrBid = fixedOrBid;
     }
 
-    public ArrayList<String> getKeywords() {
+    public ArrayList<AuctionKeyword> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(ArrayList<String> keywords) {
+    public void setKeywords(ArrayList<AuctionKeyword> keywords) {
         this.keywords = keywords;
     }
 

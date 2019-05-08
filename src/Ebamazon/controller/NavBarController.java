@@ -77,11 +77,7 @@ public class NavBarController {
 
     @FXML
     void loadHomeView(ActionEvent event) {
-        VBox vBox = new VBox();
-        for (AuctionImage a : AuctionImageDAO.getAuctionImages(1)) {
-            vBox.getChildren().add(new ImageView(new Image(a.getImageFile().toURI().toString())));
-        }
-        parent.setCenter(vBox);
+
     }
 
     @FXML
@@ -97,8 +93,13 @@ public class NavBarController {
     }
 
     @FXML
-    void loadMyAuctionView(ActionEvent event) {
-
+    void loadMyAuctionView(ActionEvent event) throws IOException {
+        FXMLLoader myAuctionViewLoader = new FXMLLoader();
+        myAuctionViewLoader.setLocation(getClass().getResource("../view/myAuctionsView.fxml"));
+        AnchorPane view = myAuctionViewLoader.load();
+        MyAuctionsViewController mavc = myAuctionViewLoader.getController();
+        mavc.setCurrentSession(currentSession);
+        parent.setCenter(view);
     }
 
     @FXML
