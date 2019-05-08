@@ -134,6 +134,7 @@ CREATE TABLE IF NOT EXISTS AuctionImage(
 	auctionID int,
 	imageNumber int,
 	image LONGBLOB,
+	defaultPhoto bit(1),
 	FOREIGN KEY (auctionID) REFERENCES Auction(auctionID),
 	PRIMARY KEY (auctionID, imageNumber)
 );
