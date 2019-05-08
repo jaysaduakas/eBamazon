@@ -6,6 +6,7 @@ public class CurrentSession {
     private User curUser;
     private boolean isBanned;
     private UserStatus userStatus;
+    private InputScrubber inputScrubber;
 
     public CurrentSession(){
         curUser = new User();

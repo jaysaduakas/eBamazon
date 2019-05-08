@@ -86,7 +86,8 @@ public class CreateAuctionViewController {
         imageList = new ArrayList<>();
         imageFiles = new ArrayList<>();
         toggleGroup = new ToggleGroup();
-
+        //utilizes regex to make sure that only numeric/decimal characters may be entered in price text
+        //additionally its limits price to 10 digits before decimal and 2 digits after
         priceTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
