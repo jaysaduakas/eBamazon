@@ -4,14 +4,19 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Ebamazon.model.AuctionImage;
 import Ebamazon.model.CurrentSession;
+import Ebamazon.model.DataAccessLayer.AuctionImageDAO;
 import Ebamazon.model.UserStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 public class NavBarController {
 
@@ -46,8 +51,15 @@ public class NavBarController {
     private Button userSettingsButton;
 
     @FXML
-    void loadCreateAuctionView(ActionEvent event) {
+    void loadCreateAuctionView(ActionEvent event) throws IOException {
+        FXMLLoader createAuctionLoader = new FXMLLoader();
+        createAuctionLoader.setLocation(getClass().getResource("../view/createAuctionView.fxml"));
+        AnchorPane createAuctionView = createAuctionLoader.load();
 
+        CreateAuctionViewController cavc = createAuctionLoader.getController();
+        cavc.setCurrentSession(currentSession);
+
+        parent.setCenter(createAuctionView);
     }
 
     @FXML
@@ -65,7 +77,11 @@ public class NavBarController {
 
     @FXML
     void loadHomeView(ActionEvent event) {
-
+        VBox vBox = new VBox();
+        for (AuctionImage a : AuctionImageDAO.getAuctionImages(1)) {
+            vBox.getChildren().add(new ImageView(new Image(a.getImageFile().toURI().toString())));
+        }
+        parent.setCenter(vBox);
     }
 
     @FXML

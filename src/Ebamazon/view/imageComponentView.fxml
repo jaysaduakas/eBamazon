@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+
+
+<HBox fx:id="imageComponentView" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="141.0" prefWidth="277.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.imageComponentViewController">
+   <children>
+      <ImageView fx:id="imageView" fitHeight="141.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" />
+      <RadioButton fx:id="radioButton" mnemonicParsing="false" text="Make Default" />
+   </children>
+</HBox>

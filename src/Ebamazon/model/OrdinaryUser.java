@@ -1,8 +1,6 @@
 package Ebamazon.model;
 
-import Ebamazon.model.DataAccessLayer.OrdinaryUserDAO;
-import Ebamazon.model.DataAccessLayer.PendingApplicationDAO;
-import Ebamazon.model.DataAccessLayer.UserKeywordDAO;
+import Ebamazon.model.DataAccessLayer.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -47,6 +45,11 @@ public class OrdinaryUser extends User{
         return UserKeywordDAO.getKeywords(getUsername());
     }
     public boolean deleteKeyword(UserKeyword uk){ return UserKeywordDAO.deleteKeyword(uk);}
+
+    //user auction functions
+    public void submitAuction(Auction auction){
+        AuctionDAO.insertAuction(auction);
+    }
 
 
 

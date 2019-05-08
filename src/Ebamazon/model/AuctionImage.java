@@ -2,26 +2,57 @@ package Ebamazon.model;
 
 import javafx.scene.image.Image;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class AuctionImage {
-    private Auction auction;
-    private ArrayList<Image> image;
+    private int auction;
+    private int imageNumber;
+    private File image;
+    private boolean defaultPhoto;
 
     //Getters and Setters
-    public Auction getAuction() {
+    public int getAuction() {
         return auction;
     }
 
-    public void setAuction(Auction auction) {
+    public void setAuction(int auction) {
         this.auction = auction;
     }
 
-    public ArrayList<Image> getImage() {
-        return image;
+    public Image getImage() {
+        return new Image(image.toURI().toString());
     }
 
-    public void setImage(ArrayList<Image> image) {
+    public File getImageFile(){ return image;}
+
+    public void setImage(File image) {
         this.image = image;
+    }
+
+    public int getImageNumber() {
+        return imageNumber;
+    }
+
+    public void setImageNumber(int imageNumber) {
+        this.imageNumber = imageNumber;
+    }
+
+    public boolean isDefaultPhoto() {
+        return defaultPhoto;
+    }
+
+    public void setDefaultPhoto(boolean defaultPhoto) {
+        this.defaultPhoto = defaultPhoto;
+    }
+
+    @Override
+    public String toString() {
+        return "AuctionImage{" +
+                "auction=" + auction +
+                ", imageNumber=" + imageNumber +
+                ", image=" + image +
+                ", defaultPhoto=" + defaultPhoto +
+                '}';
     }
 }

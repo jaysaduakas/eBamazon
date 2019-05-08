@@ -2,6 +2,9 @@ package Ebamazon.model;
 
 import javafx.scene.image.Image;
 
+import java.io.File;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -13,10 +16,10 @@ public class Auction {
     private OrdinaryUser ordinaryUser;
     private Timestamp dateTimeCreated;
     private Timestamp dateTimeConfirmed;
-    private double price;
+    private BigDecimal price;
     private boolean fixedOrBid;
     private ArrayList<String> keywords;
-    private ArrayList<Image> images;
+    private ArrayList<AuctionImage> auctionImages;
     private String description;
     private boolean liveStatus;
 
@@ -69,12 +72,12 @@ public class Auction {
         this.dateTimeConfirmed = dateTimeConfirmed;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPrice(BigDecimal price) {
+        this.price = price.setScale(2, RoundingMode.DOWN);;
     }
 
     public boolean isFixedOrBid() {
@@ -93,14 +96,6 @@ public class Auction {
         this.keywords = keywords;
     }
 
-    public ArrayList<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(ArrayList<Image> images) {
-        this.images = images;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -115,6 +110,14 @@ public class Auction {
 
     public void setLiveStatus(boolean liveStatus) {
         this.liveStatus = liveStatus;
+    }
+
+    public ArrayList<AuctionImage> getAuctionImages() {
+        return auctionImages;
+    }
+
+    public void setAuctionImages(ArrayList<AuctionImage> auctionImages) {
+        this.auctionImages = auctionImages;
     }
 
     @Override //Dont have ArrayLists of images and keywords include in this toString method.
