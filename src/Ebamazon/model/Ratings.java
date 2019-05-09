@@ -7,6 +7,11 @@ public class Ratings {
     private String Ratee;
     private double Rating;
     private Timestamp DateTimeRated;
+
+    public Ratings(){
+
+    }
+
     public Ratings(String rater, String ratee, double rating, Timestamp dateTimeRated) {
         Rater = rater;
         Ratee = ratee;

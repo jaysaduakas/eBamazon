@@ -55,4 +55,9 @@ public class InputScrubber {
         }
         return strOut;
     }
+
+    public static void main(String[] args) throws SQLException {
+        InputScrubber is = new InputScrubber();
+        System.out.println(is.scrubInput("fArk schlub bob granny"));
+    }
 }
