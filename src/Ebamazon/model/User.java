@@ -25,7 +25,6 @@ public class User {
             Connection con = DBConnection.getConnection();
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery(query);
-
             if (rs.next()){
                 truthFlag=true;
             }
