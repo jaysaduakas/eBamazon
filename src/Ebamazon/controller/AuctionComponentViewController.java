@@ -2,6 +2,10 @@ package Ebamazon.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import Ebamazon.model.Auction;
+import Ebamazon.model.AuctionImage;
+import Ebamazon.model.AuctionKeyword;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -112,5 +116,31 @@ public class AuctionComponentViewController {
     public Label getPrice() {
         return price;
     }
+
+    public void setUpAuction(Auction a){
+        getTitle().setText(a.getTitle());
+        getCreator().setText(a.getOrdinaryUser().getUsername());
+        getDesc().setText(a.getDescription());
+        if (a.getDateTimeConfirmed()!=null){
+            getDate().setText(a.getDateTimeConfirmed().toString());
+        }else{
+            getDate().setText("Auction Is Not Yet Confirmed by SuperUser");
+        }
+        getPrice().setText("Price: " + a.getPrice());
+        Image image = null;
+        for (AuctionImage i : a.getAuctionImages()){
+            if (i.isDefaultPhoto()){
+                image = i.getImage();
+            }
+        }
+        String keywords = "";
+        for (AuctionKeyword k : a.getKeywords()){
+            keywords+= k.getKeyword() + ", ";
+        }
+        keywords = keywords.substring(0, keywords.length()-2);
+        getKeywords().setText(keywords);
+        updateDisplayImage(image);
+    }
+
 }
 

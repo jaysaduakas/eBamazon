@@ -1,6 +1,9 @@
 package Ebamazon.model;
 
 
+import Ebamazon.model.DataAccessLayer.AuctionDAO;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CurrentSession {
@@ -41,8 +44,8 @@ public class CurrentSession {
         }
     }
 
-    public void generateSearchResults(SearchParameters sp){
-        //do the work
+    public ArrayList<AuctionResult> generateSearchResults(SearchParameters sp) throws SQLException {
+        return AuctionDAO.getAuctionsByParameter(sp);
     }
 
     public User getCurUser(){

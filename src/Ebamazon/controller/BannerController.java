@@ -2,18 +2,24 @@ package Ebamazon.controller;
 
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import Ebamazon.model.CurrentSession;
+import Ebamazon.model.SearchParameters;
 import Ebamazon.model.User;
 import Ebamazon.model.UserStatus;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -75,6 +81,18 @@ import javafx.scene.layout.VBox;
         private Button logoutButton;
 
         @FXML
+        private CheckBox showAuctions;
+
+        @FXML
+        private CheckBox showFixed;
+
+        @FXML
+        private TextField priceMin;
+
+        @FXML
+        private TextField priceMax;
+
+        @FXML
         void loadApplicationView(ActionEvent event) throws IOException {
             FXMLLoader applyView = new FXMLLoader();
             applyView.setLocation(getClass().getResource("../view/newUserView.fxml"));
@@ -131,8 +149,22 @@ import javafx.scene.layout.VBox;
         }
 
         @FXML
-        void search(ActionEvent event) {
+        void search(ActionEvent event) throws IOException, SQLException {
+            SearchParameters sp = new SearchParameters(searchField.getText());
+            if (showAuctions.isSelected()) sp.setShowAuction(true);
+            else sp.setShowAuction(false);
+            if (showFixed.isSelected()) sp.setShowFixed(true);
+            else sp.setShowFixed(false);
+            if (!priceMin.getText().equals("")) sp.setMinPrice(BigDecimal.valueOf(Double.parseDouble(priceMin.getText())));
+            if (!priceMax.getText().equals("")) sp.setMaxPrice(BigDecimal.valueOf(Double.parseDouble(priceMax.getText())));
 
+            FXMLLoader searchResultsLoader = new FXMLLoader();
+            searchResultsLoader.setLocation(getClass().getResource("../view/searchResultsView.fxml"));
+            AnchorPane view = searchResultsLoader.load();
+            SearchResultsViewController srvc = searchResultsLoader.getController();
+            srvc.setCurrentSession(currentSession);
+            srvc.setSp(sp);
+            parent.setCenter(view);
         }
 
         @FXML
@@ -150,6 +182,22 @@ import javafx.scene.layout.VBox;
             assert loggedInVBox != null : "fx:id=\"loggedInVBox\" was not injected: check your FXML file 'bannerView.fxml'.";
             assert usernameLabel != null : "fx:id=\"usernameLabel\" was not injected: check your FXML file 'bannerView.fxml'.";
             assert logoutButton != null : "fx:id=\"logoutButton\" was not injected: check your FXML file 'bannerView.fxml'.";
+            priceMin.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    if (!newValue.matches("\\d{0,10}([\\.]\\d{0,2})?")) {
+                        priceMin.setText(oldValue);
+                    }
+                }
+            });
+            priceMax.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    if (!newValue.matches("\\d{0,10}([\\.]\\d{0,2})?")) {
+                        priceMax.setText(oldValue);
+                    }
+                }
+            });
         }
 
         public CurrentSession getCurrentSession() {
