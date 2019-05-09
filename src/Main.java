@@ -58,7 +58,7 @@ public class Main extends Application {
         homeViewLoader.setLocation(Main.class.getResource("Ebamazon/view/homeView.fxml"));
         Node homeview = homeViewLoader.load();
         bp.setCenter(homeview);
-        bp.setAlignment(bp.getCenter(), Pos.TOP_CENTER);
+        BorderPane.setAlignment(bp.getCenter(), Pos.TOP_CENTER);
 
         //set navbar for banner
         bc.setNavBarController(nbc);

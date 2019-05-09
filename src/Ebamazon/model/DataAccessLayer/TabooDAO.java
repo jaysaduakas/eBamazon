@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 public class TabooDAO {
 
+    //TODO ALL INSERTED WORDS SHOULD BE SCRUBBED TO LOWER CASE
+
     public static ArrayList<String> getTabooWords() throws SQLException {
         ArrayList<String> list = new ArrayList<>();
         Connection con = DBConnection.getConnection();

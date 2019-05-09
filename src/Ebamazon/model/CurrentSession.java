@@ -1,12 +1,19 @@
 package Ebamazon.model;
 
 
+import java.util.ArrayList;
+
 public class CurrentSession {
 
     private User curUser;
     private boolean isBanned;
+    //is suspended
+    //has kickback auctions
     private UserStatus userStatus;
     private InputScrubber inputScrubber;
+    private ArrayList<Auction> currentSearchResults;
+    private boolean sortByRelevance; // if false it implies sorting by seller rating
+
 
     public CurrentSession(){
         curUser = new User();
@@ -34,11 +41,51 @@ public class CurrentSession {
         }
     }
 
+    public void generateSearchResults(SearchParameters sp){
+        //do the work
+    }
+
     public User getCurUser(){
         return curUser;
     }
 
     public UserStatus getUserStatus() {
         return userStatus;
+    }
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        isBanned = banned;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
+    }
+
+    public InputScrubber getInputScrubber() {
+        return inputScrubber;
+    }
+
+    public void setInputScrubber(InputScrubber inputScrubber) {
+        this.inputScrubber = inputScrubber;
+    }
+
+    public ArrayList<Auction> getCurrentSearchResults() {
+        return currentSearchResults;
+    }
+
+    public void setCurrentSearchResults(ArrayList<Auction> currentSearchResults) {
+        this.currentSearchResults = currentSearchResults;
+    }
+
+    public boolean isSortByRelevance() {
+        return sortByRelevance;
+    }
+
+    public void setSortByRelevance(boolean sortByRelevance) {
+        this.sortByRelevance = sortByRelevance;
     }
 }
