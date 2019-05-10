@@ -5,6 +5,8 @@ import Ebamazon.model.DataAccessLayer.AuctionDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class CurrentSession {
 
@@ -14,7 +16,7 @@ public class CurrentSession {
     //has kickback auctions
     private UserStatus userStatus;
     private InputScrubber inputScrubber;
-    private ArrayList<Auction> currentSearchResults;
+    private ArrayList<AuctionResult> currentSearchResults;
     private boolean sortByRelevance; // if false it implies sorting by seller rating
 
 
@@ -45,7 +47,8 @@ public class CurrentSession {
     }
 
     public ArrayList<AuctionResult> generateSearchResults(SearchParameters sp) throws SQLException {
-        return AuctionDAO.getAuctionsByParameter(sp);
+        currentSearchResults = AuctionDAO.getAuctionsByParameter(sp);
+        return currentSearchResults;
     }
 
     public User getCurUser(){
@@ -76,11 +79,11 @@ public class CurrentSession {
         this.inputScrubber = inputScrubber;
     }
 
-    public ArrayList<Auction> getCurrentSearchResults() {
+    public ArrayList<AuctionResult> getCurrentSearchResults() {
         return currentSearchResults;
     }
 
-    public void setCurrentSearchResults(ArrayList<Auction> currentSearchResults) {
+    public void setCurrentSearchResults(ArrayList<AuctionResult> currentSearchResults) {
         this.currentSearchResults = currentSearchResults;
     }
 
@@ -90,5 +93,29 @@ public class CurrentSession {
 
     public void setSortByRelevance(boolean sortByRelevance) {
         this.sortByRelevance = sortByRelevance;
+    }
+
+    public void sortSearchResults(){
+        if(isSortByRelevance()){
+            Collections.sort((List)currentSearchResults);
+        }
+        else{
+            //TODO insert sorting by user rating
+        }
+    }
+
+    public static void main(String[] args) throws SQLException {
+        CurrentSession cs = new CurrentSession();
+        SearchParameters sp = new SearchParameters("big glass table");
+        cs.generateSearchResults(sp);
+        cs.setSortByRelevance(true);
+        for (AuctionResult ar: cs.getCurrentSearchResults()){
+            System.out.println(ar.getAuctionID() + " " + ar.getScore());
+        }
+        cs.sortSearchResults();
+        System.out.println();
+        for (AuctionResult ar: cs.getCurrentSearchResults()){
+            System.out.println(ar.getAuctionID() + " " + ar.getScore());
+        }
     }
 }
