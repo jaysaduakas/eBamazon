@@ -14,27 +14,13 @@ public class User {
 
     //user login functions
     public User login(String username, String pw){
-        if (verifyOrdinaryLogin(username,pw))
+        if (OrdinaryUserDAO.verifyOrdinaryLogin(username,pw))
             return OrdinaryUserDAO.getOrdinaryUser(username);
+        if (SuperUserDAO.checkPassword(username, pw))
+            return SuperUserDAO.getSuperUser(username);
         return this;
     }
-    private boolean verifyOrdinaryLogin(String username, String pw){
-        boolean truthFlag = false;
-        try {
-            String query = "SELECT * FROM OrdinaryUser WHERE username=\"" + username + "\" AND password=\"" + pw + "\" AND approvedStatus=1";
-            Connection con = DBConnection.getConnection();
-            Statement statement = con.createStatement();
-            ResultSet rs = statement.executeQuery(query);
-            if (rs.next()){
-                truthFlag=true;
-            }
-            con.close();
-        }
-        catch(Exception e){
-            System.out.println("Error verifying login");
-        }
-        return truthFlag;
-    }
+
 
     //user messaging functions
     public ArrayList<Message> getMessages(){
@@ -55,7 +41,7 @@ public class User {
 
     //utility functions
     public boolean verifyUserExists(String username){
-        return OrdinaryUserDAO.checkExists(username);
+        return OrdinaryUserDAO.checkExists(username) || SuperUserDAO.checkExists(username);
     }
 
     //getters and setters

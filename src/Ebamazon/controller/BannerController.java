@@ -122,13 +122,18 @@ import javafx.scene.layout.VBox;
             passwordField.setText("");
 
             //intialize homeview controller and view
-            FXMLLoader homeViewLoader = new FXMLLoader();
-            homeViewLoader.setLocation(getClass().getResource("../view/homeView.fxml"));
-            Node homeview = homeViewLoader.load();
-            HomeViewController hvc = homeViewLoader.getController();
-            hvc.setCurrentSession(currentSession);
-            parent.setCenter(homeview);
-            parent.setAlignment(parent.getCenter(), Pos.TOP_CENTER);
+            if (currentSession.getCurUser().getUserStatus()==UserStatus.OU) {
+                FXMLLoader homeViewLoader = new FXMLLoader();
+                homeViewLoader.setLocation(getClass().getResource("../view/homeView.fxml"));
+                Node homeview = homeViewLoader.load();
+                HomeViewController hvc = homeViewLoader.getController();
+                hvc.setCurrentSession(currentSession);
+                parent.setCenter(homeview);
+                parent.setAlignment(parent.getCenter(), Pos.TOP_CENTER);
+            }
+            else if (currentSession.getCurUser().getUserStatus()==UserStatus.SU){
+                parent.setCenter(null);
+            }
         }
 
         @FXML

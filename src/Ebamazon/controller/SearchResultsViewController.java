@@ -57,6 +57,10 @@ public class SearchResultsViewController {
         }
         AuctionComponentViewController acvc = auctionComponentLoader.getController();
         acvc.setUpAuction(auctionResult);
+        if (currentSession.getCurUser().getUserStatus()!=UserStatus.OU) {
+            acvc.getBidButton().setVisible(false);
+            acvc.getBidBox().setVisible(false);
+        }
         auctions.add(acvc);
     }
 

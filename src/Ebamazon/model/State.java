@@ -40,6 +40,7 @@ public enum State {
     OKLAHOMA("Oklahoma", "OK"),
     OREGON("Oregon", "OR"),
     PENNSYLVANIA("Pennsylvania", "PA"),
+    PUERTO_RICO ("Puerto Rico", "PR"),
     RHODE_ISLAND("Rhode Island", "RI"),
     SOUTH_CAROLINA("South Carolina", "SC"),
     SOUTH_DAKOTA("South Dakota", "SD"),

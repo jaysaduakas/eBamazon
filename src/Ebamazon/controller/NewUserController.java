@@ -3,11 +3,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Ebamazon.model.OrdinaryUser;
+import Ebamazon.model.State;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class NewUserController {
@@ -30,7 +33,7 @@ public class NewUserController {
     private TextField addressField;
 
     @FXML
-    private TextField stateField;
+    private ComboBox<State> stateField;
 
     @FXML
     private TextField phoneNumberField;
@@ -42,6 +45,12 @@ public class NewUserController {
     private Button submitButton;
 
     @FXML
+    private Label usernameTaken;
+
+    @FXML
+    private Label applicationSubmitted;
+
+    @FXML
     void submitNewUser(ActionEvent event) {
         OrdinaryUser ou = new OrdinaryUser();
         ou.setUsername(usernameField.getText());
@@ -49,8 +58,15 @@ public class NewUserController {
         ou.setCc(creditcardField.getText());
         ou.setPhone(phoneNumberField.getText());
         ou.setName(nameField.getText());
-        ou.setStateID(stateField.getText());
-        ou.insertUserInfo();
+        ou.setStateID(stateField.getValue().getAbbreviation());
+        if (ou.insertUserInfo()){
+            applicationSubmitted.setVisible(true);
+            usernameTaken.setVisible(false);
+        }
+        else {
+            applicationSubmitted.setVisible(false);
+            usernameTaken.setVisible(true);
+        }
         //FAILING BECAUSE IT NEEDS A STATE ID!!!!!
     }
 
@@ -63,6 +79,7 @@ public class NewUserController {
         assert creditcardField != null : "fx:id=\"creditcardField\" was not injected: check your FXML file 'newUserView.fxml'.";
         assert submitButton != null : "fx:id=\"submitButton\" was not injected: check your FXML file 'newUserView.fxml'.";
         assert stateField != null : "fx:id=\"stateField\" was not injected: check your FXML file 'newUserView.fxml'.";
+        stateField.getItems().setAll(State.values());
         updateLoop();
     }
 
@@ -71,7 +88,7 @@ public class NewUserController {
             @Override
             public void handle(long now) {
                 if (!usernameField.getText().equals("") && !nameField.getText().equals("") && !addressField.getText().equals("") &&
-                        !phoneNumberField.getText().equals("") && !creditcardField.getText().equals("") && !stateField.getText().equals("")){
+                        !phoneNumberField.getText().equals("") && !creditcardField.getText().equals("") && stateField.getValue()!=null){
                     submitButton.setDisable(false);
                 }
             }

@@ -138,7 +138,23 @@ public class OrdinaryUserDAO {
             return false;
         }
     }
-
+    public static boolean verifyOrdinaryLogin(String username, String pw){
+        boolean truthFlag = false;
+        try {
+            String query = "SELECT * FROM OrdinaryUser WHERE username=\"" + username + "\" AND password=\"" + pw + "\" AND approvedStatus=1";
+            Connection con = DBConnection.getConnection();
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next()){
+                truthFlag=true;
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println("Error verifying login");
+        }
+        return truthFlag;
+    }
     private static boolean bitToBool(int i){
         return i != 0;
     }
