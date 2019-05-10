@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.ProcessAppealViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.ProcessAppealViewController">
    <children>
-      <Label alignment="CENTER" focusTraversable="false" layoutX="202.0" layoutY="14.0" prefHeight="47.0" prefWidth="252.0" text="Process Appeal / Remove User" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0">
+      <Label alignment="CENTER" focusTraversable="false" layoutX="202.0" layoutY="14.0" prefHeight="47.0" prefWidth="252.0" text="Process Appeal" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font size="32.0" />
          </font>
@@ -27,7 +27,7 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="usernameTextField" alignment="TOP_LEFT" promptText="Auto populated from database" />
+                  <TextField fx:id="usernameTextField" alignment="TOP_LEFT" editable="false" promptText="Auto populated from database" />
                </children>
             </VBox>
             <Label focusTraversable="false" text="User's Appeal Description">
@@ -35,7 +35,7 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </Label>
-            <TextArea fx:id="appealDescTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Auto populated from database" />
+            <TextArea fx:id="appealDescTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" promptText="Auto populated from database" />
             <VBox prefWidth="250.0">
                <children>
                   <Label focusTraversable="false" text="Appeal Status">
@@ -62,15 +62,6 @@
                         <Insets top="5.0" />
                      </VBox.margin>
                   </RadioButton>
-                  <Label focusTraversable="false" text="Reason for Denial">
-                     <VBox.margin>
-                        <Insets top="15.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <TextArea prefHeight="75.0" promptText="Enter text here." />
                </children>
                <VBox.margin>
                   <Insets left="275.0" />
@@ -78,6 +69,6 @@
             </VBox>
          </children>
       </VBox>
-      <Button fx:id="submtButton" layoutX="572.4" layoutY="533.0" mnemonicParsing="false" onAction="#submit" text="Submit" AnchorPane.rightAnchor="30.0" />
+      <Button fx:id="submtButton" layoutX="572.0" layoutY="463.0" mnemonicParsing="false" onAction="#submit" text="Submit" AnchorPane.rightAnchor="30.0" />
    </children>
 </AnchorPane>
