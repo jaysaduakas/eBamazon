@@ -6,16 +6,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-import Ebamazon.model.CurrentSession;
-import Ebamazon.model.OrdinaryUser;
-import Ebamazon.model.UserKeyword;
-import Ebamazon.model.UserStatus;
+import Ebamazon.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -53,7 +48,14 @@ public class userSettingsController {
     private TextArea keywordTextArea;
 
     @FXML
+    private ComboBox<State> stateID;
+
+    @FXML
     private VBox keywordComponentVBox;
+
+    @FXML
+    private Label updatedSuccess;
+
 
 
 
@@ -77,10 +79,17 @@ public class userSettingsController {
                 ou.setCc(creditcardField.getText());
                 creditcardField.setText("");
             }
+
+            if (stateID.getValue()!=null){
+                ou.setStateID(stateID.getValue().getAbbreviation());
+                stateID.setValue(null);
+            }
             if (ou.updateUserInfo()) {
                 //TODO display this as a label in JFX
-                System.out.println("User info updated in database");
+                updatedSuccess.setVisible(true);
                 currentSession.setCurUser(ou);
+            } else {
+                updatedSuccess.setVisible(false);
             }
 
             if (!passwordField.getText().equals("")) {
@@ -120,6 +129,7 @@ public class userSettingsController {
         assert phoneNumberField != null : "fx:id=\"phoneNumberField\" was not injected: check your FXML file 'userSettingsView.fxml'.";
         assert creditcardField != null : "fx:id=\"creditcardField\" was not injected: check your FXML file 'userSettingsView.fxml'.";
         assert submitButton != null : "fx:id=\"submitButton\" was not injected: check your FXML file 'userSettingsView.fxml'.";
+        stateID.getItems().setAll(State.values());
     }
 
     private ArrayList<String> parseKeywordInput(){

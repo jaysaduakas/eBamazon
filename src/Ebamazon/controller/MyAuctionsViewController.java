@@ -43,11 +43,9 @@ public class MyAuctionsViewController {
 
     public void setCurrentSession(CurrentSession currentSession) {
         this.currentSession = currentSession;
-        OrdinaryUser ou = (OrdinaryUser) currentSession.getCurUser();
-        populateAuctionList(ou);
     }
 
-    private void populateAuctionList(OrdinaryUser ou){
+    public void populateAuctionList(OrdinaryUser ou){
         try {
             for (Auction a : ou.getMyAuctions()){
                 FXMLLoader auctionComponentViewLoader = new FXMLLoader();

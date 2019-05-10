@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import Ebamazon.model.AuctionImage;
 import Ebamazon.model.CurrentSession;
 import Ebamazon.model.DataAccessLayer.AuctionImageDAO;
+import Ebamazon.model.OrdinaryUser;
 import Ebamazon.model.UserStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -98,8 +99,9 @@ public class NavBarController {
         myAuctionViewLoader.setLocation(getClass().getResource("../view/myAuctionsView.fxml"));
         AnchorPane view = myAuctionViewLoader.load();
         MyAuctionsViewController mavc = myAuctionViewLoader.getController();
-        mavc.setCurrentSession(currentSession);
         parent.setCenter(view);
+        mavc.setCurrentSession(currentSession);
+        mavc.populateAuctionList((OrdinaryUser)currentSession.getCurUser());
     }
 
     @FXML

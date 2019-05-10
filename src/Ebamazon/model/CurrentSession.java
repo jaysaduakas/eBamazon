@@ -17,7 +17,7 @@ public class CurrentSession {
     private UserStatus userStatus;
     private InputScrubber inputScrubber;
     private ArrayList<AuctionResult> currentSearchResults;
-    private boolean sortByRelevance; // if false it implies sorting by seller rating
+    private boolean sortByRelevance=true; // if false it implies sorting by seller rating
 
 
     public CurrentSession(){
@@ -48,6 +48,7 @@ public class CurrentSession {
 
     public ArrayList<AuctionResult> generateSearchResults(SearchParameters sp) throws SQLException {
         currentSearchResults = AuctionDAO.getAuctionsByParameter(sp);
+        sortSearchResults();
         return currentSearchResults;
     }
 
@@ -93,9 +94,10 @@ public class CurrentSession {
 
     public void setSortByRelevance(boolean sortByRelevance) {
         this.sortByRelevance = sortByRelevance;
+        sortSearchResults();
     }
 
-    public void sortSearchResults(){
+    private void sortSearchResults(){
         if(isSortByRelevance()){
             Collections.sort((List)currentSearchResults);
         }
