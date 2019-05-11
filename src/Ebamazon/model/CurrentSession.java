@@ -1,10 +1,7 @@
 package Ebamazon.model;
 
 
-import Ebamazon.model.DataAccessLayer.AuctionDAO;
-import Ebamazon.model.DataAccessLayer.BidDAO;
-import Ebamazon.model.DataAccessLayer.FriendDAO;
-import Ebamazon.model.DataAccessLayer.OrdinaryUserDAO;
+import Ebamazon.model.DataAccessLayer.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,6 +19,7 @@ public class CurrentSession {
     private ArrayList<AuctionResult> currentSearchResults;
     private boolean sortByRelevance=true; // if false it implies sorting by seller rating
     private ArrayList<String> friendsUsernames;
+    private double taxRate;
 
     //constructors
     public CurrentSession(){
@@ -42,6 +40,7 @@ public class CurrentSession {
             userStatus = UserStatus.OU;
             isBanned = ((OrdinaryUser) user).isBannedStatus();
             updateUserFriends();
+            setTaxRate();
         }
         else if (user instanceof SuperUser){
             userStatus = UserStatus.SU;
@@ -71,7 +70,9 @@ public class CurrentSession {
         }
     }
     public ArrayList<Bid> getBidsForAuction(Auction auction) {return BidDAO.getBidsForAuction(auction.getAuctionID());}
-
+    public void setTaxRate(){
+        taxRate = TaxDAO.getTaxRate(((OrdinaryUser)curUser).getStateID());
+    }
 
 
 
@@ -139,6 +140,9 @@ public class CurrentSession {
         this.friendsUsernames = friendsUsernames;
     }
 
+    public double getTaxRate() {
+        return taxRate;
+    }
 
     public static void main(String[] args) throws SQLException {
         CurrentSession cs = new CurrentSession();

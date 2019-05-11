@@ -1,11 +1,13 @@
 package Ebamazon.controller;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import Ebamazon.model.Auction;
-import Ebamazon.model.AuctionImage;
-import Ebamazon.model.AuctionKeyword;
+import Ebamazon.model.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -70,7 +72,14 @@ public class AuctionComponentViewController {
         assert bidBox != null : "fx:id=\"bidBox\" was not injected: check your FXML file 'auctionComponentView.fxml'.";
         assert bidButton != null : "fx:id=\"bidButton\" was not injected: check your FXML file 'auctionComponentView.fxml'.";
         assert price != null : "fx:id=\"price\" was not injected: check your FXML file 'auctionComponentView.fxml'.";
-
+        bidBox.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,10}([\\.]\\d{0,2})?")) {
+                    bidBox.setText(oldValue);
+                }
+            }
+        });
     }
 
     public void updateDisplayImage(Image image){
@@ -117,7 +126,7 @@ public class AuctionComponentViewController {
         return price;
     }
 
-    public void setUpAuction(Auction a){
+    public void setUpAuction(Auction a, CurrentSession cs){
         getTitle().setText(a.getTitle());
         getCreator().setText(a.getOrdinaryUser().getUsername());
         getDesc().setText(a.getDescription());
@@ -126,7 +135,19 @@ public class AuctionComponentViewController {
         }else{
             getDate().setText("Auction Is Not Yet Confirmed by SuperUser");
         }
-        getPrice().setText("Price: " + a.getPrice());
+        String price = "Price: " + a.getPrice();
+        if (cs.getCurUser().getUserStatus()== UserStatus.OU) {
+            price += " + Tax(" + cs.getTaxRate() + "%) " + (a.getPrice().multiply(BigDecimal.valueOf(cs.getTaxRate()))).setScale(2, RoundingMode.DOWN);
+            for (String friend : cs.getFriendsUsernames()){
+                if (a.getOrdinaryUser().getUsername().equals(friend)){
+                    price += " - Discount(5%) " + (a.getPrice().multiply(BigDecimal.valueOf(0.05))).setScale(2, RoundingMode.DOWN);
+                }
+            }
+        }
+        getPrice().setText(price );
+        getBidBox().setPromptText(
+                ((a.getPrice().add(a.getPrice().multiply(BigDecimal.valueOf(cs.getTaxRate()))).add(
+                a.getPrice().multiply(BigDecimal.valueOf(-0.05)))).setScale(2, RoundingMode.DOWN)).toString());
         Image image = null;
         for (AuctionImage i : a.getAuctionImages()){
             if (i.isDefaultPhoto()){

@@ -22,13 +22,13 @@
       </Label>
       <Label fx:id="creator" layoutX="221.0" layoutY="70.0" text="SellerUsername" />
       <Label fx:id="date" layoutX="221.0" layoutY="101.0" text="DateCreated" />
-      <Label fx:id="desc" alignment="TOP_LEFT" layoutX="14.0" layoutY="142.0" prefHeight="149.0" prefWidth="569.0" text="Description" AnchorPane.topAnchor="143.0" />
-      <Label fx:id="keywords" alignment="TOP_LEFT" layoutX="14.0" layoutY="291.0" prefHeight="91.0" prefWidth="327.0" text="Keywords" />
+      <Label fx:id="desc" alignment="TOP_LEFT" layoutX="14.0" layoutY="142.0" prefHeight="149.0" prefWidth="336.0" text="Description" wrapText="true" AnchorPane.topAnchor="143.0" />
+      <Label fx:id="keywords" alignment="TOP_LEFT" layoutX="14.0" layoutY="291.0" prefHeight="91.0" prefWidth="180.0" text="Keywords" wrapText="true" />
       <TextField fx:id="bidBox" layoutX="341.0" layoutY="356.0" promptText="Place Bid" />
       <Button fx:id="bidButton" layoutX="490.0" layoutY="356.0" mnemonicParsing="false" onAction="#bid" text="Place Bid!" />
-      <Label fx:id="price" layoutX="341.0" layoutY="291.0" text="Price">
+      <Label fx:id="price" alignment="TOP_LEFT" layoutX="351.0" layoutY="232.0" prefHeight="122.0" prefWidth="209.0" text="Price" wrapText="true">
          <font>
-            <Font size="32.0" />
+            <Font size="19.0" />
          </font>
       </Label>
    </children>

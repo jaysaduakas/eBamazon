@@ -56,7 +56,7 @@ public class SearchResultsViewController {
             System.out.println("auction component controller not loaded");
         }
         AuctionComponentViewController acvc = auctionComponentLoader.getController();
-        acvc.setUpAuction(auctionResult);
+        acvc.setUpAuction(auctionResult, currentSession);
         if (currentSession.getCurUser().getUserStatus()!=UserStatus.OU) {
             acvc.getBidButton().setVisible(false);
             acvc.getBidBox().setVisible(false);
