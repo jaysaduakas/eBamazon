@@ -62,6 +62,7 @@ public class FriendsViewController {
         if (ou.deleteFriend(selectedFriend.getFriend())) {
             friendsListVBox.getChildren().remove(selectedFriend.getFriendComponent());
         }
+        currentSession.updateUserFriends();
     }
 
     @FXML

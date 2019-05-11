@@ -60,6 +60,10 @@ public class OrdinaryUser extends User{
     public ArrayList<Friends> getFriends() { return FriendDAO.getConfirmedFriends(getUsername());}
     public ArrayList<Friends> getFriendRequests() {return FriendDAO.getFriendRequests(getUsername());}
 
+    //bid functions
+    public boolean makeBid(Bid bid) {return BidDAO.makeBidOnAuction(bid);}
+    public ArrayList<Bid> getWinningsBids() { return BidDAO.getWinningBids(getUsername());}
+    public boolean declareWinningBid(Bid bid) { return BidDAO.declareWinningBid(bid);}
 
 
     //getters and setters

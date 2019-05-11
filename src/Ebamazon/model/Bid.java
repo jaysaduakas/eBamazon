@@ -1,10 +1,11 @@
 package Ebamazon.model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Bid {
     private Auction auction;
-    private double amount;
+    private BigDecimal amount;
     private boolean winningBid;
     private Timestamp dateTimeMade;
     private OrdinaryUser ordinaryUser;
@@ -19,11 +20,11 @@ public class Bid {
         this.auction = auction;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -49,5 +50,16 @@ public class Bid {
 
     public void setOrdinaryUser(OrdinaryUser ordinaryUser) {
         this.ordinaryUser = ordinaryUser;
+    }
+
+    @Override
+    public String toString() {
+        return "Bid{" +
+                "auction=" + auction +
+                ", amount=" + amount +
+                ", winningBid=" + winningBid +
+                ", dateTimeMade=" + dateTimeMade +
+                ", ordinaryUser=" + ordinaryUser +
+                '}';
     }
 }

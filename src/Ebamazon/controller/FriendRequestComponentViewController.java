@@ -37,6 +37,7 @@ public class FriendRequestComponentViewController {
         ((OrdinaryUser)currentSession.getCurUser()).confirmFriend(friend);
         confirmButton.setDisable(true);
         confirmButton.setText("Confirmed!!!");
+        currentSession.updateUserFriends();
     }
 
     @FXML
