@@ -28,10 +28,13 @@ public class CurrentSession {
         curUser = new User();
         isBanned = false;
         userStatus = UserStatus.GU;
+        friendsUsernames = new ArrayList<>();
     }
     public CurrentSession(User user){
         setCurUser(user);
+        friendsUsernames = new ArrayList<>();
     }
+
     //set the current user
     public void setCurUser(User user){
         curUser = user;
