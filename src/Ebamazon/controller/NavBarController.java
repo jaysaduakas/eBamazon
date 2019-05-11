@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import Ebamazon.model.AuctionImage;
-import Ebamazon.model.CurrentSession;
+import Ebamazon.model.*;
 import Ebamazon.model.DataAccessLayer.AuctionImageDAO;
-import Ebamazon.model.OrdinaryUser;
-import Ebamazon.model.UserStatus;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,7 +41,10 @@ public class NavBarController {
     private Button transactionHistoryButton;
 
     @FXML
-    private Button friendsAndMessagingButton;
+    private Button MessagingButton;
+
+    @FXML
+    private Button FriendsButton;
 
     @FXML
     private Button lodgeComplaintButton;
@@ -64,7 +65,7 @@ public class NavBarController {
     }
 
     @FXML
-    void loadFriendsAndMessagingView(ActionEvent event) throws IOException {
+    void loadMessagingView(ActionEvent event) throws IOException {
         //intialize settingsViewLoader
         FXMLLoader messageLoader = new FXMLLoader();
         messageLoader.setLocation(getClass().getResource("../view/messageView.fxml"));
@@ -74,6 +75,18 @@ public class NavBarController {
         mvc.setCurrentSession(currentSession);
         //set center display to view
         parent.setCenter(messageView);
+    }
+
+    @FXML
+    void loadFriendsView(ActionEvent event) throws IOException {
+        FXMLLoader friendsViewLoader = new FXMLLoader();
+        friendsViewLoader.setLocation(getClass().getResource("../view/friendsView.fxml"));
+        AnchorPane view = friendsViewLoader.load();
+
+        FriendsViewController fvc = friendsViewLoader.getController();
+        fvc.setCurrentSession(currentSession);
+
+        parent.setCenter(view);
     }
 
     @FXML
@@ -129,7 +142,7 @@ public class NavBarController {
         assert myAuctionsButton != null : "fx:id=\"myAuctionsButton\" was not injected: check your FXML file 'navBarView.fxml'.";
         assert createAuctionButton != null : "fx:id=\"createAuctionButton\" was not injected: check your FXML file 'navBarView.fxml'.";
         assert transactionHistoryButton != null : "fx:id=\"transactionHistoryButton\" was not injected: check your FXML file 'navBarView.fxml'.";
-        assert friendsAndMessagingButton != null : "fx:id=\"friendsAndMessagingButton\" was not injected: check your FXML file 'navBarView.fxml'.";
+        assert MessagingButton != null : "fx:id=\"friendsAndMessagingButton\" was not injected: check your FXML file 'navBarView.fxml'.";
         assert lodgeComplaintButton != null : "fx:id=\"lodgeComplaintButton\" was not injected: check your FXML file 'navBarView.fxml'.";
         assert userSettingsButton != null : "fx:id=\"userSettingsButton\" was not injected: check your FXML file 'navBarView.fxml'.";
 
@@ -140,7 +153,8 @@ public class NavBarController {
             myAuctionsButton.setVisible(true);
             createAuctionButton.setVisible(true);
             transactionHistoryButton.setVisible(true);
-            friendsAndMessagingButton.setVisible(true);
+            MessagingButton.setVisible(true);
+            FriendsButton.setVisible(true);
             lodgeComplaintButton.setVisible(true);
             userSettingsButton.setVisible(true);
         }
@@ -148,11 +162,15 @@ public class NavBarController {
             myAuctionsButton.setVisible(false);
             createAuctionButton.setVisible(false);
             transactionHistoryButton.setVisible(false);
-            friendsAndMessagingButton.setVisible(false);
+            MessagingButton.setVisible(false);
+            FriendsButton.setVisible(false);
             lodgeComplaintButton.setVisible(false);
             userSettingsButton.setVisible(false);
         }
     }
+
+
+    //getters and setters
 
     public void setParent(BorderPane parent) {
         this.parent = parent;

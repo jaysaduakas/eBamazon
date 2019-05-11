@@ -53,6 +53,13 @@ public class OrdinaryUser extends User{
     }
     public ArrayList<Auction> getMyAuctions() throws SQLException { return AuctionDAO.getAuctionsByUsername(this.getUsername());}
 
+    //friend functions
+    public boolean makeFriendRequest(Friends friend) {return FriendDAO.insertFriendRequest(friend);}
+    public boolean confirmFriend(Friends friends) {return FriendDAO.confirmFriendRequest(friends);}
+    public boolean deleteFriend(Friends friends) {return FriendDAO.deleteFriend(friends);}
+    public ArrayList<Friends> getFriends() { return FriendDAO.getConfirmedFriends(getUsername());}
+    public ArrayList<Friends> getFriendRequests() {return FriendDAO.getFriendRequests(getUsername());}
+
 
 
     //getters and setters

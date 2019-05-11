@@ -7,12 +7,19 @@ public class Friends {
     private String ConfirmingFriendID;
     private boolean FriendshipConfirmed;
     private Timestamp DateTimeConfirmed;
+
+    public Friends(){
+
+    }
+
     public Friends(String suggestingFriendlD, String confirmingFriendID, boolean friendshipConfirmed, Timestamp dateTimeConfirmed) {
         SuggestingFriendlD = suggestingFriendlD;
         ConfirmingFriendID = confirmingFriendID;
         FriendshipConfirmed = friendshipConfirmed;
         DateTimeConfirmed = dateTimeConfirmed;
     }
+
+
     public String getSuggestingFriendlD() {
         return SuggestingFriendlD;
     }

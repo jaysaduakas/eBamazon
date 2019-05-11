@@ -9,7 +9,8 @@
       <Button fx:id="myAuctionsButton" mnemonicParsing="false" onAction="#loadMyAuctionView" prefWidth="144.0" text="My Auctions" visible="false" />
       <Button fx:id="createAuctionButton" mnemonicParsing="false" onAction="#loadCreateAuctionView" prefWidth="144.0" text="Create Auction" visible="false" />
       <Button fx:id="transactionHistoryButton" mnemonicParsing="false" onAction="#loadTransactionHistoryView" prefWidth="144.0" text="Transaction History" visible="false" />
-      <Button fx:id="friendsAndMessagingButton" mnemonicParsing="false" onAction="#loadFriendsAndMessagingView" prefWidth="144.0" text="Friends And Messaging" visible="false" />
+      <Button fx:id="MessagingButton" mnemonicParsing="false" onAction="#loadMessagingView" prefWidth="144.0" text="Messaging" visible="false" />
+      <Button fx:id="FriendsButton" mnemonicParsing="false" onAction="#loadFriendsView" prefWidth="144.0" text="Friends" visible="false" />
       <Button fx:id="lodgeComplaintButton" mnemonicParsing="false" onAction="#loadLodgeComplaintView" prefWidth="144.0" text="Lodge Complaint" visible="false" />
       <Button fx:id="userSettingsButton" mnemonicParsing="false" onAction="#loadSettingsView" prefWidth="144.0" text="User Settings" visible="false" />
    </children>

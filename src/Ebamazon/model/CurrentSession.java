@@ -2,6 +2,7 @@ package Ebamazon.model;
 
 
 import Ebamazon.model.DataAccessLayer.AuctionDAO;
+import Ebamazon.model.DataAccessLayer.OrdinaryUserDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -51,6 +52,8 @@ public class CurrentSession {
         sortSearchResults();
         return currentSearchResults;
     }
+    public OrdinaryUser getUserByUsername(String username) { return OrdinaryUserDAO.getOrdinaryUser(username);}
+
 
     public User getCurUser(){
         return curUser;

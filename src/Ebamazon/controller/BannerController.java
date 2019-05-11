@@ -11,6 +11,7 @@ import Ebamazon.model.CurrentSession;
 import Ebamazon.model.SearchParameters;
 import Ebamazon.model.User;
 import Ebamazon.model.UserStatus;
+import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -203,6 +204,20 @@ import javafx.scene.layout.VBox;
                     }
                 }
             });
+            startLoop();
+        }
+
+        private void startLoop(){
+            AnimationTimer at = new AnimationTimer() {
+                @Override
+                public void handle(long now) {
+                    if (!showAuctions.isSelected() && !showFixed.isSelected()){
+                        showFixed.setSelected(true);
+                        showAuctions.setSelected(true);
+                    }
+                }
+            };
+            at.start();
         }
 
         public CurrentSession getCurrentSession() {

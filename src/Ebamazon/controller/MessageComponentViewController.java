@@ -93,4 +93,20 @@ public class MessageComponentViewController {
     public void unhighlight(){
         messageBox.setBackground(new Background(new BackgroundFill(Color.rgb(209,209,209), CornerRadii.EMPTY, Insets.EMPTY)));
     }
+
+    @Override
+    public String toString() {
+        return "MessageComponentViewController{" +
+                "message=" + message +
+                ", mvc=" + mvc +
+                ", messageIndex=" + messageIndex +
+                ", messageBox=" + messageBox +
+                ", resources=" + resources +
+                ", location=" + location +
+                ", senderLabel=" + senderLabel +
+                ", dateLabel=" + dateLabel +
+                ", subjectLabel=" + subjectLabel +
+                ", replyButton=" + replyButton +
+                '}';
+    }
 }

@@ -103,6 +103,7 @@ public class MessageViewController {
     //called by the delete button.  deletes the selected message view, and deletes the message from the db
     @FXML
     void delete(ActionEvent event) {
+        System.out.println(currentMCVC.toString());
         //delete selected message from db
         currentSession.getCurUser().deleteMessage(currentMCVC.getMessage());
         //remove the controller from the list
