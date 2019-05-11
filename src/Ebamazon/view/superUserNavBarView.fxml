@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="690.0" prefWidth="144.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.SuperUserNavBarViewController">
+   <children>
+      <Button fx:id="homeButton" mnemonicParsing="false" onAction="#loadHomeView" prefWidth="144.0" text="Home" />
+      <Button fx:id="processApplicationsButton" mnemonicParsing="false" onAction="#loadApplicationView" prefWidth="144.0" text="Process Applications" />
+      <Button fx:id="processAuctionsButton" mnemonicParsing="false" onAction="#loadAuctionView" prefWidth="144.0" text="Process Auctions" />
+      <Button fx:id="processComplaintsButton" mnemonicParsing="false" onAction="#loadComplaintView" prefWidth="144.0" text="Process Complaints" />
+      <Button fx:id="processAppealsButton" mnemonicParsing="false" prefWidth="144.0" text="Process Appeals" />
+      <Button fx:id="issueWarningButton" mnemonicParsing="false" prefWidth="144.0" text="Issue Warning" />
+      <Button fx:id="removeUserButton" mnemonicParsing="false" onAction="#loadRemoveView" prefWidth="144.0" text="Remove User" />
+      <Button fx:id="tabooWordListButton" mnemonicParsing="false" onAction="#loadTabooView" prefWidth="144.0" text="Taboo Word List" />
+      <Button fx:id="transactionStatsButton" mnemonicParsing="false" onAction="#loadTransactionView" prefWidth="144.0" text="Transaction Stats" />
+   </children>
+</VBox>

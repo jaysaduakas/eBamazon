@@ -3,10 +3,7 @@ package Ebamazon.model.DataAccessLayer;
 import Ebamazon.model.Taboo;
 import javafx.scene.control.Tab;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.AbstractQueue;
 import java.util.ArrayList;
 
@@ -32,6 +29,51 @@ public class TabooDAO {
             con.close();
         }
         return  list;
+    }
+
+    public static boolean insertTaboo(Taboo taboo){
+        Connection con = DBConnection.getConnection();
+        boolean truthFlag = false;
+        try{
+            String query = "INSERT INTO Taboo VALUES (?,?,NOW())";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, taboo.getWord().toLowerCase());
+            statement.setString(2, taboo.getSuperUser().getUsername());
+            statement.executeUpdate();
+            truthFlag = true;
+        }catch (SQLException e){
+            System.out.println("SQL ERROR inserting new taboo word");
+        }
+
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return truthFlag;
+    }
+
+    public static boolean deleteTaboo(String taboo){
+        Connection con = DBConnection.getConnection();
+        boolean truthFlag = false;
+        try{
+            String query = "DELETE FROM Taboo WHERE word=?";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, taboo);
+            statement.executeUpdate();
+            truthFlag = true;
+        }catch (SQLException e){
+            System.out.println("SQL ERROR deleting taboo word");
+        }
+
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return truthFlag;
     }
 
     public static void main(String[] args) {

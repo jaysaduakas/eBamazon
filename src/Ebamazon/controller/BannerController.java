@@ -133,13 +133,31 @@ import javafx.scene.layout.VBox;
                 parent.setAlignment(parent.getCenter(), Pos.TOP_CENTER);
             }
             else if (currentSession.getCurUser().getUserStatus()==UserStatus.SU){
+                FXMLLoader superNavBarView = new FXMLLoader();
+                superNavBarView.setLocation(getClass().getResource("../view/superUserNavBarView.fxml"));
+                VBox navBar = superNavBarView.load();
+                SuperUserNavBarViewController snvc = superNavBarView.getController();
+                snvc.setCurrentSession(currentSession);
+                snvc.setParent(parent);
+                parent.setLeft(navBar);
                 parent.setCenter(null);
+
             }
         }
 
         @FXML
         void logout(ActionEvent event) throws IOException {
             currentSession.setCurUser(new User());
+
+            //reset navbar
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../view/navBarView.fxml"));
+            VBox view = loader.load();
+            parent.setLeft(view);
+            navBarController = loader.getController();
+            navBarController.setCurrentSession(currentSession);
+            navBarController.setParent(parent);
+
             navBarController.configureButtons(currentSession);
             loggedInVBox.setVisible(false);
             loginContainerVBox.setVisible(true);

@@ -2,6 +2,7 @@ package Ebamazon.model;
 
 
 import Ebamazon.model.DataAccessLayer.*;
+import javafx.scene.control.Tab;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class CurrentSession {
         }
     }
 
-    //utilty functions
+    //Ordinary User Functions
     public ArrayList<AuctionResult> generateSearchResults(SearchParameters sp) throws SQLException {
         currentSearchResults = AuctionDAO.getAuctionsByParameter(sp);
         sortSearchResults();
@@ -73,6 +74,11 @@ public class CurrentSession {
     public void setTaxRate(){
         taxRate = TaxDAO.getTaxRate(((OrdinaryUser)curUser).getStateID());
     }
+
+    //Super User Functions
+    public boolean insertTaboo(Taboo taboo){return TabooDAO.insertTaboo(taboo);}
+    public ArrayList<String> getAllTaboos() throws SQLException {return TabooDAO.getTabooWords();}
+    public boolean deleteTaboo(String taboo) {return TabooDAO.deleteTaboo(taboo);}
 
 
 

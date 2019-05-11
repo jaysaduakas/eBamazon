@@ -53,6 +53,9 @@ public class NavBarController {
     private Button userSettingsButton;
 
     @FXML
+    private VBox viewComponent;
+
+    @FXML
     void loadCreateAuctionView(ActionEvent event) throws IOException {
         FXMLLoader createAuctionLoader = new FXMLLoader();
         createAuctionLoader.setLocation(getClass().getResource("../view/createAuctionView.fxml"));
@@ -178,5 +181,9 @@ public class NavBarController {
 
     public void setCurrentSession(CurrentSession currentSession) {
         this.currentSession = currentSession;
+    }
+
+    public VBox getViewComponent() {
+        return viewComponent;
     }
 }

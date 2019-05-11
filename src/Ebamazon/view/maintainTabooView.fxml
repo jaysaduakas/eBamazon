@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.maintainTabooViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.MaintainTabooViewController">
    <children>
       <Label alignment="CENTER" layoutX="202.0" layoutY="14.0" prefHeight="47.0" prefWidth="252.0" text="Maintain Taboo Words List" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0">
          <font>
@@ -36,6 +36,6 @@
             </ScrollPane>
          </children>
       </VBox>
-      <Button fx:id="submitButton" layoutX="572.4" layoutY="180.0" mnemonicParsing="false" onAction="#submitUserSettings" text="Submit" AnchorPane.rightAnchor="30.0" />
+      <Button fx:id="submitButton" layoutX="572.4" layoutY="180.0" mnemonicParsing="false" onAction="#submitTaboo" text="Submit" AnchorPane.rightAnchor="30.0" />
    </children>
 </AnchorPane>
