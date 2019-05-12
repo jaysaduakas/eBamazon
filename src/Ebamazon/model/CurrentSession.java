@@ -4,6 +4,7 @@ package Ebamazon.model;
 import Ebamazon.model.DataAccessLayer.*;
 import javafx.scene.control.Tab;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,46 +15,39 @@ public class CurrentSession {
     private User curUser;
     private boolean isBanned;
     //is suspended
-    private boolean isSuspended;
     //has kickback auctions
-    private boolean hasKickBackAuctions;
-    private boolean hasComplaints;
     private UserStatus userStatus;
     private InputScrubber inputScrubber;
     private ArrayList<AuctionResult> currentSearchResults;
-    private boolean sortByRelevance=true; // if false it implies sorting by seller rating
+    private boolean sortByRelevance = true; // if false it implies sorting by seller rating
     private ArrayList<String> friendsUsernames;
     private double taxRate;
 
-    private ArrayList<Complaint> complaints;
-
     //constructors
-    public CurrentSession(){
+    public CurrentSession() {
         curUser = new User();
         isBanned = false;
         userStatus = UserStatus.GU;
         friendsUsernames = new ArrayList<>();
     }
-    public CurrentSession(User user){
+
+    public CurrentSession(User user) {
         setCurUser(user);
         friendsUsernames = new ArrayList<>();
     }
 
     //set the current user
-    public void setCurUser(User user){
+    public void setCurUser(User user) {
         curUser = user;
-        if (user instanceof OrdinaryUser){
+        if (user instanceof OrdinaryUser) {
             userStatus = UserStatus.OU;
             isBanned = ((OrdinaryUser) user).isBannedStatus();
             updateUserFriends();
             setTaxRate();
-            checkForComplaints();
-        }
-        else if (user instanceof SuperUser){
+        } else if (user instanceof SuperUser) {
             userStatus = UserStatus.SU;
             isBanned = false;
-        }
-        else {
+        } else {
             userStatus = UserStatus.GU;
             isBanned = false;
         }
@@ -65,28 +59,40 @@ public class CurrentSession {
         sortSearchResults();
         return currentSearchResults;
     }
-    public OrdinaryUser getUserByUsername(String username) { return OrdinaryUserDAO.getOrdinaryUser(username);}
-    public void updateUserFriends(){
+
+    public OrdinaryUser getUserByUsername(String username) {
+        return OrdinaryUserDAO.getOrdinaryUser(username);
+    }
+
+    public void updateUserFriends() {
         friendsUsernames.clear();
-        for (Friends f : ((OrdinaryUser)curUser).getFriends()){
-            if (f.getConfirmingFriendID().equals(curUser.getUsername())){
+        for (Friends f : ((OrdinaryUser) curUser).getFriends()) {
+            if (f.getConfirmingFriendID().equals(curUser.getUsername())) {
                 friendsUsernames.add(f.getSuggestingFriendlD());
             } else {
                 friendsUsernames.add(f.getConfirmingFriendID());
             }
         }
     }
+
+    //Update price
+    public void updatePriceFromFriends(Auction a) {
+        //TODO: figure out where to call this
+        BigDecimal discount = new BigDecimal(0.01);
+        BigDecimal temp = new BigDecimal(0);
+        for (String s : friendsUsernames) {
+            if (a.getOrdinaryUser().getUsername() == s) {
+                temp = a.getPrice().multiply(discount);
+                a.setPrice(a.getPrice().subtract(temp));
+            }
+        }
+    }
+
+
     public ArrayList<Bid> getBidsForAuction(Auction auction) {return BidDAO.getBidsForAuction(auction.getAuctionID());}
     public void setTaxRate(){
         taxRate = TaxDAO.getTaxRate(((OrdinaryUser)curUser).getStateID());
     }
-
-    //complaint handling functions
-    private void checkForComplaints(){
-        complaints = ComplaintDAO.getComplaineeComplaints(curUser.getUsername());
-        if (!complaints.isEmpty()) hasComplaints = true;
-    }
-    public boolean updateComplaint(Complaint c) {return ComplaintDAO.updateComplaint(c);}
 
     //Super User Functions
     public boolean insertTaboo(Taboo taboo){return TabooDAO.insertTaboo(taboo);}
@@ -161,42 +167,6 @@ public class CurrentSession {
 
     public double getTaxRate() {
         return taxRate;
-    }
-
-    public boolean isSuspended() {
-        return isSuspended;
-    }
-
-    public void setSuspended(boolean suspended) {
-        isSuspended = suspended;
-    }
-
-    public boolean isHasKickBackAuctions() {
-        return hasKickBackAuctions;
-    }
-
-    public void setHasKickBackAuctions(boolean hasKickBackAuctions) {
-        this.hasKickBackAuctions = hasKickBackAuctions;
-    }
-
-    public boolean isHasComplaints() {
-        return hasComplaints;
-    }
-
-    public void setHasComplaints(boolean hasComplaints) {
-        this.hasComplaints = hasComplaints;
-    }
-
-    public void setTaxRate(double taxRate) {
-        this.taxRate = taxRate;
-    }
-
-    public ArrayList<Complaint> getComplaints() {
-        return complaints;
-    }
-
-    public void setComplaints(ArrayList<Complaint> complaints) {
-        this.complaints = complaints;
     }
 
     public static void main(String[] args) throws SQLException {

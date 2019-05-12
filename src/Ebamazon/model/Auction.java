@@ -120,7 +120,35 @@ public class Auction {
         this.auctionImages = auctionImages;
     }
 
-    @Override //Dont have ArrayLists of images and keywords include in this toString method.
+    public void confirmSale(Bid b){
+        Message m1 = new Message();
+        m1.setMessageContent("New Bid! Please check your auctions");
+        Message m2 = new Message();
+        m2.setMessageContent("You are the winner of an auction! Your credit card has been charged. Check your inbox!");
+
+        //prompt ordinary user to accept
+        ordinaryUser.sendMessage(m1);
+
+        if (fixedOrBid && approvalStatus){ //if sale is fixed and seller approves
+            ordinaryUser.declareWinningBid(b);
+            ordinaryUser.sendMessage(m2);
+        }
+        else if(fixedOrBid && !approvalStatus){ //if sale is fixed and seller denies
+            //insert justification into table
+            setLiveStatus(true);
+        }
+        else if (!fixedOrBid && approvalStatus){ // sale is auction and seller approves (2nd highest wins)
+            //get 2nd highest bid
+            ordinaryUser.declareWinningBid(b);
+            ordinaryUser.sendMessage(m2);
+        }
+        else{   // sale is auction and seller denies
+            //insert justification in table
+            setLiveStatus(true);
+        }
+    }
+
+    @Override //Don't have ArrayLists of images and keywords include in this toString method.
     public String toString() {
         return "Auction{" +
                 "auctionID='" + auctionID + '\'' +
