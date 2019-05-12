@@ -20,6 +20,9 @@ public class OrdinaryUser extends User{
         setUserStatus(UserStatus.OU);
     }
 
+    //utility functions
+    public boolean checkIfUsernameIsPW(){return OrdinaryUserDAO.checkIfPasswordIsUsername(getUsername());}
+
     //edit user info functions
     public boolean updateUserInfo(){
         return OrdinaryUserDAO.setUser(this);

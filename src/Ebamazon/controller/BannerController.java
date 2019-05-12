@@ -7,10 +7,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import Ebamazon.model.CurrentSession;
-import Ebamazon.model.SearchParameters;
-import Ebamazon.model.User;
-import Ebamazon.model.UserStatus;
+import Ebamazon.model.*;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -130,11 +127,23 @@ import javafx.scene.layout.VBox;
             //DETERMINE WHICH SCREEN TO LOAD IF USER IS OU
             if (currentSession.getCurUser().getUserStatus()==UserStatus.OU) {
                 //if user needs to change password
+                if (((OrdinaryUser)currentSession.getCurUser()).checkIfUsernameIsPW()){
+                    FXMLLoader pwChangeLoader = new FXMLLoader();
+                    pwChangeLoader.setLocation(getClass().getResource("../view/passwordChangePromptView.fxml"));
+                    AnchorPane view = pwChangeLoader.load();
+                    PasswordChangeViewController pcvc = pwChangeLoader.getController();
+                    pcvc.setCurrentSession(currentSession);
+                    pcvc.setNavBar(navBarController.getViewComponent());
+                    pcvc.setParent(parent);
+                    //set the view and disable the navbar
+                    parent.setCenter(view);
+                    navBarController.getViewComponent().setDisable(true);
+                }
                 //if user is banned
                 //if user is suspended
 
                 //if user has complaints
-                if (currentSession.isHasComplaints()){
+                else if (currentSession.isHasComplaints()){
                     //load complaint view and pass it all the info
                     FXMLLoader complaintResponseLoader = new FXMLLoader();
                     complaintResponseLoader.setLocation(getClass().getResource("../view/complaintResponseView.fxml"));

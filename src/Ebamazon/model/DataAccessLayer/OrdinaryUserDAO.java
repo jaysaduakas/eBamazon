@@ -159,6 +159,29 @@ public class OrdinaryUserDAO {
         return  truthFlag;
     }
 
+    public static boolean checkIfPasswordIsUsername(String username){
+        boolean truthFlag = false;
+        Connection con = DBConnection.getConnection();
+        String query = "SELECT * FROM OrdinaryUser WHERE username=? AND password=?";
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, username);
+            statement.setString(2, username);
+            ResultSet rs = statement.executeQuery();
+            if  (rs.next()){
+                truthFlag = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return truthFlag;
+    }
+
     public static boolean verifyOrdinaryLogin(String username, String pw){
         boolean truthFlag = false;
         try {
