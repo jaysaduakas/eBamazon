@@ -30,10 +30,12 @@ public class OrdinaryUser extends User{
     public boolean insertUserInfo(){
         //if user with object's username does not exist in the OU table, insert it with the values specified by
         //this object.
+        boolean truthFlag1=false;
+        boolean truthFlag2=false;
         if (!OrdinaryUserDAO.checkExists(getUsername())  && !SuperUserDAO.checkExists(getUsername()))  {
-            OrdinaryUserDAO.submitNewUser(this);
-            PendingApplicationDAO.insertNewUser(getUsername());
-            return true;
+            truthFlag1 = OrdinaryUserDAO.submitNewUser(this);
+            truthFlag2 = PendingApplicationDAO.insertNewUser(getUsername());
+            return truthFlag1 && truthFlag2;
         }
         return false;
     }
