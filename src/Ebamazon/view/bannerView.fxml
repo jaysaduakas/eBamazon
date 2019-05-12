@@ -36,7 +36,7 @@
                      </children>
                   </VBox>
                   <TextField fx:id="priceMin" prefHeight="25.0" prefWidth="65.0" promptText="Price Min" />
-                  <TextField fx:id="priceMax" prefHeight="25.0" prefWidth="65.0" promptText="Pirce Max" />
+                  <TextField fx:id="priceMax" prefHeight="25.0" prefWidth="65.0" promptText="Price Max" />
                </children>
             </HBox>
          </children>

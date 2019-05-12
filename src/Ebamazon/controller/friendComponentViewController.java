@@ -56,7 +56,7 @@ public class friendComponentViewController {
 
         this.friend = friend;
         String friendName;
-        if (friend.getConfirmingFriendID().equals(cs.getCurUser().getUsername())) {
+        if ((friend.getConfirmingFriendID().toLowerCase()).equals(cs.getCurUser().getUsername().toLowerCase())) {
             username.setText(friend.getSuggestingFriendlD());
             friendName = (cs.getUserByUsername(friend.getSuggestingFriendlD())).getName();
         }

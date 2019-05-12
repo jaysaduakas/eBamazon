@@ -125,7 +125,7 @@ public class OrdinaryUserDAO {
                 "\"" + ou.getStateID() + "\", " +
                 "\"" + ou.getCc() + "\", " +
                 "\"" + ou.getPhone() + "\", " +
-                 "0, 0, 0, NULL)";
+                 "0, 0, 0, NOW())";
         //intialize statement and execute statement
         try {
             Statement statement = con.createStatement();
@@ -138,6 +138,27 @@ public class OrdinaryUserDAO {
             return false;
         }
     }
+
+    public static boolean removeUser(OrdinaryUser ou){
+        boolean truthFlag = false;
+        Connection con = DBConnection.getConnection();
+        String query = "DELETE FROM OrdinaryUser WHERE username=?";
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, ou.getUsername());
+            statement.executeUpdate();
+            truthFlag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  truthFlag;
+    }
+
     public static boolean verifyOrdinaryLogin(String username, String pw){
         boolean truthFlag = false;
         try {

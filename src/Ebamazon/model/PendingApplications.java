@@ -5,6 +5,10 @@ import java.sql.Timestamp;
 public class PendingApplications {
     private String userID;
     private Timestamp dateTimeSubmitted;
+
+    public PendingApplications(){
+
+    }
     public PendingApplications(String userID, Timestamp dateTimeSubmitted) {
         this.userID = userID;
         this.dateTimeSubmitted = dateTimeSubmitted;

@@ -53,8 +53,13 @@ public class SuperUserNavBarViewController {
     private Button transactionStatsButton;
 
     @FXML
-    void loadApplicationView(ActionEvent event) {
-
+    void loadApplicationView(ActionEvent event) throws IOException {
+        FXMLLoader applicantLoader = new FXMLLoader();
+        applicantLoader.setLocation(getClass().getResource("../view/processApplicationView.fxml"));
+        AnchorPane view = applicantLoader.load();
+        ProcessApplicationViewController pavc = applicantLoader.getController();
+        pavc.setCurrentSession(currentSession);
+        parent.setCenter(view);
     }
 
     @FXML
