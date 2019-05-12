@@ -109,28 +109,55 @@ import javafx.scene.layout.VBox;
 
         @FXML
         void login(ActionEvent event) throws IOException {
+            //attempt to get user object
             currentSession.setCurUser(currentSession.getCurUser().login(usernameField.getText(), passwordField.getText()));
+            //if not a guest, set greeting
             if (currentSession.getUserStatus() != UserStatus.GU) {
                 loggedInVBox.setVisible(true);
                 loginContainerVBox.setVisible(false);
                 usernameLabel.setText("Hello, " + currentSession.getCurUser().getName() + "!" );
             }
+            //incorrect login info detected
             else {
                 System.out.println("Username/ PW not recognized.");
             }
+            //configure the OU/GU navbar
             navBarController.configureButtons(currentSession);
+            //clear user login fields
             usernameField.setText("");
             passwordField.setText("");
 
-            //intialize homeview controller and view
+            //DETERMINE WHICH SCREEN TO LOAD IF USER IS OU
             if (currentSession.getCurUser().getUserStatus()==UserStatus.OU) {
-                FXMLLoader homeViewLoader = new FXMLLoader();
-                homeViewLoader.setLocation(getClass().getResource("../view/homeView.fxml"));
-                Node homeview = homeViewLoader.load();
-                HomeViewController hvc = homeViewLoader.getController();
-                hvc.setCurrentSession(currentSession);
-                parent.setCenter(homeview);
-                parent.setAlignment(parent.getCenter(), Pos.TOP_CENTER);
+                //if user needs to change password
+                //if user is banned
+                //if user is suspended
+
+                //if user has complaints
+                if (currentSession.isHasComplaints()){
+                    //load complaint view and pass it all the info
+                    FXMLLoader complaintResponseLoader = new FXMLLoader();
+                    complaintResponseLoader.setLocation(getClass().getResource("../view/complaintResponseView.fxml"));
+                    AnchorPane view = complaintResponseLoader.load();
+                    ComplaintResponseViewController crvc = complaintResponseLoader.getController();
+                    crvc.setComplaints(currentSession.getComplaints());
+                    crvc.setCurrentSession(currentSession);
+                    crvc.setParent(parent);
+                    crvc.setNavBar(navBarController.getViewComponent());
+                    //set the view and disable the navbar
+                    parent.setCenter(view);
+                    navBarController.getViewComponent().setDisable(true);
+                }
+                //if user has no work to do
+                else {
+                    FXMLLoader homeViewLoader = new FXMLLoader();
+                    homeViewLoader.setLocation(getClass().getResource("../view/homeView.fxml"));
+                    Node homeview = homeViewLoader.load();
+                    HomeViewController hvc = homeViewLoader.getController();
+                    hvc.setCurrentSession(currentSession);
+                    parent.setCenter(homeview);
+                    parent.setAlignment(parent.getCenter(), Pos.TOP_CENTER);
+                }
             }
             else if (currentSession.getCurUser().getUserStatus()==UserStatus.SU){
                 FXMLLoader superNavBarView = new FXMLLoader();

@@ -10,6 +10,8 @@ public class Complaint {
     private Timestamp dateTimeSent;
     private boolean alreadyJustified;
     private String superUser;
+    private boolean complaineeResponded;
+    private String complaineeResponse;
 
     // Getters and setters
 
@@ -60,7 +62,24 @@ public class Complaint {
     public void setSuperUser(String superUser) {
         this.superUser = superUser;
     }
-// TODO: Instance methods
+
+    public boolean isComplaineeResponded() {
+        return complaineeResponded;
+    }
+
+    public void setComplaineeResponded(boolean complaineeResponded) {
+        this.complaineeResponded = complaineeResponded;
+    }
+
+    public String getComplaineeResponse() {
+        return complaineeResponse;
+    }
+
+    public void setComplaineeResponse(String complaineeResponse) {
+        this.complaineeResponse = complaineeResponse;
+    }
+
+    // TODO: Instance methods
 
 
     @Override
