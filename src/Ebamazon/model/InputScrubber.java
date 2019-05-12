@@ -8,10 +8,16 @@ import java.util.ArrayList;
 public class InputScrubber {
 
     private ArrayList<String> tabooWords;
+    private boolean tabooFound;
 
     public InputScrubber() throws SQLException {
         tabooWords = TabooDAO.getTabooWords();
+        tabooFound = false;
         }
+
+    public boolean hasTaboo() {
+        return tabooFound;
+    }
 
     public String scrubInput(String input) {
         String output = input;
@@ -30,6 +36,7 @@ public class InputScrubber {
     // This function modified from
     // https://stackoverflow.com/questions/5054995/how-to-replace-case-insensitive-literal-substrings-in-java
     private String replaceAll(String findtxt, String replacetxt, String str, String strOut) {
+        tabooFound = false;
         if (str == null) {
             return null;
         }
@@ -49,6 +56,7 @@ public class InputScrubber {
                 // to an infinite-replacement loop scenario: Go to replace "a" with "aa" but
                 // increment counter by only 1 and you'll be replacing 'a's forever.
                 counter += replacetxt.length();
+                tabooFound = true;
             } else {
                 counter++; // No match so move on to next character to check for a findtxt string match.
             }
