@@ -1,14 +1,5 @@
 package Ebamazon.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import Ebamazon.model.*;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
@@ -16,16 +7,22 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class CreateAuctionViewController {
     private CurrentSession currentSession;
@@ -103,6 +100,8 @@ public class CreateAuctionViewController {
 
     @FXML
     void submitAuction(ActionEvent event) {
+        if(scrubAuction()) { } //TODO: IF TABOO FOUND THEN SEND WARNING & FLAG FOR OU TO EDIT
+
         Auction auction = new Auction();
         auction.setDescription(auctionDescriptionTextArea.getText());
         auction.setKeywords(assembleAuctionKeywords());
@@ -114,6 +113,23 @@ public class CreateAuctionViewController {
         auction.setOrdinaryUser(ou);
         ou.submitAuction(auction);
         clearAll();
+    }
+
+    private boolean scrubAuction() {
+        boolean tabooFound = false;
+        try {
+            InputScrubber is = new InputScrubber();
+            auctionDescriptionTextArea.setText(is.scrubInput(auctionDescriptionTextArea.getText()));
+            if(is.hasTaboo()) {tabooFound = true;}
+            auctionKeywordsTextField.setText(is.scrubInput(auctionKeywordsTextField.getText()));
+            if(is.hasTaboo()) {tabooFound = true;}
+            auctionTitleTextField.setText(is.scrubInput(auctionTitleTextField.getText()));
+            if(is.hasTaboo()) {tabooFound = true;}
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return tabooFound;
     }
 
     @FXML
