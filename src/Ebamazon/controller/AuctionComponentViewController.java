@@ -78,6 +78,7 @@ public class AuctionComponentViewController {
         else {
             int compareValue = (BigDecimal.valueOf(Long.parseLong(bidBox.getText())).compareTo(minPrice));
             if ((compareValue >= 0)) {
+                b.setAmount(BigDecimal.valueOf(Long.parseLong(bidBox.getText()))); // YOU FORGOT TO SET ME :[
                 b.getOrdinaryUser().makeBid(b);
             }
         }
