@@ -24,6 +24,7 @@ public class WarningDAO {
             truthFlag = true;
         } catch (SQLException e){
             System.out.println("SQL Error inserting warning");
+            System.out.println(e.toString());
         }
 
         try {

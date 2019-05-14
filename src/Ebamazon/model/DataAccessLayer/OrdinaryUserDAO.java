@@ -32,6 +32,7 @@ public class OrdinaryUserDAO {
                 ou.setBannedStatus(bitToBool(rs.getInt("bannedStatus")));
                 ou.setVIPStatus(bitToBool(rs.getInt("VIPStatus")));
                 ou.setDateTimeRegistered(rs.getTimestamp("dateTimeRegistered"));
+                ou.setSuspendedStatus(bitToBool(rs.getInt("suspendedStatus")));
                 //close db connection
                 con.close();
                 //return new user object
@@ -79,7 +80,8 @@ public class OrdinaryUserDAO {
                     "phoneNumber=\"" + ou.getPhone() + "\", " +
                     "approvedStatus=" + boolToBit(ou.isApprovedStatus()) + ", " +
                     "bannedStatus=" + boolToBit(ou.isBannedStatus()) + ", " +
-                    "VIPStatus=" + boolToBit(ou.isVIPStatus()) + " WHERE username="
+                    "VIPStatus=" + boolToBit(ou.isVIPStatus()) + ", " +
+                    "suspendedStatus=" + boolToBit(ou.isSuspendedStatus()) + " WHERE username="
                     + "\"" + ou.getUsername() + "\"";
             //intialize statement and result set
             Statement statement = con.createStatement();
@@ -125,7 +127,7 @@ public class OrdinaryUserDAO {
                 "\"" + ou.getStateID() + "\", " +
                 "\"" + ou.getCc() + "\", " +
                 "\"" + ou.getPhone() + "\", " +
-                 "0, 0, 0, NOW())";
+                 "0, 0, 0, NOW(), 0)";
         //intialize statement and execute statement
         try {
             Statement statement = con.createStatement();
@@ -133,8 +135,9 @@ public class OrdinaryUserDAO {
             con.close();
             return true;
         }
-        catch (Exception e){
+        catch (SQLException e){
             System.out.println("An error occurred inserting a new user");
+            System.out.println(e.toString());
             return false;
         }
     }

@@ -15,6 +15,7 @@ public class OrdinaryUser extends User{
     private boolean bannedStatus;
     private boolean VIPStatus;
     private Timestamp dateTimeRegistered;
+    private boolean suspendedStatus;
 
     public OrdinaryUser(){
         setUserStatus(UserStatus.OU);
@@ -128,6 +129,14 @@ public class OrdinaryUser extends User{
 
     public void setDateTimeRegistered(Timestamp dateTimeRegistered) {
         this.dateTimeRegistered = dateTimeRegistered;
+    }
+
+    public boolean isSuspendedStatus() {
+        return suspendedStatus;
+    }
+
+    public void setSuspendedStatus(boolean suspendedStatus) {
+        this.suspendedStatus = suspendedStatus;
     }
 
     @Override
