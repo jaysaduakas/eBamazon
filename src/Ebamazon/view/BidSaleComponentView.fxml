@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="viewComponent" alignment="CENTER" prefWidth="502.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.BidComponentViewController">
+<VBox fx:id="viewComponent" alignment="CENTER" prefWidth="502.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.BidSaleComponentViewController">
    <children>
       <Label fx:id="title" alignment="CENTER" prefHeight="19.0" prefWidth="599.0" style="-fx-background-color: darkgrey;" text="Auction Title">
          <font>
@@ -15,8 +15,8 @@
       </Label>
       <HBox alignment="CENTER" prefHeight="44.0" prefWidth="599.0" style="-fx-background-color: lightgrey;">
          <children>
-            <Label fx:id="date" alignment="BASELINE_LEFT" prefHeight="17.0" prefWidth="165.0" text="Purchase Date" />
-            <Label fx:id="seller" alignment="TOP_LEFT" prefHeight="17.0" prefWidth="178.0" text="Seller Username">
+            <Label fx:id="date" alignment="BASELINE_LEFT" prefHeight="17.0" prefWidth="165.0" text="Bid Date" />
+            <Label fx:id="seller" alignment="TOP_LEFT" prefHeight="17.0" prefWidth="178.0" text="Buyer Username">
                <padding>
                   <Insets left="10.0" />
                </padding>

@@ -48,7 +48,7 @@ public class AuctionDAO {
         }
     }
 
-    public static ArrayList<Auction> getAuctionsByUsername(String username) throws SQLException {
+    public static ArrayList<Auction> getAuctionsByUsername(String username)  {
         ArrayList<Auction> returnList = new ArrayList<>();
         Connection con = DBConnection.getConnection();
         try{
@@ -77,9 +77,13 @@ public class AuctionDAO {
         }catch(SQLException e){
             System.out.println("SQL Error retrieving auctions by username");
         }
-        finally {
+
+        try {
             con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
         return returnList;
     }
 

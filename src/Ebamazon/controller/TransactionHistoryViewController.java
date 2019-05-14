@@ -3,6 +3,7 @@ package Ebamazon.controller;
 import java.net.URL;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,29 +35,15 @@ public class TransactionHistoryViewController {
     private URL location;
 
     @FXML
-    private Button searchHistory;
-
-    @FXML
-    private DatePicker fromDate;
-
-    @FXML
-    private DatePicker toDate;
-
-    @FXML
     private VBox bidComponentVBox;
 
     @FXML
-    void updateTransactions(ActionEvent event) {
-        setUpTransactionHistory();
-    }
+    private VBox bidSoldComponentVBox1;
 
     @FXML
     void initialize() {
-        assert searchHistory != null : "fx:id=\"searchHistory\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
-        assert fromDate != null : "fx:id=\"fromDate\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
-        assert toDate != null : "fx:id=\"toDate\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
         assert bidComponentVBox != null : "fx:id=\"bidComponentVBox\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
-
+        assert bidSoldComponentVBox1 != null : "fx:id=\"bidSoldComponentVBox1\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
     }
 
     public CurrentSession getCurrentSession() {
@@ -65,9 +52,11 @@ public class TransactionHistoryViewController {
 
     public void setCurrentSession(CurrentSession currentSession) {
         this.currentSession = currentSession;
+        setUpBuys();
+        setUpSales();
     }
 
-    private void attachNewBidView(Bid bid) {
+    private void attachNewBidView(Bid bid, Auction a) {
         FXMLLoader bidComponentLoader = new FXMLLoader();
         bidComponentLoader.setLocation(getClass().getResource("../view/bidComponentView.fxml"));
         try {
@@ -77,29 +66,44 @@ public class TransactionHistoryViewController {
             System.out.println("bid component controller not loaded");
         }
         BidComponentViewController bcvc = bidComponentLoader.getController();
-        Auction auction = currentSession.getAuctionByID(bid.getAuction().getAuctionID());
-        bcvc.setAuction(auction);
+        bcvc.setAuction(a);
         bcvc.setBid(bid);
         bcvc.setUpBidComponent();
     }
 
-    private void setUpTransactionHistory() {
-        //This is kinda broken fam
-        //It's a timeformat issue cuz it's needs to be in Timestamp form mofo
-        //Format ldFrom and ldTo into yyyy-mm-dd hh:mm:ss[.fffffffff]
-        LocalDate localFromDate = fromDate.getValue();
-        Instant instant = Instant.from(localFromDate.atStartOfDay(ZoneId.systemDefault()));
-        Date ldFrom = Date.from(instant);
-        Date ldTo = Date.from(instant);
-        Timestamp tsFromDate =  Timestamp.valueOf(String.valueOf(ldFrom));
-        Timestamp tsToDate =  Timestamp.valueOf(String.valueOf(ldTo));
+    private void setUpBuys() {
         ArrayList<Bid> bids = ((OrdinaryUser) currentSession.getCurUser()).getWinningsBids();
         for (Bid b : bids) {
             Auction auction = currentSession.getAuctionByID(b.getAuction().getAuctionID());
-            if (auction.getDateTimeConfirmed().after(tsFromDate) && auction.getDateTimeConfirmed().before(tsToDate)) {//date time between from date and to date)
-                attachNewBidView(b);
+            attachNewBidView(b, auction);
+        }
+    }
+    private void setUpSales(){
+        ArrayList<Auction> auctions = ((OrdinaryUser)currentSession.getCurUser()).getMyAuctions();
+        for (Auction a: auctions){
+            ArrayList<Bid> bs= currentSession.getBidsForAuction(a);
+            for(Bid b: bs){
+                if(b.isWinningBid()){
+                    attachNewSaleView(b, a);
+                }
             }
         }
+
+    }
+    private void attachNewSaleView(Bid bid, Auction a) {
+        FXMLLoader bidSaleComponentLoader = new FXMLLoader();
+        bidSaleComponentLoader.setLocation(getClass().getResource("../view/bidSaleComponentView.fxml"));
+        try {
+            VBox auctionComponent = bidSaleComponentLoader.load();
+            bidSoldComponentVBox1.getChildren().add(auctionComponent);
+        } catch (Exception e) {
+            System.out.println("bid component controller not loaded");
+        }
+        BidSaleComponentViewController bscvc = bidSaleComponentLoader.getController();
+        bscvc.setAuction(a);
+        bscvc.setBid(bid);
+        bscvc.setUpBidSaleComponent();
+
     }
 
 

@@ -49,11 +49,10 @@ public class BidComponentViewController {
     public void setUpBidComponent(){
         if(auction != null && bid != null) {
             title.setText(auction.getTitle());
-            date.setText(auction.getDateTimeConfirmed().toString());
+            date.setText(bid.getDateTimeMade().toString());
             seller.setText(auction.getOrdinaryUser().getUsername());
             price.setText(auction.getPrice().toString());
         }
-
     }
 
     public VBox getViewComponent() {

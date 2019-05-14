@@ -52,8 +52,7 @@ public class OrdinaryUser extends User{
     public void submitAuction(Auction auction){
         AuctionDAO.insertAuction(auction);
     }
-    public ArrayList<Auction> getMyAuctions() throws SQLException { return AuctionDAO.getAuctionsByUsername(this.getUsername());}
-
+    public ArrayList<Auction> getMyAuctions() { return AuctionDAO.getAuctionsByUsername(this.getUsername()); }
     //friend functions
     public boolean makeFriendRequest(Friends friend) {return FriendDAO.insertFriendRequest(friend);}
     public boolean confirmFriend(Friends friends) {return FriendDAO.confirmFriendRequest(friends);}

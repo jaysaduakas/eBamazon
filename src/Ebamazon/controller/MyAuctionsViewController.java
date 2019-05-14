@@ -86,8 +86,6 @@ public class MyAuctionsViewController {
                     }
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

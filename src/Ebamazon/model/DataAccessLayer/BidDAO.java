@@ -77,7 +77,7 @@ public class BidDAO {
         Connection con = DBConnection.getConnection();
         ArrayList<Bid> returnList = new ArrayList<>();
         try {
-            String query = "SELECT * FROM bid WHERE username=? AND winningBid=1";
+            String query = "SELECT * FROM bid WHERE username=? AND winningBid=1 Order By dateTimeMade";
             PreparedStatement statement = con.prepareStatement(query);
             statement.setString(1, username);
             ResultSet rs  = statement.executeQuery();
