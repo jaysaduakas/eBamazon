@@ -14,7 +14,16 @@ public class Warning {
 
     //inserts a warning
     public boolean insertWarning(){
-        return WarningDAO.insertWarning(this);
+        if (WarningDAO.insertWarning(this)){
+            Message message = new Message();
+            message.setSubject("You Have Received A Warning");
+            message.setSender("Mod Team");
+            message.setReceiver(ordinaryUser.getUsername());
+            message.setMessageContent("You Have Received A Warning For the Following Reason:\n\n" + reason + "\n\nIf you receive 2 or more Warnings you will be suspended.");
+            ordinaryUser.sendMessage(message);
+            return true;
+        }
+        return false;
     }
 
 

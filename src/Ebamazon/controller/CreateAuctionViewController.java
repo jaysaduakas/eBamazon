@@ -88,8 +88,38 @@ public class CreateAuctionViewController {
         priceTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,10}([\\.]\\d{0,2})?")) {
+                if (!newValue.matches("\\d{0,8}([\\.]\\d{0,2})?")) {
                     priceTextField.setText(oldValue);
+                }
+            }
+        });
+        auctionTitleTextField.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                                Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (auctionTitleTextField.getText().length() >= 20) {
+
+                        // if it's 20th character then just setText to previous
+                        // one
+                        auctionTitleTextField.setText(auctionTitleTextField.getText().substring(0, 20));
+                    }
+                }
+            }
+        });
+        auctionDescriptionTextArea.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                                Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (auctionDescriptionTextArea.getText().length() >= 2048) {
+
+                        // if it's 20th character then just setText to previous
+                        // one
+                        auctionDescriptionTextArea.setText(auctionDescriptionTextArea.getText().substring(0, 2048));
+                    }
                 }
             }
         });
@@ -197,6 +227,8 @@ public class CreateAuctionViewController {
         at.start();
     }
 
+
+    //IF ANY INDIVIDUAL KEYWORD IS > 100 CHAR IT WILL THROW SQL ERROR
     private ArrayList<String> parseKeywordInput(){
         String [] auctionKeywords = auctionKeywordsTextField.getText().split(" ");
         return new ArrayList<String>(Arrays.asList(auctionKeywords));

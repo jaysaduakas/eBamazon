@@ -38,6 +38,7 @@ public class AuctionDAO {
             }
         }catch (SQLException e){
             System.out.println("SQL Exception inserting auction");
+            System.out.println(e.toString());
         }
         try {
             con.close();

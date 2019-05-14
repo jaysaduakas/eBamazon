@@ -85,6 +85,11 @@ public class ProcessAuctionViewController {
             attachAuction();
         } else {
             su.denyAuction(curAuction);
+            Warning warning = new Warning();
+            warning.setSuperUser((SuperUser)currentSession.getCurUser());
+            warning.setOrdinaryUser(curAuction.getOrdinaryUser());
+            warning.setReason("Your Auction was Denied with the following justification: \n" + reason.getText());
+            warning.insertWarning();
             //add auction to blacklisted items.
             //set reason blacklisted to reason in box
             attachAuction();
