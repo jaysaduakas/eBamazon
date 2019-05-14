@@ -17,7 +17,8 @@ public class WarningDAO {
         try {
             PreparedStatement statement = con.prepareStatement(query);
             statement.setString(1, warning.getOrdinaryUser().getUsername());
-            statement.setString(2, warning.getSuperUser().getUsername());
+            if (warning.getSuperUser()!=null) statement.setString(2, warning.getSuperUser().getUsername());
+            else statement.setString(2,"AutoMod");
             statement.setString(3, warning.getReason());
             statement.executeUpdate();
             truthFlag = true;

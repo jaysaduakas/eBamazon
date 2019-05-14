@@ -1,5 +1,7 @@
 package Ebamazon.model;
 
+import Ebamazon.model.DataAccessLayer.WarningDAO;
+
 import java.sql.Timestamp;
 
 public class Warning {
@@ -8,6 +10,13 @@ public class Warning {
     private SuperUser superUser;
     private String reason;
     private Timestamp dateTimeIssued;
+
+
+    //inserts a warning
+    public boolean insertWarning(){
+        return WarningDAO.insertWarning(this);
+    }
+
 
     // Getters and setters
     public OrdinaryUser getOrdinaryUser() {

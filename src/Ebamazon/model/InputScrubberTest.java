@@ -9,6 +9,7 @@ public class InputScrubberTest { // Test code for InputScrubber class.
         System.out.println(input);
         try {
             InputScrubber test = new InputScrubber();
+
             String output = test.scrubInput(input);
             System.out.println(output);
             System.out.println("hasTaboo() = " + test.hasTaboo());

@@ -100,9 +100,20 @@ public class CreateAuctionViewController {
 
     @FXML
     void submitAuction(ActionEvent event) {
-        if(scrubAuction()) { } //TODO: IF TABOO FOUND THEN SEND WARNING & FLAG FOR OU TO EDIT
 
         Auction auction = new Auction();
+        if(scrubAuction()) {
+            Warning warning = new Warning();
+            warning.setSuperUser(null);
+            warning.setOrdinaryUser((OrdinaryUser)currentSession.getCurUser());
+            warning.setReason("Your Auction, " + auctionTitleTextField.getText() + ", contains a taboo word.");
+            warning.insertWarning();
+            auction.setKickback(true);
+        } else{
+            auction.setKickback(false);
+        }
+
+
         auction.setDescription(auctionDescriptionTextArea.getText());
         auction.setKeywords(assembleAuctionKeywords());
         auction.setTitle(auctionTitleTextField.getText());

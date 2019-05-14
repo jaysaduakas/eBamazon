@@ -22,12 +22,15 @@ public class InputScrubber {
     public String scrubInput(String input) {
         String output = input;
         String censor = "";
+        tabooFound = false;
         // Scrub out taboo words by replacing with asterisks.
         for (String word : tabooWords) {
+            //creates a string with the proper amount of *s
             censor = "";
             for (int i=0; i<word.length(); i++) {
                 censor += "*";
             }
+            //reaplce that word in the input
             output = replaceAll(word, censor, input, output);
         }
         return output;
@@ -36,16 +39,20 @@ public class InputScrubber {
     // This function modified from
     // https://stackoverflow.com/questions/5054995/how-to-replace-case-insensitive-literal-substrings-in-java
     private String replaceAll(String findtxt, String replacetxt, String str, String strOut) {
-        tabooFound = false;
+
         if (str == null) {
             return null;
         }
+        /*  commented out because they will return the ORIGINAL string if the string is longer than ANY of the words
+                    that is to say the stirng "fark" will not be censored, because its length < "schlub".length
         if (findtxt == null || findtxt.length() == 0) {
             return str;
         }
         if (findtxt.length() > str.length()) {
             return str;
         }
+        */
+
         int counter = 0;
         String thesubstr = "";
         while ((counter < str.length()) && (str.substring(counter).length() >= findtxt.length())) {
@@ -66,6 +73,6 @@ public class InputScrubber {
 
     public static void main(String[] args) throws SQLException {
         InputScrubber is = new InputScrubber();
-        System.out.println(is.scrubInput("fArk schlub bob granny"));
+        System.out.println(is.scrubInput("fark") + is.hasTaboo());
     }
 }
