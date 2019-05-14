@@ -17,7 +17,7 @@ public class Auction {
     private Timestamp dateTimeCreated;
     private Timestamp dateTimeConfirmed;
     private BigDecimal price;
-    private boolean fixedOrBid;
+    private boolean fixed;
     private ArrayList<AuctionKeyword> keywords;
     private ArrayList<AuctionImage> auctionImages;
     private String description;
@@ -80,12 +80,12 @@ public class Auction {
         this.price = price.setScale(2, RoundingMode.DOWN);;
     }
 
-    public boolean isFixedOrBid() {
-        return fixedOrBid;
+    public boolean isFixed() {
+        return fixed;
     }
 
-    public void setFixedOrBid(boolean fixedOrBid) {
-        this.fixedOrBid = fixedOrBid;
+    public void setFixed(boolean fixedOrBid) {
+        this.fixed = fixedOrBid;
     }
 
     public ArrayList<AuctionKeyword> getKeywords() {
@@ -129,15 +129,15 @@ public class Auction {
         //prompt ordinary user to accept
         ordinaryUser.sendMessage(m1);
 
-        if (fixedOrBid && approvalStatus){ //if sale is fixed and seller approves
+        if (fixed && approvalStatus){ //if sale is fixed and seller approves
             ordinaryUser.declareWinningBid(b);
             ordinaryUser.sendMessage(m2);
         }
-        else if(fixedOrBid && !approvalStatus){ //if sale is fixed and seller denies
+        else if(fixed && !approvalStatus){ //if sale is fixed and seller denies
             //insert justification into table
             setLiveStatus(true);
         }
-        else if (!fixedOrBid && approvalStatus){ // sale is auction and seller approves (2nd highest wins)
+        else if (!fixed && approvalStatus){ // sale is auction and seller approves (2nd highest wins)
             //get 2nd highest bid
             ordinaryUser.declareWinningBid(b);
             ordinaryUser.sendMessage(m2);
@@ -157,7 +157,7 @@ public class Auction {
                 ", dateTimeCreated='" + dateTimeCreated + '\'' +
                 ", dateTimeConfirmed='" + dateTimeConfirmed + '\'' +
                 ", price='" + price + '\'' +
-                ", fixedOrBid=" + fixedOrBid +
+                ", fixedOrBid=" + fixed +
                 ", description=" + description +
                 ", liveStatus=" + liveStatus +
                 '}';

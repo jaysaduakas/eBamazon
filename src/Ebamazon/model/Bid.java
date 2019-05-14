@@ -52,24 +52,6 @@ public class Bid {
         this.ordinaryUser = ordinaryUser;
     }
 
-    public void submitBids(Auction a, Bid b){
-        //if no discount
-        if (a.isLiveStatus()) { //if live, insert bid
-            a.getOrdinaryUser().makeBid(b);
-        }
-        if (a.isFixedOrBid()) { //if sale is fixed
-            a.setLiveStatus(false);
-            a.confirmSale(b);
-        }
-        //if bid amount == max price --> close auction
-        else if(a.getPrice() == b.getAmount()){ //if sale is auction and at max price
-            a.setLiveStatus(false);
-            a.confirmSale(b);
-        }
-        else{
-            a.confirmSale(b);
-        }
-    }
 
 
     @Override

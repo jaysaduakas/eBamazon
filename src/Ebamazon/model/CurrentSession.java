@@ -96,18 +96,6 @@ public class CurrentSession {
     public ArrayList<String> getAllTaboos() throws SQLException {return TabooDAO.getTabooWords();}
     public boolean deleteTaboo(String taboo) {return TabooDAO.deleteTaboo(taboo);}
 
-    //Update price
-    public void updatePriceFromFriends(Auction a) {
-        //TODO: figure out where to call this
-        BigDecimal discount = new BigDecimal(0.01);
-        BigDecimal temp = new BigDecimal(0);
-        for (String s : friendsUsernames) {
-            if (a.getOrdinaryUser().getUsername() == s) {
-                temp = a.getPrice().multiply(discount);
-                a.setPrice(a.getPrice().subtract(temp));
-            }
-        }
-    }
 
     private void sortSearchResults(){
         if(isSortByRelevance()){

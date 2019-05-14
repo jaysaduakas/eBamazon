@@ -19,6 +19,10 @@ import javafx.scene.layout.AnchorPane;
 
 public class AuctionComponentViewController {
 
+    private BigDecimal minPrice;
+    private AuctionResult auctionResult;
+    private CurrentSession currentSession;
+
     @FXML
     private ResourceBundle resources;
 
@@ -57,8 +61,29 @@ public class AuctionComponentViewController {
 
     @FXML
     void bid(ActionEvent event) {
-
+        //make new Bid oject
+        //set values for that bid
+        //if fixed bid.amount=minprice, else = bidBox.getText (check BigDec.valueOF(getText) >= minPrice
+        //call currentSession.getCurUser
+        //cast that return to a new OrdinaryUser object
+        //call ou.makeBid(Bid)
+        Bid b = new Bid();
+        b.setAuction(auctionResult);
+        b.setOrdinaryUser((OrdinaryUser)currentSession.getCurUser());
+        b.setWinningBid(false);
+        if (bidBox.getText().equals("") || auctionResult.isFixed()){
+            b.setAmount(minPrice);
+            b.getOrdinaryUser().makeBid(b);
+        }
+        else {
+            int compareValue = (BigDecimal.valueOf(Long.parseLong(bidBox.getText())).compareTo(minPrice));
+            if ((compareValue >= 0)) {
+                b.getOrdinaryUser().makeBid(b);
+            }
+        }
     }
+
+
 
     @FXML
     void initialize() {
@@ -126,6 +151,30 @@ public class AuctionComponentViewController {
         return price;
     }
 
+    public BigDecimal getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(BigDecimal minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public AuctionResult getAuctionResult() {
+        return auctionResult;
+    }
+
+    public void setAuctionResult(AuctionResult auctionResult) {
+        this.auctionResult = auctionResult;
+    }
+
+    public CurrentSession getCurrentSession() {
+        return currentSession;
+    }
+
+    public void setCurrentSession(CurrentSession currentSession) {
+        this.currentSession = currentSession;
+    }
+
     public void setUpAuction(Auction a, CurrentSession cs){
         getTitle().setText(a.getTitle());
         getCreator().setText(a.getOrdinaryUser().getUsername());
@@ -145,9 +194,9 @@ public class AuctionComponentViewController {
             }
         }
         getPrice().setText(price );
-        getBidBox().setPromptText(
-                ((a.getPrice().add(a.getPrice().multiply(BigDecimal.valueOf(cs.getTaxRate()))).add(
-                a.getPrice().multiply(BigDecimal.valueOf(-0.05)))).setScale(2, RoundingMode.DOWN)).toString());
+        minPrice = (a.getPrice().add(a.getPrice().multiply(BigDecimal.valueOf(cs.getTaxRate()))).add(
+                a.getPrice().multiply(BigDecimal.valueOf(-0.05)))).setScale(2, RoundingMode.DOWN);
+        getBidBox().setPromptText((minPrice.toString()));
         Image image = null;
         for (AuctionImage i : a.getAuctionImages()){
             if (i.isDefaultPhoto()){

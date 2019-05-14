@@ -2,7 +2,6 @@ package Ebamazon.model.DataAccessLayer;
 
 import Ebamazon.model.*;
 
-import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +15,7 @@ public class AuctionDAO {
                     auction.getTitle() + "\", \"" +
                     auction.getOrdinaryUser().getUsername() + "\", NOW(), 0, 0, " +
                     auction.getPrice() + ", " +
-                    boolToBit(auction.isFixedOrBid()) + ", \"" +
+                    boolToBit(auction.isFixed()) + ", \"" +
                     auction.getDescription() + "\")";
             Statement statement = con.createStatement();
             statement.executeUpdate(query);
@@ -66,7 +65,7 @@ public class AuctionDAO {
                 auction.setApprovalStatus(bitToBool(rs.getInt("approvalStatus")));
                 auction.setLiveStatus(bitToBool(rs.getInt("liveStatus")));
                 auction.setPrice(rs.getBigDecimal("price"));
-                auction.setFixedOrBid(bitToBool(rs.getInt("fixedAuction")));
+                auction.setFixed(bitToBool(rs.getInt("fixedAuction")));
                 auction.setDescription(rs.getString("description"));
                 auction.setAuctionImages(AuctionImageDAO.getAuctionImages(auction.getAuctionID()));
                 auction.setKeywords(AuctionKeywordDAO.getAuctionKeywords(auction.getAuctionID()));
@@ -166,7 +165,7 @@ public class AuctionDAO {
                 auction.setApprovalStatus(bitToBool(rs.getInt("approvalStatus")));
                 auction.setLiveStatus(bitToBool(rs.getInt("liveStatus")));
                 auction.setPrice(rs.getBigDecimal("price"));
-                auction.setFixedOrBid(bitToBool(rs.getInt("fixedAuction")));
+                auction.setFixed(bitToBool(rs.getInt("fixedAuction")));
                 auction.setDescription(rs.getString("description"));
                 auction.setAuctionImages(AuctionImageDAO.getAuctionImages(auction.getAuctionID()));
                 auction.setKeywords(AuctionKeywordDAO.getAuctionKeywords(auction.getAuctionID()));

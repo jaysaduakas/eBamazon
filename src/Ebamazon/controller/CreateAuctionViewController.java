@@ -107,7 +107,7 @@ public class CreateAuctionViewController {
         auction.setKeywords(assembleAuctionKeywords());
         auction.setTitle(auctionTitleTextField.getText());
         auction.setAuctionImages(assembleAuctionImages());
-        auction.setFixedOrBid((fixedPriceRadioButton.isSelected()));
+        auction.setFixed((fixedPriceRadioButton.isSelected()));
         auction.setPrice(BigDecimal.valueOf(Double.parseDouble(priceTextField.getText())));
         OrdinaryUser ou = (OrdinaryUser) currentSession.getCurUser();
         auction.setOrdinaryUser(ou);
