@@ -3,6 +3,7 @@ package Ebamazon.controller;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Ebamazon.model.*;
@@ -73,13 +74,13 @@ public class AuctionComponentViewController {
         b.setWinningBid(false);
         if (bidBox.getText().equals("") || auctionResult.isFixed()){
             b.setAmount(minPrice);
-            b.getOrdinaryUser().makeBid(b);
+            if (b.getOrdinaryUser().makeBid(b)) disableBidding();
         }
         else {
             int compareValue = (BigDecimal.valueOf(Double.parseDouble(bidBox.getText())).compareTo(minPrice));
             if ((compareValue >= 0)) {
                 b.setAmount(BigDecimal.valueOf(Double.parseDouble(bidBox.getText()))); // YOU FORGOT TO SET ME :[
-                b.getOrdinaryUser().makeBid(b);
+                if (b.getOrdinaryUser().makeBid(b)) disableBidding();
             }
         }
     }
@@ -211,6 +212,22 @@ public class AuctionComponentViewController {
         keywords = keywords.substring(0, keywords.length()-2);
         getKeywords().setText(keywords);
         updateDisplayImage(image);
+
+        if (a.isFixed()) bidBox.setDisable(true);
+
+        disableBidding();
+    }
+
+    private void disableBidding(){
+        ArrayList<Bid> bidArray = currentSession.getBidsForAuction(auctionResult);
+        for(Bid b : bidArray){
+            if ((currentSession.getCurUser().getUsername()).equals(b.getOrdinaryUser().getUsername())){
+                bidButton.setDisable(true);
+                price.setText("you bid: "  + b.getAmount().toString());
+                bidBox.setDisable(true);
+            }
+        }
+
     }
 
 }
