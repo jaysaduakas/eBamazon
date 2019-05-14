@@ -22,6 +22,9 @@ public class Auction {
     private ArrayList<AuctionImage> auctionImages;
     private String description;
     private boolean liveStatus;
+    private boolean kickback;
+
+
 
     //Getters and Setters
     public int getAuctionID() {
@@ -118,6 +121,14 @@ public class Auction {
 
     public void setAuctionImages(ArrayList<AuctionImage> auctionImages) {
         this.auctionImages = auctionImages;
+    }
+
+    public boolean isKickback() {
+        return kickback;
+    }
+
+    public void setKickback(boolean kickback) {
+        this.kickback = kickback;
     }
 
     public void confirmSale(Bid b){
