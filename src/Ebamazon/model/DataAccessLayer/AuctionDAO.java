@@ -186,6 +186,7 @@ public class AuctionDAO {
     }
 
 
+
     private static boolean bitToBool(int i){
         return i != 0;
     }

@@ -71,6 +71,7 @@ public class Auction {
         return dateTimeConfirmed;
     }
 
+
     public void setDateTimeConfirmed(Timestamp dateTimeConfirmed) {
         this.dateTimeConfirmed = dateTimeConfirmed;
     }
