@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Circle;
 
 public class AuctionComponentViewController {
 
@@ -49,10 +50,16 @@ public class AuctionComponentViewController {
     private Label desc;
 
     @FXML
+    private Circle liveCircle;
+
+    @FXML
     private Label keywords;
 
     @FXML
     private TextField bidBox;
+
+    @FXML
+    private Label fixedLabel;
 
     @FXML
     private Button bidButton;
@@ -73,7 +80,7 @@ public class AuctionComponentViewController {
         else {
             int compareValue = (BigDecimal.valueOf(Double.parseDouble(bidBox.getText())).compareTo(minPrice));
             if ((compareValue >= 0)) {
-                b.setAmount(BigDecimal.valueOf(Double.parseDouble(bidBox.getText()))); // YOU FORGOT TO SET ME :[
+                b.setAmount(BigDecimal.valueOf(Double.parseDouble(bidBox.getText())));
                 if (b.getOrdinaryUser().makeBid(b)) disableBidding();
             }
         }
@@ -89,8 +96,10 @@ public class AuctionComponentViewController {
         assert creator != null : "fx:id=\"creator\" was not injected: check your FXML file 'auctionComponentView.fxml'.";
         assert date != null : "fx:id=\"date\" was not injected: check your FXML file 'auctionComponentView.fxml'.";
         assert desc != null : "fx:id=\"desc\" was not injected: check your FXML file 'auctionComponentView.fxml'.";
+        assert liveCircle != null : "fx:id=\"liveCircle\" was not injected: check your FXML file 'auctionComponentView.fxml'.";
         assert keywords != null : "fx:id=\"keywords\" was not injected: check your FXML file 'auctionComponentView.fxml'.";
         assert bidBox != null : "fx:id=\"bidBox\" was not injected: check your FXML file 'auctionComponentView.fxml'.";
+        assert fixedLabel != null : "fx:id=\"fixedLabel\" was not injected: check your FXML file 'auctionComponentView.fxml'.";
         assert bidButton != null : "fx:id=\"bidButton\" was not injected: check your FXML file 'auctionComponentView.fxml'.";
         assert price != null : "fx:id=\"price\" was not injected: check your FXML file 'auctionComponentView.fxml'.";
         bidBox.textProperty().addListener(new ChangeListener<String>() {
@@ -171,6 +180,22 @@ public class AuctionComponentViewController {
         this.currentSession = currentSession;
     }
 
+    public Circle getLiveCircle() {
+        return liveCircle;
+    }
+
+    public void setLiveCircle(Circle liveCircle) {
+        this.liveCircle = liveCircle;
+    }
+
+    public Label getFixedLabel() {
+        return fixedLabel;
+    }
+
+    public void setFixedLabel(Label fixedLabel) {
+        this.fixedLabel = fixedLabel;
+    }
+
     public void setUpAuction(Auction a, CurrentSession cs){
         getTitle().setText(a.getTitle());
         getCreator().setText(a.getOrdinaryUser().getUsername());
@@ -207,7 +232,10 @@ public class AuctionComponentViewController {
         getKeywords().setText(keywords);
         updateDisplayImage(image);
 
-        if (a.isFixed()) bidBox.setDisable(true);
+        if (a.isFixed()) {
+            bidBox.setDisable(true);
+            fixedLabel.setVisible(true);
+        }
 
         disableBidding();
     }
@@ -217,7 +245,8 @@ public class AuctionComponentViewController {
         for(Bid b : bidArray){
             if ((currentSession.getCurUser().getUsername()).equals(b.getOrdinaryUser().getUsername())){
                 bidButton.setDisable(true);
-                price.setText("you bid: "  + b.getAmount().toString());
+                bidButton.setText("Placed!");
+                price.setText("Your Bid: "  + b.getAmount().toString());
                 bidBox.setDisable(true);
             }
         }
