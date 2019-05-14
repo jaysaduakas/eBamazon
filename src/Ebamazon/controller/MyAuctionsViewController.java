@@ -48,35 +48,37 @@ public class MyAuctionsViewController {
     public void populateAuctionList(OrdinaryUser ou){
         try {
             for (Auction a : ou.getMyAuctions()){
-                FXMLLoader auctionComponentViewLoader = new FXMLLoader();
-                auctionComponentViewLoader.setLocation(getClass().getResource("../view/auctionComponentView.fxml"));
-                AnchorPane view = auctionComponentViewLoader.load();
-                AuctionComponentViewController acvc = auctionComponentViewLoader.getController();
-                acvc.getTitle().setText(a.getTitle());
-                acvc.getBidBox().setVisible(false);
-                acvc.getBidButton().setVisible(false);
-                acvc.getCreator().setText(a.getOrdinaryUser().getUsername());
-                acvc.getDesc().setText(a.getDescription());
-                if (a.getDateTimeConfirmed()!=null){
-                    acvc.getDate().setText(a.getDateTimeConfirmed().toString());
-                }else{
-                    acvc.getDate().setText("Auction Is Not Yet Confirmed by SuperUser");
-                }
-                acvc.getPrice().setText("Price: " + a.getPrice());
-                Image image = null;
-                for (AuctionImage i : a.getAuctionImages()){
-                    if (i.isDefaultPhoto()){
-                        image = i.getImage();
+                if (!a.isDenied() && !a.isKickback()) {
+                    FXMLLoader auctionComponentViewLoader = new FXMLLoader();
+                    auctionComponentViewLoader.setLocation(getClass().getResource("../view/auctionComponentView.fxml"));
+                    AnchorPane view = auctionComponentViewLoader.load();
+                    AuctionComponentViewController acvc = auctionComponentViewLoader.getController();
+                    acvc.getTitle().setText(a.getTitle());
+                    acvc.getBidBox().setVisible(false);
+                    acvc.getBidButton().setVisible(false);
+                    acvc.getCreator().setText(a.getOrdinaryUser().getUsername());
+                    acvc.getDesc().setText(a.getDescription());
+                    if (a.getDateTimeConfirmed() != null) {
+                        acvc.getDate().setText(a.getDateTimeConfirmed().toString());
+                    } else {
+                        acvc.getDate().setText("Auction Is Not Yet Confirmed by SuperUser");
                     }
+                    acvc.getPrice().setText("Price: " + a.getPrice());
+                    Image image = null;
+                    for (AuctionImage i : a.getAuctionImages()) {
+                        if (i.isDefaultPhoto()) {
+                            image = i.getImage();
+                        }
+                    }
+                    String keywords = "";
+                    for (AuctionKeyword k : a.getKeywords()) {
+                        keywords += k.getKeyword() + ", ";
+                    }
+                    keywords = keywords.substring(0, keywords.length() - 2);
+                    acvc.getKeywords().setText(keywords);
+                    acvc.updateDisplayImage(image);
+                    scrollableVBox.getChildren().add(view);
                 }
-                String keywords = "";
-                for (AuctionKeyword k : a.getKeywords()){
-                    keywords+= k.getKeyword() + ", ";
-                }
-                keywords = keywords.substring(0, keywords.length()-2);
-                acvc.getKeywords().setText(keywords);
-                acvc.updateDisplayImage(image);
-                scrollableVBox.getChildren().add(view);
             }
         } catch (SQLException e) {
             e.printStackTrace();

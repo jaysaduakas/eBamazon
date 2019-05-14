@@ -63,8 +63,13 @@ public class SuperUserNavBarViewController {
     }
 
     @FXML
-    void loadAuctionView(ActionEvent event) {
-
+    void loadAuctionView(ActionEvent event) throws IOException {
+        FXMLLoader auctionLoader = new FXMLLoader();
+        auctionLoader.setLocation(getClass().getResource("../view/processAuctionView.fxml"));
+        AnchorPane view = auctionLoader.load();
+        ProcessAuctionViewController pavc = auctionLoader.getController();
+        pavc.setCurrentSession(currentSession);
+        parent.setCenter(view);
     }
 
     @FXML

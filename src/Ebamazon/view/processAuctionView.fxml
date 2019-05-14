@@ -6,40 +6,58 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.ProcessAuctionViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.ProcessAuctionViewController">
    <children>
       <Label alignment="CENTER" focusTraversable="false" layoutX="202.0" layoutY="14.0" text="Process Auction" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font size="32.0" />
          </font>
       </Label>
-      <VBox layoutY="100.0" prefWidth="520.0" AnchorPane.leftAnchor="20.0">
+      <VBox layoutX="20.0" layoutY="76.0" prefWidth="520.0" AnchorPane.leftAnchor="20.0">
          <children>
+            <HBox alignment="CENTER" prefHeight="32.0" prefWidth="520.0">
+               <children>
+                  <Label text="AUCTIONS REMAINING: ">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="numRemainingLabel" alignment="BASELINE_RIGHT" prefHeight="26.0" prefWidth="333.0" text="#######">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Label fx:id="bannedWarning" prefHeight="20.0" prefWidth="519.0" text="CAUTION - AUCTION CONTAINS KEYWORDS ASSOCIATED WITH BANNED AUCTION" textFill="RED">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
             <Label focusTraversable="false" text="Auction Title">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Label>
-            <TextField alignment="TOP_LEFT" promptText="Auto populated from database" />
+            <TextField fx:id="title" alignment="TOP_LEFT" editable="false" promptText="Auto populated from database" />
             <Label focusTraversable="false" text="Description">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
             </Label>
-            <TextArea fx:id="auctionDescTextArea" prefHeight="75.0" promptText="Auto populated from database" />
+            <TextArea fx:id="auctionDescTextArea" editable="false" prefHeight="75.0" promptText="Auto populated from database" />
             <Label focusTraversable="false" text="Keywords">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
             </Label>
-            <TextField alignment="TOP_LEFT" promptText="Auto populated from database" />
+            <TextField fx:id="keywords" alignment="TOP_LEFT" editable="false" promptText="Auto populated from database" />
             <HBox>
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
@@ -49,15 +67,12 @@
                               <Insets top="15.0" />
                            </VBox.margin>
                         </Label>
-                        <RadioButton mnemonicParsing="false" text="Bid (Auction)">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="Type" />
-                           </toggleGroup>
+                        <RadioButton fx:id="bid" disable="true" mnemonicParsing="false" text="Bid (Auction)">
                            <VBox.margin>
                               <Insets top="5.0" />
                            </VBox.margin>
                         </RadioButton>
-                        <RadioButton mnemonicParsing="false" text="Fixed Price" toggleGroup="$Type">
+                        <RadioButton fx:id="fixed" disable="true" mnemonicParsing="false" text="Fixed Price">
                            <VBox.margin>
                               <Insets top="5.0" />
                            </VBox.margin>
@@ -67,13 +82,13 @@
                               <Insets top="15.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField alignment="TOP_LEFT" maxWidth="200.0" promptText="Auto populated from database" />
+                        <TextField fx:id="price" alignment="TOP_LEFT" editable="false" maxWidth="200.0" promptText="Auto populated from database" />
                         <Label focusTraversable="false" text="Picture">
                            <VBox.margin>
                               <Insets top="15.0" />
                            </VBox.margin>
                         </Label>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </VBox>
                   <VBox prefWidth="250.0">
@@ -86,18 +101,12 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <RadioButton mnemonicParsing="false" text="Accept Auction">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="Type" />
-                           </toggleGroup>
+                        <RadioButton fx:id="accept" mnemonicParsing="false" onAction="#disableReason" text="Accept Auction">
                            <VBox.margin>
                               <Insets top="5.0" />
                            </VBox.margin>
                         </RadioButton>
-                        <RadioButton mnemonicParsing="false" text="Deny Auction">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="Type1" />
-                           </toggleGroup>
+                        <RadioButton fx:id="deny" mnemonicParsing="false" onAction="#enableReason" text="Deny Auction">
                            <VBox.margin>
                               <Insets top="5.0" />
                            </VBox.margin>
@@ -110,7 +119,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextArea prefHeight="75.0" promptText="Enter text here." />
+                        <TextArea fx:id="reason" disable="true" prefHeight="75.0" promptText="Enter text here." />
                      </children>
                      <HBox.margin>
                         <Insets left="75.0" />
@@ -120,6 +129,6 @@
             </HBox>
          </children>
       </VBox>
-      <Button layoutX="572.4" layoutY="552.0" mnemonicParsing="false" text="Submit" AnchorPane.rightAnchor="30.0" />
+      <Button fx:id="submit" layoutX="572.4" layoutY="552.0" mnemonicParsing="false" onAction="#submit" text="Submit" AnchorPane.rightAnchor="30.0" />
    </children>
 </AnchorPane>

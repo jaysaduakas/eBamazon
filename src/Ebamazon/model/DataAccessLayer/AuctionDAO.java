@@ -11,13 +11,13 @@ public class AuctionDAO {
     public static void insertAuction(Auction auction){
         Connection con = DBConnection.getConnection();
         try{
-            String query = "INSERT INTO Auction (title, creator, dateTimeCreated,approvalStatus,liveStatus,price,fixedAuction,description,kickedBack) VALUES (\"" +
+            String query = "INSERT INTO Auction (title, creator, dateTimeCreated,approvalStatus,liveStatus,price,fixedAuction,description,kickedBack, denied) VALUES (\"" +
                     auction.getTitle() + "\", \"" +
                     auction.getOrdinaryUser().getUsername() + "\", NOW(), 0, 0, " +
                     auction.getPrice() + ", " +
                     boolToBit(auction.isFixed()) + ", \"" +
                     auction.getDescription() + "\", " +
-                    boolToBit(auction.isKickback()) + ")";
+                    boolToBit(auction.isKickback()) + ", 0)";
             Statement statement = con.createStatement();
             statement.executeUpdate(query);
             String idstring = "SELECT LAST_INSERT_ID();";
@@ -70,6 +70,7 @@ public class AuctionDAO {
                 auction.setAuctionImages(AuctionImageDAO.getAuctionImages(auction.getAuctionID()));
                 auction.setKeywords(AuctionKeywordDAO.getAuctionKeywords(auction.getAuctionID()));
                 auction.setKickback(bitToBool(rs.getInt("kickedBack")));
+                auction.setDenied(bitToBool(rs.getInt("denied")));
                 returnList.add(auction);
             }
         }catch(SQLException e){
@@ -171,6 +172,7 @@ public class AuctionDAO {
                 auction.setAuctionImages(AuctionImageDAO.getAuctionImages(auction.getAuctionID()));
                 auction.setKeywords(AuctionKeywordDAO.getAuctionKeywords(auction.getAuctionID()));
                 auction.setKickback(bitToBool(rs.getInt("kickedBack")));
+                auction.setDenied(bitToBool(rs.getInt("denied")));
             }
         }catch (SQLException e){
             System.out.println("SQL error retrieving auction by ID");
@@ -183,6 +185,85 @@ public class AuctionDAO {
         }
 
         return auction;
+    }
+
+    public static ArrayList<Auction> getPendingAuctionsByDate(){
+        Connection con = DBConnection.getConnection();
+        ArrayList<Auction> auctions = new ArrayList<>();
+        String query = "SELECT * FROM Auction WHERE approvalStatus=0 AND kickedBack=0 AND denied=0 ORDER BY dateTimeCreated";
+        try {
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+
+            while (rs.next()){
+                Auction auction = new Auction();
+                auction.setAuctionID(rs.getInt("auctionID"));
+                auction.setTitle(rs.getString("title"));
+                auction.setOrdinaryUser(OrdinaryUserDAO.getOrdinaryUser(rs.getString("creator")));
+                auction.setDateTimeCreated(rs.getTimestamp("dateTimeCreated"));
+                auction.setDateTimeConfirmed(rs.getTimestamp("dateTimeConfirmed"));
+                auction.setApprovalStatus(bitToBool(rs.getInt("approvalStatus")));
+                auction.setLiveStatus(bitToBool(rs.getInt("liveStatus")));
+                auction.setPrice(rs.getBigDecimal("price"));
+                auction.setFixed(bitToBool(rs.getInt("fixedAuction")));
+                auction.setDescription(rs.getString("description"));
+                auction.setAuctionImages(AuctionImageDAO.getAuctionImages(auction.getAuctionID()));
+                auction.setKeywords(AuctionKeywordDAO.getAuctionKeywords(auction.getAuctionID()));
+                auction.setKickback(bitToBool(rs.getInt("kickedBack")));
+                auction.setDenied(bitToBool(rs.getInt("denied")));
+                auctions.add(auction);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return auctions;
+    }
+
+    public static boolean confirmAuction(Auction auction){
+        Connection con = DBConnection.getConnection();
+        boolean truthFlag = false;
+        String query = "UPDATE auction SET livestatus=1, approvalStatus=1, dateTimeConfirmed=NOW() WHERE auctionID=?";
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, auction.getAuctionID());
+            statement.executeUpdate();
+            truthFlag=true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return truthFlag;
+    }
+
+    public static boolean denyAuction(Auction auction){
+        Connection con = DBConnection.getConnection();
+        boolean truthFlag = false;
+        String query = "UPDATE auction SET denied=1 WHERE auctionID=?";
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, auction.getAuctionID());
+            statement.executeUpdate();
+            truthFlag=true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return truthFlag;
     }
 
 

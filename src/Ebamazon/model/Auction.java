@@ -23,6 +23,7 @@ public class Auction {
     private String description;
     private boolean liveStatus;
     private boolean kickback;
+    private boolean denied;
 
 
 
@@ -130,6 +131,14 @@ public class Auction {
 
     public void setKickback(boolean kickback) {
         this.kickback = kickback;
+    }
+
+    public boolean isDenied() {
+        return denied;
+    }
+
+    public void setDenied(boolean denied) {
+        this.denied = denied;
     }
 
     public void confirmSale(Bid b){
