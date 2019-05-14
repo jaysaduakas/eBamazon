@@ -61,9 +61,9 @@ public class AuctionComponentViewController {
 
     @FXML
     void bid(ActionEvent event) {
-        //make new Bid oject
+        //make new Bid object
         //set values for that bid
-        //if fixed bid.amount=minprice, else = bidBox.getText (check BigDec.valueOF(getText) >= minPrice
+        //if fixed bid.amount=minPrice, else = bidBox.getText (check BigDec.valueOF(getText) >= minPrice
         //call currentSession.getCurUser
         //cast that return to a new OrdinaryUser object
         //call ou.makeBid(Bid)
@@ -76,9 +76,9 @@ public class AuctionComponentViewController {
             b.getOrdinaryUser().makeBid(b);
         }
         else {
-            int compareValue = (BigDecimal.valueOf(Long.parseLong(bidBox.getText())).compareTo(minPrice));
+            int compareValue = (BigDecimal.valueOf(Double.parseDouble(bidBox.getText())).compareTo(minPrice));
             if ((compareValue >= 0)) {
-                b.setAmount(BigDecimal.valueOf(Long.parseLong(bidBox.getText()))); // YOU FORGOT TO SET ME :[
+                b.setAmount(BigDecimal.valueOf(Double.parseDouble(bidBox.getText()))); // YOU FORGOT TO SET ME :[
                 b.getOrdinaryUser().makeBid(b);
             }
         }
