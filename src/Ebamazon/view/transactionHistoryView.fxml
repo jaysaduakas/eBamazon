@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.TransactionHistoryViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.TransactionHistoryViewController">
    <children>
       <Label alignment="CENTER" layoutX="202.0" layoutY="14.0" prefHeight="47.0" prefWidth="252.0" text="Transaction History" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font size="32.0" />
          </font>
       </Label>
-      <Button layoutX="572.4" layoutY="117.0" mnemonicParsing="false" text="Submit" AnchorPane.rightAnchor="30.0" />
+      <Button fx:id="searchHistory" layoutX="572.4" layoutY="117.0" mnemonicParsing="false" onAction="#updateTransactions" text="Submit" AnchorPane.rightAnchor="30.0" />
       <VBox layoutY="100.0" prefWidth="520.0" AnchorPane.leftAnchor="20.0">
          <children>
             <HBox spacing="50.0">
@@ -25,7 +25,7 @@
                   <VBox>
                      <children>
                         <Label text="From Date" />
-                        <DatePicker editable="false" promptText="m/d/yyyy" />
+                        <DatePicker fx:id="fromDate" editable="false" promptText="m/d/yyyy" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -34,7 +34,7 @@
                   <VBox>
                      <children>
                         <Label text="To Date" />
-                        <DatePicker editable="false" promptText="m/d/yyyy" />
+                        <DatePicker fx:id="toDate" editable="false" promptText="m/d/yyyy" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -49,14 +49,14 @@
             </Label>
             <ScrollPane prefHeight="200.0" prefWidth="200.0">
                <content>
-                  <VBox prefHeight="200.0" />
+                  <VBox fx:id="bidComponentVBox" prefHeight="200.0" />
                </content></ScrollPane>
-            <Button mnemonicParsing="false" prefWidth="150.0" text="Add to Friends List">
+            <Button mnemonicParsing="false" prefWidth="150.0" text="Add to Friends List" visible="false">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefWidth="150.0" text="Lodge Complaint">
+            <Button mnemonicParsing="false" prefWidth="150.0" text="Lodge Complaint" visible="false">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>

@@ -42,6 +42,37 @@ public class BidDAO {
         return returnList;
     }
 
+    public static ArrayList<Bid> getBidsForUser(String username){
+        Connection con = DBConnection.getConnection();
+        ArrayList<Bid> returnList = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM bid WHERE username=?";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, username);
+            ResultSet rs  = statement.executeQuery();
+
+            while (rs.next()){
+                Bid bid = new Bid();
+                bid.setAuction(AuctionDAO.getAuctionByID(rs.getInt("AuctionID")));
+                bid.setAmount(rs.getBigDecimal("amount"));
+                bid.setWinningBid(bitToBool(rs.getInt("winningBid")));
+                bid.setOrdinaryUser(OrdinaryUserDAO.getOrdinaryUser(rs.getString("username")));
+                bid.setDateTimeMade(rs.getTimestamp("dateTimeMade"));
+                returnList.add(bid);
+            }
+
+        }catch (SQLException e){
+            System.out.println("SQL error retrieving bids by user");
+        }
+
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return returnList;
+    }
+
     public static ArrayList<Bid> getWinningBids(String username){
         Connection con = DBConnection.getConnection();
         ArrayList<Bid> returnList = new ArrayList<>();

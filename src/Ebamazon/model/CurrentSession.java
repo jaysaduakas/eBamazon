@@ -96,6 +96,8 @@ public class CurrentSession {
     public ArrayList<String> getAllTaboos() throws SQLException {return TabooDAO.getTabooWords();}
     public boolean deleteTaboo(String taboo) {return TabooDAO.deleteTaboo(taboo);}
 
+    //Utility FUnction
+    public Auction getAuctionByID(int id) {return AuctionDAO.getAuctionByID(id);}
 
     private void sortSearchResults(){
         if(isSortByRelevance()){

@@ -135,8 +135,16 @@ public class NavBarController {
     }
 
     @FXML
-    void loadTransactionHistoryView(ActionEvent event) {
-
+    void loadTransactionHistoryView(ActionEvent event) throws IOException {
+        //intialize settingsViewLoader
+        FXMLLoader transLoader = new FXMLLoader();
+        transLoader.setLocation(getClass().getResource("../view/transactionHistoryView.fxml"));
+        AnchorPane trans = transLoader.load();
+        //set private members for controller
+        TransactionHistoryViewController thvc = transLoader.getController();
+        thvc.setCurrentSession(currentSession);
+        //set center display to view
+        parent.setCenter(trans);
     }
 
     @FXML

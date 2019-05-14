@@ -62,12 +62,6 @@ public class AuctionComponentViewController {
 
     @FXML
     void bid(ActionEvent event) {
-        //make new Bid object
-        //set values for that bid
-        //if fixed bid.amount=minPrice, else = bidBox.getText (check BigDec.valueOF(getText) >= minPrice
-        //call currentSession.getCurUser
-        //cast that return to a new OrdinaryUser object
-        //call ou.makeBid(Bid)
         Bid b = new Bid();
         b.setAuction(auctionResult);
         b.setOrdinaryUser((OrdinaryUser)currentSession.getCurUser());

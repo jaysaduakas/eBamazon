@@ -147,7 +147,7 @@ public class AuctionDAO {
         return returnList;
     }
 
-    public static AuctionResult getAuctionByID(int id) throws SQLException {
+    public static AuctionResult getAuctionByID(int id) {
         Connection con = DBConnection.getConnection();
         AuctionResult auction = new AuctionResult();
         try {
@@ -173,8 +173,10 @@ public class AuctionDAO {
         }catch (SQLException e){
             System.out.println("SQL error retrieving auction by ID");
         }
-        finally {
+        try {
             con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return auction;
     }

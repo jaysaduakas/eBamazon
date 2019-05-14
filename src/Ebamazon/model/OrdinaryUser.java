@@ -66,7 +66,6 @@ public class OrdinaryUser extends User{
     public ArrayList<Bid> getWinningsBids() { return BidDAO.getWinningBids(getUsername());}
     public boolean declareWinningBid(Bid bid) { return BidDAO.declareWinningBid(bid);}
 
-
     //getters and setters
     public String getAddress() {
         return address;
