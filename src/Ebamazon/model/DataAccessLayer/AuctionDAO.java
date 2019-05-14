@@ -11,12 +11,13 @@ public class AuctionDAO {
     public static void insertAuction(Auction auction){
         Connection con = DBConnection.getConnection();
         try{
-            String query = "INSERT INTO Auction (title, creator, dateTimeCreated,approvalStatus,liveStatus,price,fixedAuction,description) VALUES (\"" +
+            String query = "INSERT INTO Auction (title, creator, dateTimeCreated,approvalStatus,liveStatus,price,fixedAuction,description,kickedBack) VALUES (\"" +
                     auction.getTitle() + "\", \"" +
                     auction.getOrdinaryUser().getUsername() + "\", NOW(), 0, 0, " +
                     auction.getPrice() + ", " +
                     boolToBit(auction.isFixed()) + ", \"" +
-                    auction.getDescription() + "\")";
+                    auction.getDescription() + "\", " +
+                    boolToBit(auction.isKickback()) + ")";
             Statement statement = con.createStatement();
             statement.executeUpdate(query);
             String idstring = "SELECT LAST_INSERT_ID();";
@@ -54,7 +55,6 @@ public class AuctionDAO {
             PreparedStatement statement = con.prepareStatement(query);
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
-            System.out.println("rs been returned");
             while (rs.next()){
                 Auction auction = new Auction();
                 auction.setAuctionID(rs.getInt("auctionID"));
@@ -69,6 +69,7 @@ public class AuctionDAO {
                 auction.setDescription(rs.getString("description"));
                 auction.setAuctionImages(AuctionImageDAO.getAuctionImages(auction.getAuctionID()));
                 auction.setKeywords(AuctionKeywordDAO.getAuctionKeywords(auction.getAuctionID()));
+                auction.setKickback(bitToBool(rs.getInt("kickedBack")));
                 returnList.add(auction);
             }
         }catch(SQLException e){
@@ -147,7 +148,7 @@ public class AuctionDAO {
         return returnList;
     }
 
-    public static AuctionResult getAuctionByID(int id) throws SQLException {
+    public static AuctionResult getAuctionByID(int id) {
         Connection con = DBConnection.getConnection();
         AuctionResult auction = new AuctionResult();
         try {
@@ -169,13 +170,18 @@ public class AuctionDAO {
                 auction.setDescription(rs.getString("description"));
                 auction.setAuctionImages(AuctionImageDAO.getAuctionImages(auction.getAuctionID()));
                 auction.setKeywords(AuctionKeywordDAO.getAuctionKeywords(auction.getAuctionID()));
+                auction.setKickback(bitToBool(rs.getInt("kickedBack")));
             }
         }catch (SQLException e){
             System.out.println("SQL error retrieving auction by ID");
         }
-        finally {
+
+        try {
             con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
         return auction;
     }
 
