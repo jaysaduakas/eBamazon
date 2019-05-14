@@ -6,10 +6,12 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="auctionComponent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.AuctionComponentViewController">
    <children>
+      <Label fx:id="keywords" alignment="TOP_LEFT" layoutX="14.0" layoutY="291.0" prefHeight="91.0" prefWidth="180.0" text="Keywords" wrapText="true" />
       <ImageView fx:id="auctionImage" fitHeight="115.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
          <image>
             <Image url="@../../resources/testimage.png" />
@@ -23,8 +25,9 @@
       <Label fx:id="creator" layoutX="221.0" layoutY="70.0" text="SellerUsername" />
       <Label fx:id="date" layoutX="221.0" layoutY="101.0" text="DateCreated" />
       <Label fx:id="desc" alignment="TOP_LEFT" layoutX="14.0" layoutY="142.0" prefHeight="149.0" prefWidth="336.0" text="Description" wrapText="true" AnchorPane.topAnchor="143.0" />
-      <Label fx:id="keywords" alignment="TOP_LEFT" layoutX="14.0" layoutY="291.0" prefHeight="91.0" prefWidth="180.0" text="Keywords" wrapText="true" />
-      <TextField fx:id="bidBox" layoutX="341.0" layoutY="356.0" promptText="Place Bid" />
+      <Circle fx:id="liveCircle" fill="#17b960" layoutX="13.0" layoutY="388.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <TextField fx:id="bidBox" layoutX="318.0" layoutY="356.0" prefHeight="27.0" prefWidth="171.0" promptText="Place Bid" />
+      <Label fx:id="fixedLabel" layoutX="358.0" layoutY="171.0" text="This Is A Fixed Price Item!" visible="false" />
       <Button fx:id="bidButton" layoutX="490.0" layoutY="356.0" mnemonicParsing="false" onAction="#bid" text="Place Bid!" />
       <Label fx:id="price" alignment="TOP_LEFT" layoutX="351.0" layoutY="232.0" prefHeight="122.0" prefWidth="209.0" text="Price" wrapText="true">
          <font>

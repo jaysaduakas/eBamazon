@@ -77,6 +77,12 @@ public class MyAuctionsViewController {
                 acvc.getKeywords().setText(keywords);
                 acvc.updateDisplayImage(image);
                 scrollableVBox.getChildren().add(view);
+                if(!a.isLiveStatus()){
+                    acvc.getLiveCircle().setVisible(false);
+                }
+                if(a.isFixed()){
+                    acvc.getFixedLabel().setVisible(true);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
