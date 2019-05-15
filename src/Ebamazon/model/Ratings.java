@@ -4,6 +4,7 @@ import Ebamazon.model.DataAccessLayer.RatingsDAO;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Ratings {
     private String Rater;
@@ -23,8 +24,11 @@ public class Ratings {
         DateTimeRated = dateTimeRated;
     }
 
-    public static ArrayList<Ratings> getLastThreeByUser(String username) {return RatingsDAO.getLastThreeRatings(username); }
+
+    //ratings functions
+
     public boolean insertRating(){ return RatingsDAO.submitRating(this);}
+
     public static double getAverageRating(String username){
         double sum = 0;
         int divisor = 0;
@@ -33,6 +37,35 @@ public class Ratings {
             divisor++;
         }
         return sum/divisor;
+    }
+
+    public static boolean isReckless(String username){
+        ArrayList<Ratings> ratings = getLastThreeByUser(username);
+
+        double sum = 0;
+        int numberLow = 0;
+        if (ratings.size() >= 3) {
+            for (Ratings r : ratings) {
+                if (r.getRating()<=1) numberLow++;
+                sum += r.getRating();
+            }
+        }
+        else {
+            return false;
+        }
+
+        return (sum >= 15 || numberLow >= 3);
+    }
+
+    private static ArrayList<Ratings> getLastThreeByUser(String username) {return RatingsDAO.getLastThreeRatings(username); }
+
+
+    public static boolean userHasThreeDifferentRaters(String username){
+        HashSet noDupSet = new HashSet();
+        for (Ratings r : RatingsDAO.getAllRatingsForUser(username)){
+            noDupSet.add(r.getRater());
+        }
+        return (noDupSet.size() >= 3);
     }
 
     public String getRater() {
