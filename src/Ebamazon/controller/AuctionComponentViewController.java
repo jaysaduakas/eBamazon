@@ -240,10 +240,14 @@ public class AuctionComponentViewController {
             minPrice = a.getPrice().add(taxOnPrice).setScale(2, RoundingMode.DOWN);
             for (String friend : cs.getFriendsUsernames()){
                 if (a.getOrdinaryUser().getUsername().equals(friend)){
-                    price += " - Discount(5%) " + friendDiscount.setScale(2, RoundingMode.DOWN).toString();
+                    price += " - Friend(5%) " + friendDiscount.setScale(2, RoundingMode.DOWN).toString();
                     minPrice = minPrice.subtract(friendDiscount);
                 }
             }
+        }
+        if (((OrdinaryUser)currentSession.getCurUser()).isVIPStatus()){
+            price += " - VIP(5%) " + friendDiscount.setScale(2, RoundingMode.DOWN).toString();
+            minPrice = minPrice.subtract(friendDiscount);
         }
         getPrice().setText(price );
         getBidBox().setPromptText((minPrice.toString()));

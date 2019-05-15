@@ -38,6 +38,7 @@ public class TwoWarningViewController {
     @FXML
     void resign(ActionEvent event) {
         ((OrdinaryUser)currentSession.getCurUser()).setBannedStatus(true);
+        ((OrdinaryUser)currentSession.getCurUser()).changeUserPW(null);
         ((OrdinaryUser)currentSession.getCurUser()).updateUserInfo();
     }
 

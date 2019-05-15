@@ -100,9 +100,16 @@ public class OrdinaryUserDAO {
             //retrieve connection from DBConnection static method
             Connection con = DBConnection.getConnection();
             //prepare query
-            String query = "UPDATE OrdinaryUser SET " +
-                    "password=\"" + pw + "\" WHERE username=\""
-                    + ou.getUsername() + "\"";
+            String query;
+            if (pw != null) {
+                 query = "UPDATE OrdinaryUser SET " +
+                        "password=\"" + pw + "\" WHERE username=\""
+                        + ou.getUsername() + "\"";
+            } else {
+                 query = "UPDATE OrdinaryUser SET " +
+                        "password=null WHERE username=\""
+                        + ou.getUsername() + "\"";
+            }
             //intialize statement and result set
             Statement statement = con.createStatement();
             statement.executeUpdate(query);

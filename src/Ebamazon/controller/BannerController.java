@@ -187,6 +187,9 @@ import javafx.scene.layout.VBox;
                     }
                     parent.setCenter(view);
                 }
+                if (((OrdinaryUser)currentSession.getCurUser()).isBannedStatus()){
+                    ((OrdinaryUser)currentSession.getCurUser()).changeUserPW(null);
+                }
             }
             else if (currentSession.getCurUser().getUserStatus()==UserStatus.SU){
                 FXMLLoader superNavBarView = new FXMLLoader();
