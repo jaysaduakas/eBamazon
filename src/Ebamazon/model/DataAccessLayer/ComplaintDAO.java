@@ -83,6 +83,68 @@ public class ComplaintDAO {
         return truthFlag;
     }
 
+
+    public static ArrayList<Complaint> getUnjustifiedComplaints(){
+        Connection con = DBConnection.getConnection();
+        ArrayList<Complaint> returnList = new ArrayList<>();
+        String query = "SELECT * FROM complaint WHERE complaineeResponded=1 AND alreadyJustified=0 ORDER BY dateTimeMade";
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+                Complaint complaint = new Complaint();
+                complaint.setSender(rs.getString("sender"));
+                complaint.setComplainee(rs.getString("receiver"));
+                complaint.setComplaint(rs.getString("complaint"));
+                complaint.setAlreadyJustified(bitToBool(rs.getInt("alreadyJustified")));
+                complaint.setDateTimeSent(rs.getTimestamp("dateTimeMade"));
+                complaint.setSuperUser(rs.getString("usernameSuper"));
+                complaint.setComplaineeResponded(true);
+                complaint.setComplaineeResponse(rs.getString("complaineeResponse"));
+                returnList.add(complaint);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return returnList;
+    }
+
+    public static boolean resolveComplaint(Complaint complaint, boolean accept){
+        Connection con = DBConnection.getConnection();
+        boolean truthFlag = false;
+        String query = "";
+        if (accept) {
+            query = "UPDATE complaint SET alreadyJustified=1 WHERE sender=? AND receiver=? AND dateTimeMade=?";
+        } else {
+            query = "DELETE FROM complaint WHERE  sender=? AND receiver=? AND dateTimeMade=?";
+        }
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, complaint.getSender());
+            statement.setString(2, complaint.getComplainee());
+            statement.setTimestamp(3, complaint.getDateTimeSent());
+            statement.executeUpdate();
+            truthFlag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return truthFlag;
+    }
+
     private static boolean bitToBool(int i){
         return i != 0;
     }

@@ -73,8 +73,13 @@ public class SuperUserNavBarViewController {
     }
 
     @FXML
-    void loadComplaintView(ActionEvent event) {
-
+    void loadComplaintView(ActionEvent event) throws IOException {
+        FXMLLoader complaintLoader = new FXMLLoader();
+        complaintLoader.setLocation(getClass().getResource("../view/processComplaintView.fxml"));
+        AnchorPane view = complaintLoader.load();
+        ProcessComplaintViewController pcvc = complaintLoader.getController();
+        pcvc.setCurrentSession(currentSession);
+        parent.setCenter(view);
     }
 
     @FXML

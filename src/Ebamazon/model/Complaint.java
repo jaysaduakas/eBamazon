@@ -1,6 +1,9 @@
 package Ebamazon.model;
 
+import Ebamazon.model.DataAccessLayer.ComplaintDAO;
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class Complaint {
     // Instance variables
@@ -12,6 +15,11 @@ public class Complaint {
     private String superUser;
     private boolean complaineeResponded;
     private String complaineeResponse;
+
+
+
+    public static ArrayList<Complaint> getUnjustifiedComplaints() { return ComplaintDAO.getUnjustifiedComplaints();}
+    public boolean resolveComplaint(boolean accept) {return ComplaintDAO.resolveComplaint(this, accept);}
 
     // Getters and setters
 

@@ -34,6 +34,5 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Button fx:id="viewBidsButton" layoutX="380.0" layoutY="324.0" mnemonicParsing="false" onAction="#viewBids" prefHeight="25.0" prefWidth="134.0" text="View Bids" visible="false" />
    </children>
 </AnchorPane>
