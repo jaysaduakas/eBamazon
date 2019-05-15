@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-import Ebamazon.model.Auction;
-import Ebamazon.model.Bid;
-import Ebamazon.model.CurrentSession;
-import Ebamazon.model.OrdinaryUser;
+import Ebamazon.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -81,12 +78,13 @@ public class TransactionHistoryViewController {
 
     @FXML
     void gradeUser(ActionEvent event) {
-        //insert grade into table
+        Ratings r = new Ratings();
+        insertRating(r);
         hideGradingShowSales();
         curController.hideGradeButton();
-        //call function to check if warning needs to send to gradee
-        //call function to check if need to yell at grader
-        //call function to update vip status
+        checkToWarnGradee(r);    //call function to check if warning needs to send to gradee
+        checkToWarnGrader(r);    //call function to check if need to yell at grader
+        checkToUpdateVIP(r);     //call function to update vip status
     }
 
     @FXML
@@ -139,6 +137,50 @@ public class TransactionHistoryViewController {
         bcvc.setUpBidComponent();
         bcvc.setParent(this);
     }
+    private void attachNewSaleView(Bid bid, Auction a) {
+        FXMLLoader bidSaleComponentLoader = new FXMLLoader();
+        bidSaleComponentLoader.setLocation(getClass().getResource("../view/bidSaleComponentView.fxml"));
+        try {
+            VBox auctionComponent = bidSaleComponentLoader.load();
+            bidSoldComponentVBox1.getChildren().add(auctionComponent);
+        } catch (Exception e) {
+            System.out.println("bid component controller not loaded");
+        }
+        BidSaleComponentViewController bscvc = bidSaleComponentLoader.getController();
+        bscvc.setAuction(a);
+        bscvc.setBid(bid);
+        bscvc.setUpBidSaleComponent();
+
+    }
+
+    private void insertRating(Ratings ratings){
+        ratings.setRatee(curController.getAuction().getOrdinaryUser().getUsername());
+        ratings.setRater(currentSession.getCurUser().getUsername());
+        ratings.setRating(getRatingValue());
+        ratings.setAuctionID(curController.getAuction().getAuctionID());
+        ratings.insertRating();
+    }
+
+    private double getRatingValue(){
+        if (button0.isSelected()){
+            return 0.0;
+        }
+        else if (button1.isSelected()){
+            return 1.0;
+        }
+        else if (button2.isSelected()){
+            return 2.0;
+        }
+        else if (button3.isSelected()){
+            return 3.0;
+        }
+        else if (button4.isSelected()){
+            return 4.0;
+        }
+        else{
+            return 5.0;
+        }
+    }
 
     private void setUpBuys() {
         ArrayList<Bid> bids = ((OrdinaryUser) currentSession.getCurUser()).getWinningsBids();
@@ -159,21 +201,8 @@ public class TransactionHistoryViewController {
         }
 
     }
-    private void attachNewSaleView(Bid bid, Auction a) {
-        FXMLLoader bidSaleComponentLoader = new FXMLLoader();
-        bidSaleComponentLoader.setLocation(getClass().getResource("../view/bidSaleComponentView.fxml"));
-        try {
-            VBox auctionComponent = bidSaleComponentLoader.load();
-            bidSoldComponentVBox1.getChildren().add(auctionComponent);
-        } catch (Exception e) {
-            System.out.println("bid component controller not loaded");
-        }
-        BidSaleComponentViewController bscvc = bidSaleComponentLoader.getController();
-        bscvc.setAuction(a);
-        bscvc.setBid(bid);
-        bscvc.setUpBidSaleComponent();
 
-    }
+
     public void hideSaleShowGrading(BidComponentViewController bcvc){
         curController = bcvc;
         itemsSoldVBox.setVisible(false);
@@ -184,7 +213,31 @@ public class TransactionHistoryViewController {
         gradeVBox.setVisible(false);
     }
 
+    private void checkToWarnGradee(Ratings r){
+        if((Ratings.getAverageRating(r.getRatee()) <= 2) && (Ratings.userHasThreeDifferentRaters(r.getRatee())) ){
+            Warning w = new Warning();
+            w.setOrdinaryUser(currentSession.getUserByUsername(r.getRatee()));
+            w.setReason("Your average rating is lower than 2 based on at least three different buyers");
+            w.insertWarning();
+        }
+    }
 
+    private void checkToWarnGrader(Ratings r){
+        if(r.isReckless(r.getRater())){
+            Warning w = new Warning();
+            w.setOrdinaryUser((OrdinaryUser)currentSession.getCurUser());
+            w.setReason("You seem to be a reckless grader");
+            w.insertWarning();
+        }
+    }
+
+    private void checkToUpdateVIP(Ratings r){
+        if((Ratings.getAverageRating(r.getRatee()) >= 4) && (Ratings.userHasThreeDifferentRaters(r.getRatee()))
+                && (!Warning.hasWarnings(r.getRatee()))){
+            curController.getAuction().getOrdinaryUser().setVIPStatus(true);
+            curController.getAuction().getOrdinaryUser().updateUserInfo();
+        }
+    }
 
 }
 

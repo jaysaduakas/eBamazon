@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import Ebamazon.model.Auction;
 import Ebamazon.model.Bid;
 import Ebamazon.model.CurrentSession;
+import Ebamazon.model.Ratings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -63,6 +64,9 @@ public class BidComponentViewController {
             date.setText(bid.getDateTimeMade().toString());
             seller.setText(auction.getOrdinaryUser().getUsername());
             price.setText(bid.getAmount().toString());
+            if(Ratings.isRatedByAuctionID(auction.getAuctionID())){
+                gradeButton.setDisable(true);
+            }
         }
     }
 
