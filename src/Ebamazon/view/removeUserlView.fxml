@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.RemoveUserViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.RemoveUserViewController">
    <children>
       <Label alignment="CENTER" focusTraversable="false" layoutX="202.0" layoutY="14.0" prefHeight="47.0" prefWidth="252.0" text="Remove User" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0">
          <font>
@@ -34,70 +34,17 @@
             </VBox>
          </children>
       </VBox>
-      <VBox layoutX="295.0" layoutY="210.0" prefWidth="250.0">
-         <children>
-            <Label focusTraversable="false" text="Please confirm that this is the intended user">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="160.0" />
-               </VBox.margin>
-            </Label>
-            <Label focusTraversable="false" text="Removal Status">
-               <VBox.margin>
-                  <Insets top="15.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <RadioButton mnemonicParsing="false" text="Permanently Remove User">
-               <toggleGroup>
-                  <ToggleGroup fx:id="Type" />
-               </toggleGroup>
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </RadioButton>
-            <RadioButton mnemonicParsing="false" text="Restore Banned User">
-               <toggleGroup>
-                  <ToggleGroup fx:id="Type1" />
-               </toggleGroup>
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </RadioButton>
-         </children>
-      </VBox>
-      <VBox layoutY="175.0" prefHeight="444.0" prefWidth="186.0" AnchorPane.leftAnchor="20.0">
-         <children>
-            <Label focusTraversable="false" text="Full Name">
-               <VBox.margin>
-                  <Insets top="15.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="nameField" alignment="TOP_LEFT" editable="false" promptText="Auto populated from database" />
-            <Label focusTraversable="false" text="Address">
-               <VBox.margin>
-                  <Insets top="15.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="addressField" alignment="TOP_LEFT" editable="false" promptText="Auto populated from database" />
-            <Label focusTraversable="false" text="State ID">
-               <VBox.margin>
-                  <Insets top="15.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="stateField" alignment="TOP_LEFT" editable="false" promptText="Auto populated from database" />
-            <Label focusTraversable="false" text="Phone Number">
-               <VBox.margin>
-                  <Insets top="15.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="phoneNumberField" alignment="TOP_LEFT" editable="false" promptText="Auto populated from database" />
-         </children>
-      </VBox>
+      <VBox layoutX="295.0" layoutY="210.0" prefWidth="250.0" />
       <Button fx:id="submtButton" layoutX="572.0" layoutY="463.0" mnemonicParsing="false" onAction="#submit" text="Submit" AnchorPane.rightAnchor="30.0" />
+      <Label focusTraversable="false" layoutX="84.0" layoutY="177.0" text="Please confirm that this is the intended user">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <RadioButton layoutX="84.0" layoutY="210.0" mnemonicParsing="false" text="Permanently Remove User">
+         <toggleGroup>
+            <ToggleGroup fx:id="Type" />
+         </toggleGroup>
+      </RadioButton>
    </children>
 </AnchorPane>

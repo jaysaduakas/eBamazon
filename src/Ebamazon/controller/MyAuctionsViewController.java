@@ -89,9 +89,9 @@ public class MyAuctionsViewController {
                     if(!a.isLiveStatus()){
                         acvc.getLiveCircle().setVisible(false);
                     }else {
-                        acvc.getViewBidsButton().setVisible(true);
-                        acvc.setCurrentSession(currentSession);
-                        acvc.setParent(parent);
+                            acvc.getViewBidsButton().setVisible(true);
+                            acvc.setCurrentSession(currentSession);
+                            acvc.setParent(parent);
                     }
                     if(a.isFixed()){
                         acvc.getFixedLabel().setVisible(true);
