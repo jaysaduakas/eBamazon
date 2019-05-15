@@ -59,7 +59,7 @@
       </VBox>
       <Button fx:id="submitButton" layoutX="549.0" layoutY="480.0" mnemonicParsing="false" onAction="#submitUserSettings" text="Submit" AnchorPane.rightAnchor="30.0" />
       <TextArea fx:id="keywordTextArea" layoutX="303.0" layoutY="194.0" prefHeight="78.0" prefWidth="313.0" promptText="Keywords go here!" />
-      <Label layoutX="300.0" layoutY="100.0" prefHeight="47.0" prefWidth="320.0" text="Add Keywords to be alerted to Auctions you may be interested in!" textFill="#3c00ff" wrapText="true">
+      <Label layoutX="300.0" layoutY="100.0" prefHeight="47.0" prefWidth="320.0" text="Add Keywords to be alerted to Auctions you may be interested in!  (Taboo words will be removed.)" textFill="#3c00ff" wrapText="true">
          <font>
             <Font size="14.0" />
          </font>

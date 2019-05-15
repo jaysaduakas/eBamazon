@@ -1,17 +1,19 @@
 package Ebamazon.controller;
-import java.net.URL;
-import java.util.ResourceBundle;
 
+import Ebamazon.model.InputScrubber;
 import Ebamazon.model.OrdinaryUser;
 import Ebamazon.model.State;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class NewUserController {
 
@@ -52,22 +54,40 @@ public class NewUserController {
 
     @FXML
     void submitNewUser(ActionEvent event) {
-        OrdinaryUser ou = new OrdinaryUser();
-        ou.setUsername(usernameField.getText());
-        ou.setAddress(addressField.getText());
-        ou.setCc(creditcardField.getText());
-        ou.setPhone(phoneNumberField.getText());
-        ou.setName(nameField.getText());
-        ou.setStateID(stateField.getValue().getAbbreviation());
-        if (ou.insertUserInfo()){
-            applicationSubmitted.setVisible(true);
-            usernameTaken.setVisible(false);
-        }
-        else {
-            applicationSubmitted.setVisible(false);
+        if(scrubUsername()) {
+            usernameTaken.setText("UserName is Taboo - Please Choose Another");
             usernameTaken.setVisible(true);
+        } else {
+            OrdinaryUser ou = new OrdinaryUser();
+            ou.setUsername(usernameField.getText());
+            ou.setAddress(addressField.getText());
+            ou.setCc(creditcardField.getText());
+            ou.setPhone(phoneNumberField.getText());
+            ou.setName(nameField.getText());
+            ou.setStateID(stateField.getValue().getAbbreviation());
+            if (ou.insertUserInfo()){
+                applicationSubmitted.setVisible(true);
+                usernameTaken.setVisible(false);
+            }
+            else {
+                applicationSubmitted.setVisible(false);
+                usernameTaken.setText("UserName is Taken - Please Choose Another");
+                usernameTaken.setVisible(true);
+            }
         }
-        //FAILING BECAUSE IT NEEDS A STATE ID!!!!!
+    }
+
+    private boolean scrubUsername() {
+        boolean tabooFound = false;
+        try {
+            InputScrubber is = new InputScrubber();
+            usernameField.setText(is.scrubInput(usernameField.getText()));
+            if(is.hasTaboo()) {tabooFound = true;}
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return tabooFound;
     }
 
     @FXML
@@ -95,5 +115,4 @@ public class NewUserController {
         };
         animationTimer.start();
     }
-
 }

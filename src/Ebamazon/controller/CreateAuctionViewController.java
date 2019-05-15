@@ -123,14 +123,11 @@ public class CreateAuctionViewController {
                 }
             }
         });
-
         updateloop();
     }
 
-
     @FXML
     void submitAuction(ActionEvent event) {
-
         Auction auction = new Auction();
         if(scrubAuction()) {
             Warning warning = new Warning();
@@ -142,8 +139,6 @@ public class CreateAuctionViewController {
         } else{
             auction.setKickback(false);
         }
-
-
         auction.setDescription(auctionDescriptionTextArea.getText());
         auction.setKeywords(assembleAuctionKeywords());
         auction.setTitle(auctionTitleTextField.getText());
@@ -160,17 +155,29 @@ public class CreateAuctionViewController {
         boolean tabooFound = false;
         try {
             InputScrubber is = new InputScrubber();
+            auctionTitleTextField.setText(is.scrubInput(auctionTitleTextField.getText()));
+            if(is.hasTaboo()) {tabooFound = true;}
             auctionDescriptionTextArea.setText(is.scrubInput(auctionDescriptionTextArea.getText()));
             if(is.hasTaboo()) {tabooFound = true;}
             auctionKeywordsTextField.setText(is.scrubInput(auctionKeywordsTextField.getText()));
-            if(is.hasTaboo()) {tabooFound = true;}
-            auctionTitleTextField.setText(is.scrubInput(auctionTitleTextField.getText()));
-            if(is.hasTaboo()) {tabooFound = true;}
+            // Note: Taboo in keywords does not trigger a kickback
         }
         catch(SQLException e) {
             e.printStackTrace();
         }
         return tabooFound;
+    }
+
+    private ArrayList<String> removeTaboo(ArrayList<String> list) {
+        String s;
+        // Remove taboo words, i.e., all words that contain an asterisk (*)
+        for (int i = (list.size() - 1); i >= 0; i--) {
+            s = list.get(i);
+            if (s.contains("*")) {
+                list.remove(s);
+            }
+        }
+        return list;
     }
 
     @FXML
@@ -204,7 +211,7 @@ public class CreateAuctionViewController {
         }
     }
 
-    private void updateloop(){
+    private void updateloop() {
         AnimationTimer at = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -221,22 +228,22 @@ public class CreateAuctionViewController {
                 else {
                     submitButton.setDisable(true);
                 }
-
             }
         };
         at.start();
     }
 
-
     //IF ANY INDIVIDUAL KEYWORD IS > 100 CHAR IT WILL THROW SQL ERROR
-    private ArrayList<String> parseKeywordInput(){
+    private ArrayList<String> parseKeywordInput() {
         String [] auctionKeywords = auctionKeywordsTextField.getText().split(" ");
         return new ArrayList<String>(Arrays.asList(auctionKeywords));
     }
 
-    private ArrayList<AuctionKeyword> assembleAuctionKeywords(){
+    private ArrayList<AuctionKeyword> assembleAuctionKeywords() {
         ArrayList<AuctionKeyword> keywords = new ArrayList<>();
-        for (String s : parseKeywordInput()){
+        ArrayList<String> wordList = parseKeywordInput();
+        wordList = removeTaboo(wordList);           // Remove taboo words
+        for (String s : wordList) {
             AuctionKeyword ak = new AuctionKeyword();
             ak.setKeyword(s);
             keywords.add(ak);
@@ -244,7 +251,7 @@ public class CreateAuctionViewController {
         return keywords;
     }
 
-    private ArrayList<AuctionImage> assembleAuctionImages(){
+    private ArrayList<AuctionImage> assembleAuctionImages() {
         ArrayList<AuctionImage> returnList =  new ArrayList<>();
         for (int i = 0; i < imageControllers.size(); i++){
             AuctionImage ai = new AuctionImage();
@@ -257,7 +264,7 @@ public class CreateAuctionViewController {
         return returnList;
     }
 
-    private void clearAll(){
+    private void clearAll() {
         imageControllers.clear();
         imageFiles.clear();
         imageList.clear();
