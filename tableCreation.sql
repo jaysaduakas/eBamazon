@@ -33,10 +33,12 @@ CREATE TABLE IF NOT EXISTS UserKeyword(
 );
 
 CREATE TABLE IF NOT EXISTS Rating(
+	auctionID int,
 	rater varchar(20),
 	ratee varchar(20),
 	rating int,
 	dateTimeRated datetime,
+	FOREIGN KEY (auctionID) REFERENCES Auction(auctionID) on delete cascade,
 	FOREIGN KEY (rater) REFERENCES OrdinaryUser(username) on delete cascade,
 	FOREIGN KEY (ratee) REFERENCES OrdinaryUser(username) on delete cascade,
 	PRIMARY KEY (rater,ratee,dateTimeRated)
@@ -222,4 +224,4 @@ INSERT into TaxRate values ('AL', 0.04),
 ('WY', 0.04);
 
 insert into SuperUser values ("AutoMod", "AutoMod", null);
-
+insert into SuperUser values ("super", "Super", "super");

@@ -60,14 +60,13 @@ public class MessageDAO {
         return null;
     }
 
-    //todo Sort messages retrieved by date order
     public static ArrayList<Message> getAllMessages(String user){
         ArrayList<Message> messages = new ArrayList<>();
         try{
             Connection con = DBConnection.getConnection();
 
             String query = "SELECT * FROM Message WHERE " +
-                    "receiver=\"" + user + "\"";
+                    "receiver=\"" + user + "\" ORDER BY dateTimeSent DESC";
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
