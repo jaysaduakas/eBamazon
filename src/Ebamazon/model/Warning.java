@@ -3,6 +3,7 @@ package Ebamazon.model;
 import Ebamazon.model.DataAccessLayer.WarningDAO;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class Warning {
     // Instance variables
@@ -27,8 +28,10 @@ public class Warning {
         return false;
     }
 
-    //private void checkWarnings
-
+    public static boolean shouldBeBanned(String username){
+        ArrayList<Warning> warnings = WarningDAO.getWarningsByUser(username);
+        return (warnings.size()%2==0) && (warnings.size()!=0);
+    }
     public static boolean hasWarnings(String username){
         return (!WarningDAO.getWarningsByUser(username).isEmpty());
     }
