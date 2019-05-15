@@ -2,9 +2,9 @@ package Ebamazon.model;
 
 
 import Ebamazon.model.DataAccessLayer.*;
-import javafx.scene.control.Tab;
-import java.math.BigDecimal;
+
 import java.sql.SQLException;
+import java.text.CollationElementIterator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,8 +21,8 @@ public class CurrentSession {
     private UserStatus userStatus;
     private InputScrubber inputScrubber;
     private ArrayList<AuctionResult> currentSearchResults;
-    private boolean sortByRelevance = true; // if false it implies sorting by seller rating
     private ArrayList<String> friendsUsernames;
+    private boolean sortByRelevance;
     private double taxRate;
 
     private ArrayList<Complaint> complaints;
@@ -61,7 +61,12 @@ public class CurrentSession {
     //Ordinary User Functions
     public ArrayList<AuctionResult> generateSearchResults(SearchParameters sp) throws SQLException {
         currentSearchResults = AuctionDAO.getAuctionsByParameter(sp);
-        sortSearchResults();
+        //sortSearchResults();
+        for (AuctionResult ar : currentSearchResults){
+            ar.setSwapValue();
+        }
+        Collections.sort(currentSearchResults);
+        setSortByRelevance(true);
         return currentSearchResults;
     }
 
@@ -99,17 +104,15 @@ public class CurrentSession {
     //Utility FUnction
     public Auction getAuctionByID(int id) {return AuctionDAO.getAuctionByID(id);}
 
-    private void sortSearchResults(){
-        if(isSortByRelevance()){
-            Collections.sort((List)currentSearchResults);
+    public void sortSearchResults(){
+        for (AuctionResult ar : currentSearchResults){
+            ar.swapScores();
         }
-        else{
-            //TODO insert sorting by user rating
-        }
+        Collections.sort(currentSearchResults);
     }
 
-    //getters and setters
 
+    //getters and setters
     public User getCurUser(){
         return curUser;
     }
@@ -146,14 +149,6 @@ public class CurrentSession {
         this.currentSearchResults = currentSearchResults;
     }
 
-    public boolean isSortByRelevance() {
-        return sortByRelevance;
-    }
-
-    public void setSortByRelevance(boolean sortByRelevance) {
-        this.sortByRelevance = sortByRelevance;
-        sortSearchResults();
-    }
 
     public ArrayList<String> getFriendsUsernames() {
         return friendsUsernames;
@@ -203,11 +198,18 @@ public class CurrentSession {
         this.complaints = complaints;
     }
 
+    public boolean isSortByRelevance() {
+        return sortByRelevance;
+    }
+
+    public void setSortByRelevance(boolean sortByRelevance) {
+        this.sortByRelevance = sortByRelevance;
+    }
+
     public static void main(String[] args) throws SQLException {
         CurrentSession cs = new CurrentSession();
         SearchParameters sp = new SearchParameters("big glass table");
         cs.generateSearchResults(sp);
-        cs.setSortByRelevance(true);
         for (AuctionResult ar: cs.getCurrentSearchResults()){
             System.out.println(ar.getAuctionID() + " " + ar.getScore());
         }

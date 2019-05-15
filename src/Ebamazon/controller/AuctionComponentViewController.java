@@ -243,11 +243,13 @@ public class AuctionComponentViewController {
     private void disableBidding(){
         ArrayList<Bid> bidArray = currentSession.getBidsForAuction(auctionResult);
         for(Bid b : bidArray){
-            if ((currentSession.getCurUser().getUsername()).equals(b.getOrdinaryUser().getUsername())){
-                bidButton.setDisable(true);
-                bidButton.setText("Placed!");
-                price.setText("Your Bid: "  + b.getAmount().toString());
-                bidBox.setDisable(true);
+            if (currentSession.getUserStatus()==UserStatus.OU) {
+                if ((currentSession.getCurUser().getUsername()).equals(b.getOrdinaryUser().getUsername())) {
+                    bidButton.setDisable(true);
+                    bidButton.setText("Placed!");
+                    price.setText("Your Bid: " + b.getAmount().toString());
+                    bidBox.setDisable(true);
+                }
             }
         }
 
