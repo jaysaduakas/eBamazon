@@ -80,7 +80,9 @@ public class MyAuctionsViewController {
                     for (AuctionKeyword k : a.getKeywords()) {
                         keywords += k.getKeyword() + ", ";
                     }
-                    keywords = keywords.substring(0, keywords.length() - 2);
+                    if (keywords.length() > 2) {
+                        keywords = keywords.substring(0, keywords.length() - 2);
+                    }
                     acvc.getKeywords().setText(keywords);
                     acvc.updateDisplayImage(image);
                     scrollableVBox.getChildren().add(view);
