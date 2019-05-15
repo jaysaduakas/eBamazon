@@ -11,10 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -27,7 +24,7 @@ public class SellItemViewController {
     private Auction auction;
     private Bid selectedBid;
     private ArrayList<Bid> bids;
-
+    private RadioButton defaultBut;
 
     @FXML
     private ResourceBundle resources;
@@ -68,13 +65,15 @@ public class SellItemViewController {
 
     @FXML
     void sell(ActionEvent event) throws IOException {
-        if (selectedBid!=null){
-            ((OrdinaryUser)currentSession.getCurUser()).declareWinningBid(selectedBid);
-            auction.endAuction();
-            sendMessageToWinner();
-            //if (justifyBox.getText() != null) sendMessageToRunnerUp(); //probably better way to check this. Redo if when listener implemented
-            checkForVIP();
-            back(null);
+        if (!justifyBox.getText().equals("") || tg.getSelectedToggle().equals(defaultBut)) {
+            if (selectedBid != null) {
+                ((OrdinaryUser) currentSession.getCurUser()).declareWinningBid(selectedBid);
+                auction.endAuction();
+                sendMessageToWinner();
+                if (!justifyBox.getText().equals("")) sendMessageToRunnerUp(); //probably better way to check this. Redo if when listener implemented
+                checkForVIP();
+                back(null);
+            }
         }
     }
 
@@ -102,12 +101,14 @@ public class SellItemViewController {
         if (auction.isFixed()) {
             if (sbcvc.getBid() == bids.get(0)){
                 sbcvc.getSellRadioButton().setSelected(true);
+                defaultBut = sbcvc.getSellRadioButton();
                 selectedBid = bid;
             }
         } else {
             if (bids.size() >= 2) {
                 if (sbcvc.getBid() == bids.get(1)) {
                     sbcvc.getSellRadioButton().setSelected(true);
+                    defaultBut = sbcvc.getSellRadioButton();
                     selectedBid = bid;
                 }
             }
@@ -145,7 +146,7 @@ public class SellItemViewController {
         mWinner.setMessageContent("You won! Check out Transaction History to view!");
         mWinner.setSender((currentSession.getCurUser()).getUsername());
         mWinner.setReceiver(selectedBid.getOrdinaryUser().getUsername());
-        mWinner.setSubject("You won an Auction!");
+        mWinner.setSubject("You won auction: " + auction.getTitle());
         currentSession.getCurUser().sendMessage(mWinner);
     }
 
@@ -160,7 +161,7 @@ public class SellItemViewController {
                 mRunner.setReceiver(bids.get(1).getOrdinaryUser().getUsername());
             }
         }
-        mRunner.setMessageContent("Seller said: " + justifyBox.getText());
+        mRunner.setMessageContent("Seller did not choose you for auction: " + auction.getTitle() + "\nSeller said: " + justifyBox.getText());
         mRunner.setSender((currentSession.getCurUser()).getUsername());
         mRunner.setSubject("You lost an Auction :(");
         currentSession.getCurUser().sendMessage(mRunner);
@@ -201,5 +202,9 @@ public class SellItemViewController {
 
     public void setSelectedBid(Bid selectedBid) {
         this.selectedBid = selectedBid;
+    }
+
+    public TextArea getJustifyBox() {
+        return justifyBox;
     }
 }

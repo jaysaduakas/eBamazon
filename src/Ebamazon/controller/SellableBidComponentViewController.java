@@ -45,6 +45,7 @@ public class SellableBidComponentViewController {
     @FXML
     void select(ActionEvent event) {
         parent.setSelectedBid(bid);
+        parent.getJustifyBox().setDisable(false);
     }
 
 
