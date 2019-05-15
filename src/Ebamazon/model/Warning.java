@@ -26,6 +26,10 @@ public class Warning {
         return false;
     }
 
+    public static boolean hasWarnings(String username){
+        return (!WarningDAO.getWarningsByUser(username).isEmpty());
+    }
+
 
     // Getters and setters
     public OrdinaryUser getOrdinaryUser() {
