@@ -10,7 +10,7 @@
       <Button fx:id="processAuctionsButton" mnemonicParsing="false" onAction="#loadAuctionView" prefWidth="144.0" text="Process Auctions" />
       <Button fx:id="processComplaintsButton" mnemonicParsing="false" onAction="#loadComplaintView" prefWidth="144.0" text="Process Complaints" />
       <Button fx:id="processAppealsButton" disable="true" mnemonicParsing="false" prefWidth="144.0" text="Process Appeals" />
-      <Button fx:id="removeUserButton" disable="true" mnemonicParsing="false" onAction="#loadRemoveView" prefWidth="144.0" text="Remove User" />
+      <Button fx:id="removeUserButton" mnemonicParsing="false" onAction="#loadRemoveView" prefWidth="144.0" text="Remove User" />
       <Button fx:id="tabooWordListButton" mnemonicParsing="false" onAction="#loadTabooView" prefWidth="144.0" text="Taboo Word List" />
       <Button fx:id="transactionStatsButton" disable="true" mnemonicParsing="false" onAction="#loadTransactionView" prefWidth="144.0" text="Transaction Stats" />
       <Button fx:id="issueWarningButton" disable="true" mnemonicParsing="false" prefWidth="144.0" text="Issue Warning" visible="false" />

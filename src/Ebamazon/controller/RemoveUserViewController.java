@@ -38,13 +38,13 @@ public class RemoveUserViewController {
     void submit(ActionEvent event) {
         if (!usernameTextField.getText().equals("") && radioButton.isSelected()){
             try{
-                OrdinaryUser  ou = currentSession.getUserByUsername(usernameTextField.getText());
+                OrdinaryUser ou = currentSession.getUserByUsername(usernameTextField.getText());
                 ou.setBannedStatus(true);
-                ou.insertUserInfo();
+                ou.updateUserInfo();
                 usernameTextField.setText("");
                 radioButton.setSelected(false);
             }catch (Exception e){
-
+                System.out.println(e.toString());
             }
         }
     }

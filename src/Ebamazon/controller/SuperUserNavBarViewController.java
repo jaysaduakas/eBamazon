@@ -90,7 +90,7 @@ public class SuperUserNavBarViewController {
     @FXML
     void loadRemoveView(ActionEvent event) throws IOException {
         FXMLLoader complaintLoader = new FXMLLoader();
-        complaintLoader.setLocation(getClass().getResource("../view/removeUserView.fxml"));
+        complaintLoader.setLocation(getClass().getResource("../view/removeUserlView.fxml"));
         AnchorPane view = complaintLoader.load();
         RemoveUserViewController ruvc = complaintLoader.getController();
         ruvc.setCurrentSession(currentSession);
