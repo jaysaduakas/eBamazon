@@ -11,11 +11,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class MyAuctionsViewController {
 
     private CurrentSession currentSession;
+    private BorderPane parent;
 
 
     @FXML
@@ -32,6 +34,9 @@ public class MyAuctionsViewController {
 
     @FXML
     private VBox scrollableVBox;
+
+    @FXML
+    private AnchorPane componentView;
 
     @FXML
     void initialize() {
@@ -53,6 +58,7 @@ public class MyAuctionsViewController {
                     auctionComponentViewLoader.setLocation(getClass().getResource("../view/auctionComponentView.fxml"));
                     AnchorPane view = auctionComponentViewLoader.load();
                     AuctionComponentViewController acvc = auctionComponentViewLoader.getController();
+                    acvc.setAuction(a);
                     acvc.getTitle().setText(a.getTitle());
                     acvc.getBidBox().setVisible(false);
                     acvc.getBidButton().setVisible(false);
@@ -80,6 +86,10 @@ public class MyAuctionsViewController {
                     scrollableVBox.getChildren().add(view);
                     if(!a.isLiveStatus()){
                         acvc.getLiveCircle().setVisible(false);
+                    }else {
+                        acvc.getViewBidsButton().setVisible(true);
+                        acvc.setCurrentSession(currentSession);
+                        acvc.setParent(parent);
                     }
                     if(a.isFixed()){
                         acvc.getFixedLabel().setVisible(true);
@@ -89,5 +99,13 @@ public class MyAuctionsViewController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public BorderPane getParent() {
+        return parent;
+    }
+
+    public void setParent(BorderPane parent) {
+        this.parent = parent;
     }
 }

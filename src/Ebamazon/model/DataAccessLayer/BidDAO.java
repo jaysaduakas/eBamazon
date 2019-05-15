@@ -42,6 +42,69 @@ public class BidDAO {
         return returnList;
     }
 
+    public static ArrayList<Bid> getBidsForAuctionOrderedByDate(int auctionID){
+        Connection con = DBConnection.getConnection();
+        ArrayList<Bid> returnList = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM bid WHERE auctionID=? ORDER BY dateTimeMade";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, auctionID);
+            ResultSet rs  = statement.executeQuery();
+
+            while (rs.next()){
+                Bid bid = new Bid();
+                bid.setAuction(AuctionDAO.getAuctionByID(auctionID));
+                bid.setAmount(rs.getBigDecimal("amount"));
+                bid.setWinningBid(bitToBool(rs.getInt("winningBid")));
+                bid.setOrdinaryUser(OrdinaryUserDAO.getOrdinaryUser(rs.getString("username")));
+                bid.setDateTimeMade(rs.getTimestamp("dateTimeMade"));
+                returnList.add(bid);
+            }
+
+        }catch (SQLException e){
+            System.out.println("SQL error retrieving bids");
+        }
+
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return returnList;
+    }
+
+    public static ArrayList<Bid> getBidsForAuctionOrderedByAmount(int auctionID){
+        Connection con = DBConnection.getConnection();
+        ArrayList<Bid> returnList = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM bid WHERE auctionID=? ORDER BY amount";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, auctionID);
+            ResultSet rs  = statement.executeQuery();
+
+            while (rs.next()){
+                Bid bid = new Bid();
+                bid.setAuction(AuctionDAO.getAuctionByID(auctionID));
+                bid.setAmount(rs.getBigDecimal("amount"));
+                bid.setWinningBid(bitToBool(rs.getInt("winningBid")));
+                bid.setOrdinaryUser(OrdinaryUserDAO.getOrdinaryUser(rs.getString("username")));
+                bid.setDateTimeMade(rs.getTimestamp("dateTimeMade"));
+                returnList.add(bid);
+            }
+
+        }catch (SQLException e){
+            System.out.println("SQL error retrieving bids");
+        }
+
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return returnList;
+    }
+
+
     public static ArrayList<Bid> getBidsForUser(String username){
         Connection con = DBConnection.getConnection();
         ArrayList<Bid> returnList = new ArrayList<>();

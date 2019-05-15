@@ -117,6 +117,7 @@ public class NavBarController {
         MyAuctionsViewController mavc = myAuctionViewLoader.getController();
         parent.setCenter(view);
         mavc.setCurrentSession(currentSession);
+        mavc.setParent(parent);
         mavc.populateAuctionList((OrdinaryUser)currentSession.getCurUser());
     }
 

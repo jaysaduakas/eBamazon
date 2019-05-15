@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="viewComponent" alignment="CENTER" prefWidth="502.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.SellableBidComponentViewController">
+   <children>
+      <Label fx:id="title" alignment="CENTER" prefHeight="19.0" prefWidth="599.0" style="-fx-background-color: darkgrey;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" prefHeight="44.0" prefWidth="599.0" style="-fx-background-color: lightgrey;">
+         <children>
+            <Label fx:id="date" alignment="BASELINE_LEFT" prefHeight="17.0" prefWidth="146.0" text="Purchase Date" />
+            <Label fx:id="seller" alignment="TOP_LEFT" prefHeight="17.0" prefWidth="163.0" text="Seller Username">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+            <Label fx:id="price" alignment="CENTER" prefHeight="17.0" prefWidth="119.0" text="Price" />
+            <RadioButton fx:id="sellRadioButton" mnemonicParsing="false" onAction="#select" text="Sell" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

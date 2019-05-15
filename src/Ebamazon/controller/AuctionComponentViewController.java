@@ -1,5 +1,6 @@
 package Ebamazon.controller;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
@@ -11,19 +12,28 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
+
+import javax.management.StringValueExp;
 
 public class AuctionComponentViewController {
 
     private BigDecimal minPrice;
     private AuctionResult auctionResult;
     private CurrentSession currentSession;
+    //only needs to be set in MyAuctions version
+    private BorderPane parent;
+    private Auction auction;
+
 
     @FXML
     private ResourceBundle resources;
@@ -68,6 +78,9 @@ public class AuctionComponentViewController {
     private Label price;
 
     @FXML
+    private Button viewBidsButton;
+
+    @FXML
     void bid(ActionEvent event) {
         Bid b = new Bid();
         b.setAuction(auctionResult);
@@ -84,6 +97,18 @@ public class AuctionComponentViewController {
                 if (b.getOrdinaryUser().makeBid(b)) disableBidding();
             }
         }
+    }
+
+    @FXML
+    void viewBids(ActionEvent event) throws IOException {
+        FXMLLoader viewBidsLoader = new FXMLLoader();
+        viewBidsLoader.setLocation(getClass().getResource("../view/sellItemView.fxml"));
+        AnchorPane view = viewBidsLoader.load();
+        SellItemViewController sivc = viewBidsLoader.getController();
+        sivc.setAuction(auction);
+        sivc.setCurrentSession(currentSession);
+        sivc.setParent(parent);
+        parent.setCenter(view);
     }
 
 
@@ -206,17 +231,20 @@ public class AuctionComponentViewController {
             getDate().setText("Auction Is Not Yet Confirmed by SuperUser");
         }
         String price = "Price: " + a.getPrice();
+        BigDecimal friendDiscount = (a.getPrice().multiply(BigDecimal.valueOf(0.05)));
+        BigDecimal taxOnPrice = (a.getPrice().multiply(BigDecimal.valueOf(cs.getTaxRate())));
+
         if (cs.getCurUser().getUserStatus()== UserStatus.OU) {
-            price += " + Tax(" + cs.getTaxRate() + "%) " + (a.getPrice().multiply(BigDecimal.valueOf(cs.getTaxRate()))).setScale(2, RoundingMode.DOWN);
+            price += " + Tax(" + cs.getTaxRate()*100 + "%) " + taxOnPrice.setScale(2, RoundingMode.DOWN).toString();
+            minPrice = a.getPrice().add(taxOnPrice).setScale(2, RoundingMode.DOWN);
             for (String friend : cs.getFriendsUsernames()){
                 if (a.getOrdinaryUser().getUsername().equals(friend)){
-                    price += " - Discount(5%) " + (a.getPrice().multiply(BigDecimal.valueOf(0.05))).setScale(2, RoundingMode.DOWN);
+                    price += " - Discount(5%) " + friendDiscount.setScale(2, RoundingMode.DOWN).toString();
+                    minPrice = minPrice.subtract(friendDiscount);
                 }
             }
         }
         getPrice().setText(price );
-        minPrice = (a.getPrice().add(a.getPrice().multiply(BigDecimal.valueOf(cs.getTaxRate()))).add(
-                a.getPrice().multiply(BigDecimal.valueOf(-0.05)))).setScale(2, RoundingMode.DOWN);
         getBidBox().setPromptText((minPrice.toString()));
         Image image = null;
         for (AuctionImage i : a.getAuctionImages()){
@@ -240,6 +268,14 @@ public class AuctionComponentViewController {
         disableBidding();
     }
 
+    public Button getViewBidsButton() {
+        return viewBidsButton;
+    }
+
+    public void setViewBidsButton(Button viewBidsButton) {
+        this.viewBidsButton = viewBidsButton;
+    }
+
     private void disableBidding(){
         ArrayList<Bid> bidArray = currentSession.getBidsForAuction(auctionResult);
         for(Bid b : bidArray){
@@ -255,5 +291,20 @@ public class AuctionComponentViewController {
 
     }
 
+    public BorderPane getParent() {
+        return parent;
+    }
+
+    public void setParent(BorderPane parent) {
+        this.parent = parent;
+    }
+
+    public Auction getAuction() {
+        return auction;
+    }
+
+    public void setAuction(Auction auction) {
+        this.auction = auction;
+    }
 }
 

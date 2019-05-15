@@ -271,6 +271,26 @@ public class AuctionDAO {
         return truthFlag;
     }
 
+    public static boolean endAuction(Auction auction){
+        Connection con = DBConnection.getConnection();
+        boolean truthFlag = false;
+        String query = "UPDATE auction SET liveStatus=0 WHERE auctionID=?";
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, auction.getAuctionID());
+            statement.executeUpdate();
+            truthFlag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return truthFlag;
+    }
+
 
 
     private static boolean bitToBool(int i){

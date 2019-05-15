@@ -85,6 +85,9 @@ public class CurrentSession {
         }
     }
     public ArrayList<Bid> getBidsForAuction(Auction auction) {return BidDAO.getBidsForAuction(auction.getAuctionID());}
+    public ArrayList<Bid> getBidsForAuctionByAmount(Auction auction) {return BidDAO.getBidsForAuctionOrderedByAmount(auction.getAuctionID());}
+    public ArrayList<Bid> getBidsForAuctionByDte(Auction auction) {return BidDAO.getBidsForAuctionOrderedByDate(auction.getAuctionID());}
+
     public void setTaxRate(){
         taxRate = TaxDAO.getTaxRate(((OrdinaryUser)curUser).getStateID());
     }

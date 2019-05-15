@@ -1,5 +1,6 @@
 package Ebamazon.model;
 
+import Ebamazon.model.DataAccessLayer.AuctionDAO;
 import javafx.scene.image.Image;
 
 import java.io.File;
@@ -26,6 +27,8 @@ public class Auction {
     private boolean denied;
 
 
+
+    public boolean endAuction() {return AuctionDAO.endAuction(this); }
 
     //Getters and Setters
     public int getAuctionID() {
