@@ -16,9 +16,7 @@ public class Bid {
         return auction;
     }
 
-    public void setAuction(Auction auction) {
-        this.auction = auction;
-    }
+    public void setAuction(Auction auction) { this.auction = auction; }
 
     public BigDecimal getAmount() {
         return amount;

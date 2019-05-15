@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Ebamazon.model.*;
@@ -159,13 +160,21 @@ import javafx.scene.layout.VBox;
                 }
                 //if user has no work to do
                 else {
-                    FXMLLoader homeViewLoader = new FXMLLoader();
-                    homeViewLoader.setLocation(getClass().getResource("../view/homeView.fxml"));
-                    Node homeview = homeViewLoader.load();
-                    HomeViewController hvc = homeViewLoader.getController();
-                    hvc.setCurrentSession(currentSession);
-                    parent.setCenter(homeview);
-                    parent.setAlignment(parent.getCenter(), Pos.TOP_CENTER);
+                    FXMLLoader searchResultsLoader = new FXMLLoader();
+                    searchResultsLoader.setLocation(getClass().getResource("../view/searchResultsView.fxml"));
+                    AnchorPane view = searchResultsLoader.load();
+                    SearchResultsViewController srvc = searchResultsLoader.getController();
+                    srvc.setCurrentSession(currentSession);
+                    if (currentSession.getUserStatus()==UserStatus.OU) {
+                        SearchParameters sp = generateSearchParametersFromUser();
+                        try {
+                            srvc.setSp(sp);
+                            srvc.getBannerLabel().setText("Auctions For You!");
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    parent.setCenter(view);
                 }
             }
             else if (currentSession.getCurUser().getUserStatus()==UserStatus.SU){
@@ -199,13 +208,7 @@ import javafx.scene.layout.VBox;
             loginContainerVBox.setVisible(true);
 
             //intialize homeview controller and view
-            FXMLLoader homeViewLoader = new FXMLLoader();
-            homeViewLoader.setLocation(getClass().getResource("../view/homeView.fxml"));
-            Node homeview = homeViewLoader.load();
-            HomeViewController hvc = homeViewLoader.getController();
-            hvc.setCurrentSession(currentSession);
-            parent.setCenter(homeview);
-            parent.setAlignment(parent.getCenter(), Pos.TOP_CENTER);
+            parent.setCenter(null);
         }
 
         @FXML
@@ -272,6 +275,20 @@ import javafx.scene.layout.VBox;
                 }
             };
             at.start();
+        }
+
+        private SearchParameters generateSearchParametersFromUser() { //Marissa added this!
+            OrdinaryUser ou = (OrdinaryUser) currentSession.getCurUser();
+            ArrayList<UserKeyword> ouKeywords = new ArrayList<>();
+            ouKeywords = ou.getKeywords();
+            String keywords = "";
+            for (UserKeyword uk : ouKeywords){
+                keywords += uk.getKeyword() + " ";
+            }
+            SearchParameters sp = new SearchParameters(keywords);
+            sp.setShowAuction(true);
+            sp.setShowFixed(true);
+            return sp;
         }
 
         public CurrentSession getCurrentSession() {

@@ -1,17 +1,22 @@
 import Ebamazon.controller.BannerController;
 import Ebamazon.controller.NavBarController;
+import Ebamazon.controller.SearchResultsViewController;
 import Ebamazon.model.CurrentSession;
+import Ebamazon.model.SearchParameters;
 import Ebamazon.model.User;
+import Ebamazon.model.UserStatus;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class Main extends Application {
 
@@ -53,12 +58,15 @@ public class Main extends Application {
         nbc.setParent(bp);
         nbc.setCurrentSession(currentSession);
 
-        //intialize homeview controller and view
-        FXMLLoader homeViewLoader = new FXMLLoader();
-        homeViewLoader.setLocation(Main.class.getResource("Ebamazon/view/homeView.fxml"));
-        Node homeview = homeViewLoader.load();
-        bp.setCenter(homeview);
-        BorderPane.setAlignment(bp.getCenter(), Pos.TOP_CENTER);
+     /*   //intialize homeview controller and view
+        FXMLLoader searchResultsLoader = new FXMLLoader();
+        searchResultsLoader.setLocation(getClass().getResource("../view/searchResultsView.fxml"));
+        AnchorPane view = searchResultsLoader.load();
+        SearchResultsViewController srvc = searchResultsLoader.getController();
+        srvc.setCurrentSession(currentSession);
+
+        bp.setCenter(view);
+*/
 
         //set navbar for banner
         bc.setNavBarController(nbc);

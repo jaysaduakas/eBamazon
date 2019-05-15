@@ -22,14 +22,18 @@ public class Warning {
             message.setMessageContent("You Have Received A Warning For the Following Reason:\n\n" + reason + "\n\nIf you receive 2 or more Warnings you will be suspended.");
             ordinaryUser.sendMessage(message);
             return true;
+            //call to check if need to be suspended
         }
         return false;
     }
+
+    //private void checkWarnings
 
     public static boolean hasWarnings(String username){
         return (!WarningDAO.getWarningsByUser(username).isEmpty());
     }
 
+    //need method to get warningsbyusername;
 
     // Getters and setters
     public OrdinaryUser getOrdinaryUser() {

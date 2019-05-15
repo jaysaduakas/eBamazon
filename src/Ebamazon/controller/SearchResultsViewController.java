@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
@@ -31,6 +32,9 @@ public class SearchResultsViewController {
 
     @FXML
     private URL location;
+
+    @FXML
+    private Label bannerLabel;
 
     @FXML
     private VBox mainVBox;
@@ -86,7 +90,7 @@ public class SearchResultsViewController {
         relevanceButton.setSelected(true);
     }
 
-    private void attachNewAuction(AuctionResult auctionResult){
+    public void attachNewAuction(AuctionResult auctionResult){
         FXMLLoader auctionComponentLoader = new FXMLLoader();
         auctionComponentLoader.setLocation(getClass().getResource("../view/auctionComponentView.fxml"));
         try {
@@ -124,9 +128,31 @@ public class SearchResultsViewController {
         }
     }
 
+    public void setSpforKeyword(SearchParameters sp) throws SQLException {
+        this.sp = sp;
+        ArrayList<AuctionResult> results = currentSession.generateSearchResults(sp);
+        if (!results.isEmpty()) {
+            for (AuctionResult a : currentSession.generateSearchResults(sp)) {
+                if (a.isApprovalStatus() && a.isLiveStatus()) {
+                    attachNewAuction(a);
+                }
+            }
+        } else {
+            //display top three most popular items
+        }
+    }
+
     private void reloadResults() {
         for (AuctionResult ar : currentSession.getCurrentSearchResults()) {
             attachNewAuction(ar);
         }
+    }
+
+    public Label getBannerLabel() {
+        return bannerLabel;
+    }
+
+    public void setBannerLabel(Label bannerLabel) {
+        this.bannerLabel = bannerLabel;
     }
 }

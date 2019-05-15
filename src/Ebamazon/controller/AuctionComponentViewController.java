@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import Ebamazon.model.*;
@@ -193,9 +195,7 @@ public class AuctionComponentViewController {
         return auctionResult;
     }
 
-    public void setAuctionResult(AuctionResult auctionResult) {
-        this.auctionResult = auctionResult;
-    }
+    public void setAuctionResult(AuctionResult auctionResult) { this.auctionResult = auctionResult; }
 
     public CurrentSession getCurrentSession() {
         return currentSession;
