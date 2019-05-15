@@ -41,7 +41,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <RadioButton layoutX="84.0" layoutY="210.0" mnemonicParsing="false" text="Permanently Remove User">
+      <RadioButton fx:id="radioButton" layoutX="84.0" layoutY="210.0" mnemonicParsing="false" text="Permanently Remove User">
          <toggleGroup>
             <ToggleGroup fx:id="Type" />
          </toggleGroup>

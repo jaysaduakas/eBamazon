@@ -17,7 +17,10 @@ public class Complaint {
     private String complaineeResponse;
 
 
-
+    public static boolean shouldBeWarned(String username) {
+        ArrayList<Complaint> complaints = ComplaintDAO.getJustifiedComplaineeComplaints(username);
+        return (complaints.size()%2==0 && complaints.size()>0);
+    }
     public static ArrayList<Complaint> getUnjustifiedComplaints() { return ComplaintDAO.getUnjustifiedComplaints();}
     public boolean resolveComplaint(boolean accept) {return ComplaintDAO.resolveComplaint(this, accept);}
 

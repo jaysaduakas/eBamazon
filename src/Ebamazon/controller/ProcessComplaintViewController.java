@@ -6,6 +6,9 @@ import java.util.ResourceBundle;
 
 import Ebamazon.model.Complaint;
 import Ebamazon.model.CurrentSession;
+import Ebamazon.model.DataAccessLayer.ComplaintDAO;
+import Ebamazon.model.SuperUser;
+import Ebamazon.model.Warning;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -58,6 +61,13 @@ public class ProcessComplaintViewController {
         if (acceptButton.isSelected()){
             curComplaint.setSuperUser(currentSession.getCurUser().getUsername());
             curComplaint.resolveComplaint(true);
+            if (Complaint.shouldBeWarned(curComplaint.getComplainee())){
+                Warning warning = new Warning();
+                warning.setOrdinaryUser(currentSession.getUserByUsername(curComplaint.getComplainee()));
+                warning.setReason("You have received two justified complaints.");
+                warning.setSuperUser((SuperUser)currentSession.getCurUser());
+                warning.insertWarning();
+            }
             setUpView();
         }
         else if (denyButton.isSelected()){

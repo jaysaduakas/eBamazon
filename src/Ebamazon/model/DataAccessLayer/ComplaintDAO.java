@@ -57,6 +57,40 @@ public class ComplaintDAO {
         return returnList;
     }
 
+    public static ArrayList<Complaint> getJustifiedComplaineeComplaints(String username){
+        Connection con = DBConnection.getConnection();
+        ArrayList<Complaint> returnList = new ArrayList<>();
+        String query = "SELECT * FROM Complaint WHERE receiver=? AND complaineeResponded=1";
+        try {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+                Complaint complaint = new Complaint();
+                complaint.setSender(rs.getString("sender"));
+                complaint.setComplainee(rs.getString("receiver"));
+                complaint.setComplaint(rs.getString("complaint"));
+                complaint.setAlreadyJustified(bitToBool(rs.getInt("alreadyJustified")));
+                complaint.setDateTimeSent(rs.getTimestamp("dateTimeMade"));
+                complaint.setSuperUser(rs.getString("usernameSuper"));
+                complaint.setComplaineeResponded(false);
+                complaint.setComplaineeResponse("");
+                returnList.add(complaint);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return returnList;
+    }
+
     public static boolean updateComplaint(Complaint c){
         boolean truthFlag = false;
         Connection con = DBConnection.getConnection();

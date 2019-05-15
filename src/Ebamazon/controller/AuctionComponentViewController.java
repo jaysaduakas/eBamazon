@@ -244,10 +244,10 @@ public class AuctionComponentViewController {
                     minPrice = minPrice.subtract(friendDiscount);
                 }
             }
-        }
-        if (((OrdinaryUser)currentSession.getCurUser()).isVIPStatus()){
-            price += " - VIP(5%) " + friendDiscount.setScale(2, RoundingMode.DOWN).toString();
-            minPrice = minPrice.subtract(friendDiscount);
+            if (((OrdinaryUser)currentSession.getCurUser()).isVIPStatus()){
+                price += " - VIP(5%) " + friendDiscount.setScale(2, RoundingMode.DOWN).toString();
+                minPrice = minPrice.subtract(friendDiscount);
+            }
         }
         getPrice().setText(price );
         getBidBox().setPromptText((minPrice.toString()));
