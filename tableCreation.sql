@@ -32,17 +32,6 @@ CREATE TABLE IF NOT EXISTS UserKeyword(
 	PRIMARY KEY (username, keyword)
 );
 
-CREATE TABLE IF NOT EXISTS Rating(
-	auctionID int,
-	rater varchar(20),
-	ratee varchar(20),
-	rating int,
-	dateTimeRated datetime,
-	FOREIGN KEY (auctionID) REFERENCES Auction(auctionID) on delete cascade,
-	FOREIGN KEY (rater) REFERENCES OrdinaryUser(username) on delete cascade,
-	FOREIGN KEY (ratee) REFERENCES OrdinaryUser(username) on delete cascade,
-	PRIMARY KEY (rater,ratee,dateTimeRated)
-);
 
 CREATE TABLE IF NOT EXISTS SuperUser(
 	username varchar(20),
@@ -113,6 +102,18 @@ CREATE TABLE IF NOT EXISTS Auction(
 	description varchar(2048),
 	FOREIGN KEY (creator) REFERENCES OrdinaryUser(username) on delete cascade,
 	PRIMARY KEY (auctionID)
+);
+
+CREATE TABLE IF NOT EXISTS Rating(
+	auctionID int,
+	rater varchar(20),
+	ratee varchar(20),
+	rating int,
+	dateTimeRated datetime,
+	FOREIGN KEY (auctionID) REFERENCES Auction(auctionID) on delete cascade,
+	FOREIGN KEY (rater) REFERENCES OrdinaryUser(username) on delete cascade,
+	FOREIGN KEY (ratee) REFERENCES OrdinaryUser(username) on delete cascade,
+	PRIMARY KEY (rater,ratee,dateTimeRated)
 );
 
 CREATE TABLE IF NOT EXISTS Bid(
