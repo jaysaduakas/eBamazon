@@ -1,11 +1,5 @@
 package Ebamazon.controller;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ResourceBundle;
-
 import Ebamazon.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,10 +9,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.ResourceBundle;
+
 public class userSettingsController {
 
     private BorderPane parent;
     private CurrentSession currentSession;
+    private boolean tabooFound;
 
     @FXML
     private ResourceBundle resources;
@@ -56,9 +58,6 @@ public class userSettingsController {
     @FXML
     private Label updatedSuccess;
 
-
-
-
     @FXML
     void submitUserSettings(ActionEvent event) throws IOException {
         if (currentSession.getUserStatus() == UserStatus.OU) {
@@ -79,8 +78,7 @@ public class userSettingsController {
                 ou.setCc(creditcardField.getText());
                 creditcardField.setText("");
             }
-
-            if (stateID.getValue()!=null){
+            if (stateID.getValue()!=null) {
                 ou.setStateID(stateID.getValue().getAbbreviation());
                 stateID.setValue(null);
             }
@@ -91,17 +89,17 @@ public class userSettingsController {
             } else {
                 updatedSuccess.setVisible(false);
             }
-
             if (!passwordField.getText().equals("")) {
                 if (ou.changeUserPW(passwordField.getText())){
                     passwordField.setText("");
                     System.out.println("Password updated in database");
                 }
             }
-
-            if (!keywordTextArea.getText().equals("")){
+            if (!keywordTextArea.getText().equals("")) {
+                scrubKeywords();                            // Censor all taboo words
                 ArrayList<String> keywords = parseKeywordInput();
-                for (String s : keywords){
+                keywords = removeTaboo(keywords);           // Remove taboo words
+                for (String s : keywords) {
                     UserKeyword u = new UserKeyword();
                     u.setUsername(currentSession.getCurUser().getUsername());
                     u.setKeyword(s);
@@ -111,11 +109,35 @@ public class userSettingsController {
                 keywordComponentVBox.getChildren().clear();
                 populateKeywordsList();
             }
-
         }
     }
 
-    public void deleteKeywordItem(UserKeywordComponentViewController ukcvc){
+    private boolean scrubKeywords() {
+        boolean tabooFound = false;
+        try {
+            InputScrubber is = new InputScrubber();
+            keywordTextArea.setText(is.scrubInput(keywordTextArea.getText()));
+            if(is.hasTaboo()) {tabooFound = true;}
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return tabooFound;
+    }
+
+    private ArrayList<String> removeTaboo(ArrayList<String> list) {
+        String s;
+        // Remove taboo words, i.e., all words that contain an asterisk (*)
+        for (int i = (list.size() - 1); i >= 0; i--) {
+            s = list.get(i);
+            if (s.contains("*")) {
+                list.remove(s);
+            }
+        }
+        return list;
+    }
+
+    public void deleteKeywordItem(UserKeywordComponentViewController ukcvc) {
         OrdinaryUser ordinaryUser = (OrdinaryUser)currentSession.getCurUser();
         ordinaryUser.deleteKeyword(ukcvc.getUserKeyword());
         keywordComponentVBox.getChildren().remove(ukcvc.getKeywordView());
@@ -132,7 +154,7 @@ public class userSettingsController {
         stateID.getItems().setAll(State.values());
     }
 
-    private ArrayList<String> parseKeywordInput(){
+    private ArrayList<String> parseKeywordInput() {
         String [] userKeyword = keywordTextArea.getText().split(" ");
         return new ArrayList<String>(Arrays.asList(userKeyword));
     }
