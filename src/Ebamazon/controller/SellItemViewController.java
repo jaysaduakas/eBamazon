@@ -67,13 +67,14 @@ public class SellItemViewController {
     }
 
     @FXML
-    void sell(ActionEvent event) {
+    void sell(ActionEvent event) throws IOException {
         if (selectedBid!=null){
             ((OrdinaryUser)currentSession.getCurUser()).declareWinningBid(selectedBid);
             auction.endAuction();
             sendMessageToWinner();
             //if (justifyBox.getText() != null) sendMessageToRunnerUp(); //probably better way to check this. Redo if when listener implemented
             checkForVIP();
+            back(null);
         }
     }
 
