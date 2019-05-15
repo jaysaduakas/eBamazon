@@ -40,6 +40,10 @@ public class Warning {
         return (!WarningDAO.getWarningsByUser(username).isEmpty());
     }
 
+    public static ArrayList<Warning> getWarningsByUsername(String username){
+        return (WarningDAO.getWarningsByUser(username));
+    }
+
 
     // Getters and setters
     public OrdinaryUser getOrdinaryUser() {

@@ -128,6 +128,8 @@ import javafx.scene.layout.VBox;
             //DETERMINE WHICH SCREEN TO LOAD IF USER IS OU
             if (currentSession.getCurUser().getUserStatus()==UserStatus.OU) {
                 //if user needs to change password
+                System.out.println(((OrdinaryUser)currentSession.getCurUser()).isSuspendedStatus());
+
                 if (((OrdinaryUser)currentSession.getCurUser()).checkIfUsernameIsPW()){
                     FXMLLoader pwChangeLoader = new FXMLLoader();
                     pwChangeLoader.setLocation(getClass().getResource("../view/passwordChangePromptView.fxml"));
@@ -142,6 +144,15 @@ import javafx.scene.layout.VBox;
                 }
                 //if user is banned
                 //if user is suspended
+                else if(((OrdinaryUser)currentSession.getCurUser()).isSuspendedStatus()){
+                    FXMLLoader twoWarningsViewLoader = new FXMLLoader();
+                    twoWarningsViewLoader.setLocation(getClass().getResource("../view/TwoWarningView.fxml"));
+                    AnchorPane view = twoWarningsViewLoader.load();
+                    TwoWarningViewController twvc = twoWarningsViewLoader.getController();
+                    twvc.setCurrentSession(currentSession);
+                    twvc.setUpView();
+                    parent.setCenter(view);
+                }
 
                 //if user has complaints
                 else if (currentSession.isHasComplaints()){
