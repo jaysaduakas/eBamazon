@@ -237,6 +237,11 @@ public class TransactionHistoryViewController {
             curController.getAuction().getOrdinaryUser().setVIPStatus(true);
             curController.getAuction().getOrdinaryUser().updateUserInfo();
         }
+        else if(curController.getAuction().getOrdinaryUser().isVIPStatus() && (Ratings.getAverageRating(r.getRatee()) < 4)){
+            curController.getAuction().getOrdinaryUser().setVIPStatus(false);
+            curController.getAuction().getOrdinaryUser().updateUserInfo();
+
+        }
     }
 
 }

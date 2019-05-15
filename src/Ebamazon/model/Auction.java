@@ -144,7 +144,7 @@ public class Auction {
         this.denied = denied;
     }
 
-    public void confirmSale(Bid b){
+   /* public void confirmSale(Bid b){
         Message m1 = new Message();
         m1.setMessageContent("New Bid! Please check your auctions");
         Message m2 = new Message();
@@ -171,6 +171,7 @@ public class Auction {
             setLiveStatus(true);
         }
     }
+    */
 
     @Override //Don't have ArrayLists of images and keywords include in this toString method.
     public String toString() {

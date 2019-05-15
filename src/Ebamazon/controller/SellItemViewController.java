@@ -1,14 +1,12 @@
 package Ebamazon.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import Ebamazon.model.Auction;
-import Ebamazon.model.Bid;
-import Ebamazon.model.CurrentSession;
-import Ebamazon.model.OrdinaryUser;
+import Ebamazon.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -73,9 +71,13 @@ public class SellItemViewController {
         if (selectedBid!=null){
             ((OrdinaryUser)currentSession.getCurUser()).declareWinningBid(selectedBid);
             auction.endAuction();
-            //CHECK FOR VIP STUFF
+            sendMessageToWinner();
+            //if (justifyBox.getText() != null) sendMessageToRunnerUp(); //probably better way to check this. Redo if when listener implemented
+            checkForVIP();
         }
     }
+
+
 
     @FXML
     void initialize() {
@@ -134,6 +136,45 @@ public class SellItemViewController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void sendMessageToWinner(){
+        Message mWinner = new Message();
+        mWinner.setMessageContent("You won! Check out Transaction History to view!");
+        mWinner.setSender((currentSession.getCurUser()).getUsername());
+        mWinner.setReceiver(selectedBid.getOrdinaryUser().getUsername());
+        mWinner.setSubject("You won an Auction!");
+        currentSession.getCurUser().sendMessage(mWinner);
+    }
+
+    private void sendMessageToRunnerUp(){
+        Message mRunner = new Message();
+
+        if (auction.isFixed()) {
+           mRunner.setReceiver(bids.get(0).getOrdinaryUser().getUsername());
+            }
+        else {
+            if (bids.size() >= 2) {
+                mRunner.setReceiver(bids.get(1).getOrdinaryUser().getUsername());
+            }
+        }
+        mRunner.setMessageContent("Seller said: " + justifyBox.getText());
+        mRunner.setSender((currentSession.getCurUser()).getUsername());
+        mRunner.setSubject("You lost an Auction :(");
+        currentSession.getCurUser().sendMessage(mRunner);
+
+    }
+
+    private void checkForVIP(){
+        BigDecimal sumOfBids = new BigDecimal(0);
+        for(Bid b : selectedBid.getOrdinaryUser().getWinningsBids()){
+            sumOfBids =  sumOfBids.add(b.getAmount());
+        }
+        if(((sumOfBids.compareTo(BigDecimal.valueOf(500))) > 0) && (!(Warning.hasWarnings(selectedBid.getOrdinaryUser().getUsername())))){
+            selectedBid.getOrdinaryUser().setVIPStatus(true);
+            selectedBid.getOrdinaryUser().updateUserInfo();
+
         }
     }
 

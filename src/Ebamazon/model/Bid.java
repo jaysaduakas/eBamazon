@@ -8,7 +8,7 @@ public class Bid {
     private BigDecimal amount;
     private boolean winningBid;
     private Timestamp dateTimeMade;
-    private OrdinaryUser ordinaryUser;
+    private OrdinaryUser ordinaryUser; //buyer
 
     //Getters and Setters
 
