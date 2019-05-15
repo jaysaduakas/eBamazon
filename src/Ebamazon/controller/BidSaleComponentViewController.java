@@ -50,7 +50,9 @@ public class BidSaleComponentViewController {
             title.setText(auction.getTitle());
             date.setText(bid.getDateTimeMade().toString());
             seller.setText(bid.getOrdinaryUser().getUsername()); //really the buyer, not the seller
-            price.setText(bid.getAmount().toString());
+            Double da = Double.parseDouble(auction.getPrice().toString());
+            Double db = Double.parseDouble(bid.getAmount().toString());
+            price.setText(Double.toString(Double.max(da,db)));
         }
 
     }

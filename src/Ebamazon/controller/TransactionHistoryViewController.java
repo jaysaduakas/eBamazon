@@ -22,11 +22,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 
 public class TransactionHistoryViewController {
 
     private CurrentSession currentSession;
+    private BidComponentViewController curController;
+    private ToggleGroup gradingToggle;
 
     @FXML
     private ResourceBundle resources;
@@ -41,9 +45,72 @@ public class TransactionHistoryViewController {
     private VBox bidSoldComponentVBox1;
 
     @FXML
+    private VBox itemsSoldVBox;
+
+    @FXML
+    private VBox gradeVBox;
+
+    @FXML
+    private RadioButton button0;
+
+    @FXML
+    private RadioButton button1;
+
+    @FXML
+    private RadioButton button2;
+
+    @FXML
+    private RadioButton button3;
+
+    @FXML
+    private RadioButton button4;
+
+    @FXML
+    private RadioButton button5;
+
+    @FXML
+    private Button submitButton;
+
+    @FXML
+    private Button cancelButton;
+
+    @FXML
+    void closeGrading(ActionEvent event){
+        hideGradingShowSales();
+    }
+
+    @FXML
+    void gradeUser(ActionEvent event) {
+        //insert grade into table
+        hideGradingShowSales();
+        curController.hideGradeButton();
+        //call function to check if warning needs to send to gradee
+        //call function to check if need to yell at grader
+        //call function to update vip status
+    }
+
+    @FXML
     void initialize() {
         assert bidComponentVBox != null : "fx:id=\"bidComponentVBox\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
+        assert itemsSoldVBox != null : "fx:id=\"itemsSoldVBox\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
         assert bidSoldComponentVBox1 != null : "fx:id=\"bidSoldComponentVBox1\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
+        assert gradeVBox != null : "fx:id=\"gradeVBox\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
+        assert button0 != null : "fx:id=\"button0\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
+        assert button1 != null : "fx:id=\"button1\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
+        assert button2 != null : "fx:id=\"button2\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
+        assert button3 != null : "fx:id=\"button3\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
+        assert button4 != null : "fx:id=\"button4\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
+        assert button5 != null : "fx:id=\"button5\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
+        assert submitButton != null : "fx:id=\"submitButton\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
+        assert cancelButton != null : "fx:id=\"cancelButton\" was not injected: check your FXML file 'transactionHistoryView.fxml'.";
+
+        gradingToggle = new ToggleGroup();
+        button0.setToggleGroup(gradingToggle);
+        button1.setToggleGroup(gradingToggle);
+        button2.setToggleGroup(gradingToggle);
+        button3.setToggleGroup(gradingToggle);
+        button4.setToggleGroup(gradingToggle);
+        button5.setToggleGroup(gradingToggle);
     }
 
     public CurrentSession getCurrentSession() {
@@ -66,9 +133,11 @@ public class TransactionHistoryViewController {
             System.out.println("bid component controller not loaded");
         }
         BidComponentViewController bcvc = bidComponentLoader.getController();
+        curController = bcvc;
         bcvc.setAuction(a);
         bcvc.setBid(bid);
         bcvc.setUpBidComponent();
+        bcvc.setParent(this);
     }
 
     private void setUpBuys() {
@@ -105,7 +174,15 @@ public class TransactionHistoryViewController {
         bscvc.setUpBidSaleComponent();
 
     }
-
+    public void hideSaleShowGrading(BidComponentViewController bcvc){
+        curController = bcvc;
+        itemsSoldVBox.setVisible(false);
+        gradeVBox.setVisible(true);
+    }
+    public void hideGradingShowSales(){
+        itemsSoldVBox.setVisible(true);
+        gradeVBox.setVisible(false);
+    }
 
 
 
