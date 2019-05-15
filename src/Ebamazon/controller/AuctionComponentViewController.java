@@ -222,6 +222,7 @@ public class AuctionComponentViewController {
     }
 
     public void setUpAuction(Auction a, CurrentSession cs){
+        minPrice=a.getPrice();
         getTitle().setText(a.getTitle());
         getCreator().setText(a.getOrdinaryUser().getUsername());
         getDesc().setText(a.getDescription());
