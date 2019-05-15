@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.ProcessAuctionViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.ProcessAuctionViewController">
    <children>
       <Label alignment="CENTER" focusTraversable="false" layoutX="202.0" layoutY="14.0" text="Process Auction" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0">
          <font>
@@ -48,13 +48,13 @@
             <TextField fx:id="title" alignment="TOP_LEFT" editable="false" promptText="Auto populated from database" />
             <Label focusTraversable="false" text="Description">
                <VBox.margin>
-                  <Insets top="15.0" />
+                  <Insets top="10.0" />
                </VBox.margin>
             </Label>
             <TextArea fx:id="auctionDescTextArea" editable="false" prefHeight="75.0" promptText="Auto populated from database" />
             <Label focusTraversable="false" text="Keywords">
                <VBox.margin>
-                  <Insets top="15.0" />
+                  <Insets top="10.0" />
                </VBox.margin>
             </Label>
             <TextField fx:id="keywords" alignment="TOP_LEFT" editable="false" promptText="Auto populated from database" />
@@ -64,7 +64,7 @@
                      <children>
                         <Label focusTraversable="false" text="Type">
                            <VBox.margin>
-                              <Insets top="15.0" />
+                              <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
                         <RadioButton fx:id="bid" disable="true" mnemonicParsing="false" text="Bid (Auction)">
@@ -79,13 +79,13 @@
                         </RadioButton>
                         <Label focusTraversable="false" text="Starting Bid / Fixed Price">
                            <VBox.margin>
-                              <Insets top="15.0" />
+                              <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
                         <TextField fx:id="price" alignment="TOP_LEFT" editable="false" maxWidth="200.0" promptText="Auto populated from database" />
                         <Label focusTraversable="false" text="Picture">
                            <VBox.margin>
-                              <Insets top="15.0" />
+                              <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
                         <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
@@ -95,7 +95,7 @@
                      <children>
                         <Label focusTraversable="false" text="Auction Status">
                            <VBox.margin>
-                              <Insets top="15.0" />
+                              <Insets top="10.0" />
                            </VBox.margin>
                            <font>
                               <Font name="System Bold" size="12.0" />
@@ -113,7 +113,7 @@
                         </RadioButton>
                         <Label focusTraversable="false" text="Reason for Denial">
                            <VBox.margin>
-                              <Insets top="15.0" />
+                              <Insets top="10.0" />
                            </VBox.margin>
                            <font>
                               <Font name="System Bold" size="12.0" />
@@ -129,6 +129,6 @@
             </HBox>
          </children>
       </VBox>
-      <Button fx:id="submit" layoutX="572.4" layoutY="552.0" mnemonicParsing="false" onAction="#submit" text="Submit" AnchorPane.rightAnchor="30.0" />
+      <Button fx:id="submit" layoutX="572.4" layoutY="475.0" mnemonicParsing="false" onAction="#submit" text="Submit" AnchorPane.rightAnchor="30.0" />
    </children>
 </AnchorPane>

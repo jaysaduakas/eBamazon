@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.userSettingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ebamazon.controller.userSettingsController">
    <children>
       <Label layoutX="202.0" layoutY="14.0" prefHeight="47.0" prefWidth="252.0" text="Edit User Settings" AnchorPane.leftAnchor="202.0" AnchorPane.rightAnchor="202.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font size="32.0" />
          </font>
       </Label>
-      <VBox layoutY="128.0" prefHeight="444.0" prefWidth="186.0" AnchorPane.leftAnchor="20.0">
+      <VBox layoutY="100.0" prefHeight="430.0" prefWidth="186.0" AnchorPane.leftAnchor="20.0">
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
@@ -57,21 +57,21 @@
             </VBox>
          </children>
       </VBox>
-      <Button fx:id="submitButton" layoutX="549.0" layoutY="503.0" mnemonicParsing="false" onAction="#submitUserSettings" text="Submit" AnchorPane.rightAnchor="30.0" />
-      <TextArea fx:id="keywordTextArea" layoutX="303.0" layoutY="214.0" prefHeight="78.0" prefWidth="313.0" promptText="Keywords go here!" />
-      <Label layoutX="300.0" layoutY="120.0" prefHeight="47.0" prefWidth="320.0" text="Add Keywords to be alerted to Auctions you may be interested in!" textFill="#3c00ff" wrapText="true">
+      <Button fx:id="submitButton" layoutX="549.0" layoutY="480.0" mnemonicParsing="false" onAction="#submitUserSettings" text="Submit" AnchorPane.rightAnchor="30.0" />
+      <TextArea fx:id="keywordTextArea" layoutX="303.0" layoutY="194.0" prefHeight="78.0" prefWidth="313.0" promptText="Keywords go here!" />
+      <Label layoutX="300.0" layoutY="100.0" prefHeight="47.0" prefWidth="320.0" text="Add Keywords to be alerted to Auctions you may be interested in!" textFill="#3c00ff" wrapText="true">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="303.0" layoutY="190.0" text="Separate By Space" />
-      <Label layoutX="303.0" layoutY="303.0" text="Current Keywords" />
-      <ScrollPane layoutX="304.0" layoutY="323.0" prefHeight="146.0" prefWidth="313.0">
+      <Label layoutX="303.0" layoutY="170.0" text="Separate By Space" />
+      <Label layoutX="303.0" layoutY="283.0" text="Current Keywords" />
+      <ScrollPane layoutX="304.0" layoutY="303.0" prefHeight="146.0" prefWidth="313.0">
          <content>
             <VBox fx:id="keywordComponentVBox" prefHeight="146.0" prefWidth="297.0" />
          </content>
       </ScrollPane>
-      <Label fx:id="updatedSuccess" layoutX="350.0" layoutY="504.0" text="User Information Updated!" textFill="#0d00ff" visible="false">
+      <Label fx:id="updatedSuccess" layoutX="350.0" layoutY="480.0" text="User Information Updated!" textFill="#0d00ff" visible="false">
          <font>
             <Font size="16.0" />
          </font>
