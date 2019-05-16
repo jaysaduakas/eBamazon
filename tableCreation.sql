@@ -159,6 +159,13 @@ CREATE TABLE IF NOT EXISTS Taboo(
 	PRIMARY KEY (word)
 );
 
+CREATE TABLE IF NOT EXISTS pendingAppeals(
+	username varchar(20),
+	text varchar(2048),
+	dateTimeAppealed datetime,
+	FOREIGN KEY (username) REFERENCES ordinaryUser(username) on delete cascade
+);
+
 Alter Table Complaint
 add complaineeResponded bit(1);
 
